@@ -39,7 +39,7 @@ const List<Widget> _widgetOptions = <Widget>[
 ];
 
 
-const kCouleurAppBar =  Color(0xffffffff) ;
+const kCouleurBlancGeneral =  Color(0xffffffff) ;
 const kBoutonDegrade = Color(0x29000000) ;
 const kCouleurScaffold =  Color(0xffffffff) ;
 const kCouleurBody = Color(0xfff3f8ff)  ;

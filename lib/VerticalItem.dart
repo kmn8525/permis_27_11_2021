@@ -7,11 +7,13 @@ import 'package:sp_util/sp_util.dart';
 import 'Constantes.dart';
 import 'EcranQuestionExamen.dart';
 import 'EcranQuestions.dart';
+import 'EcranRoute.dart';
 import 'ListeConducteurPassager.dart';
 import 'ListeDefinition.dart';
 import 'ListeFavoris.dart';
 import 'Option.dart';
 import 'Question.dart';
+import 'TrasitionPages.dart';
 import 'Utility.dart';
 
 var tampon = null ;
@@ -156,16 +158,10 @@ super.initState();
 
 
     chargeCouleur();
-   return Container(
-      height: double.infinity,
-
-
-
-      child:  GestureDetector(
+   return
+        GestureDetector(
 
         onTap: () {
-
-
 
             if  (widget.nomTheme == "DEFINITION" )
 
@@ -220,9 +216,10 @@ super.initState();
 
                       onPressed:  () {
 
-                        Navigator.of(context, rootNavigator: true ).push(MaterialPageRoute(
-                            builder: (BuildContext context  ) =>
-                                EcranQuestions(titrePage: '${ widget.nomTheme}' , NumImage: numQ_Definition)));
+
+
+                        Navigator.of(context, rootNavigator: true ).push(TransitionDroit(
+                            page :  EcranQuestions(titrePage: '${ widget.nomTheme}' , NumImage: numQ_Definition)));
 
                       },
 
@@ -242,9 +239,11 @@ super.initState();
 
                       onPressed:  () {
 
-                        Navigator.of(context, rootNavigator: true ).push(MaterialPageRoute(
-                            builder: (BuildContext context  ) =>
-                                EcranQuestions(titrePage: '${ widget.nomTheme}' , NumImage: 0)));
+                        Navigator.of(context, rootNavigator: true ).push(TransitionDroit(
+
+                            page :   EcranQuestions(titrePage: '${ widget.nomTheme}' , NumImage: 0)));
+
+
 
                       },
 
@@ -267,11 +266,15 @@ super.initState();
 
 
 
-                  Navigator.of(context, rootNavigator: true ).push(MaterialPageRoute(
-                    builder: (BuildContext context  ) =>
-                        EcranQuestions(titrePage: '${ widget.nomTheme}' , NumImage: numQ_Definition)));
+                  Navigator.of(context, rootNavigator: true ).push(TransitionDroit(
 
-              }
+                      page :  EcranQuestions(titrePage: '${ widget.nomTheme}' , NumImage: numQ_Definition)));
+
+
+
+
+
+                }
 
 
             }
@@ -328,9 +331,13 @@ super.initState();
 
                       onPressed:  () {
 
-                        Navigator.of(context, rootNavigator: true ).push(MaterialPageRoute(
-                            builder: (BuildContext context  ) =>
-                                EcranQuestions(titrePage: '${ widget.nomTheme}' , NumImage: numQ_ConducteurPass)));
+                        Navigator.of(context, rootNavigator: true ).push(TransitionDroit(
+
+                            page :   EcranQuestions(titrePage: '${ widget.nomTheme}' , NumImage: numQ_ConducteurPass)));
+
+
+
+
 
                       },
 
@@ -350,9 +357,11 @@ super.initState();
 
                       onPressed:  () {
 
-                        Navigator.of(context, rootNavigator: true ).push(MaterialPageRoute(
-                            builder: (BuildContext context  ) =>
-                                EcranQuestions(titrePage: '${ widget.nomTheme}' , NumImage: 0)));
+                        Navigator.of(context, rootNavigator: true ).push(TransitionDroit(
+                            page :  EcranQuestions(titrePage: '${ widget.nomTheme}' , NumImage: 0)));
+
+
+
 
                       },
 
@@ -373,41 +382,35 @@ super.initState();
 
               else {
 
-                Navigator.of(context, rootNavigator: true ).push(MaterialPageRoute(
-                    builder: (BuildContext context  ) =>
-                        EcranQuestions(titrePage: '${ widget.nomTheme}' , NumImage: numQ_ConducteurPass)));
+                Navigator.of(context, rootNavigator: true ).push(TransitionDroit(
+
+                      page :  EcranQuestions(titrePage: '${ widget.nomTheme}' , NumImage: numQ_ConducteurPass)));
+
+
+
+
+
 
               }
-
 
             }
             else if (widget.nomTheme == "FAVORIS" ) {
 
+              Navigator.of(context, rootNavigator: true ).push(TransitionDroit(
 
-
-              Navigator.of(context, rootNavigator: true ).push(MaterialPageRoute(
-                  builder: (BuildContext context  ) =>
-                      EcranQuestions.C1(titrePage: '${ widget.nomTheme}' )));
-
-
+                    page :  EcranQuestions.C1(titrePage: '${ widget.nomTheme}' )));
             }
-
-
-
 
           // utilisateurTheme('${item.nomTheme}' ) ;
 
         },
 
-
-
         child: Container(
           height: double.infinity,
 
           child: Card(
-            //semanticContainer: false,
 
-            color: kCouleurAppBar,
+            color: kCouleurBlancGeneral,
             elevation: 4.0,
             shadowColor : Colors.black ,
             margin: EdgeInsets.symmetric(vertical : 8 ,horizontal: 8),
@@ -454,14 +457,306 @@ super.initState();
             ),
           ),
         ),
-      ),
+      );
+  }
+}
 
+
+/////////////////////////////////////////////////////////////////////
+           ///// ------  EFFET ECRAN COUR-ACCEUIL///////
+ /////////////////////////////////////////////////////////////////////
+
+
+class HorizontalItemCourAcceuil extends StatefulWidget {
+  final String NomImageSVG;
+  final String nomTheme;
+
+  HorizontalItemCourAcceuil({Key key, this.NomImageSVG, this.nomTheme}) : super(key: key);
+
+  @override
+  HorizontalItemCourAcceuilState createState() => HorizontalItemCourAcceuilState();
+
+
+}
+
+class HorizontalItemCourAcceuilState extends State<HorizontalItemCourAcceuil> {
+
+  Color c ;
+
+
+  void chargeCouleur() {
+    if  (widget.NomImageSVG == "A" )
+    {
+
+      setState(() {
+        c = Colors.green ;
+      });
+
+
+    }
+
+    else if ( widget.NomImageSVG == "B" ) {
+
+      setState(() {
+        c = Colors.red ;
+      });
+
+
+
+    }
+    else if ( widget.NomImageSVG == "C" ) {
+
+      setState(() {
+        c = Colors.yellow ;
+      });
+
+
+    }
+
+    else if ( widget.NomImageSVG == "D" ) {
+
+      setState(() {
+        c = Colors.blue ;
+      });
+
+
+    }
+
+    else if ( widget.NomImageSVG == "E" ) {
+
+      setState(() {
+        c = Colors.orange ;
+      });
+
+
+    }
+
+    else if ( widget.NomImageSVG == "F" ) {
+
+      setState(() {
+        c = Colors.black12 ;
+      });
+
+
+    }
+
+    else if ( widget.NomImageSVG == "G" ) {
+
+      setState(() {
+        c = Colors.black ;
+      });
+
+
+    }
+    else if ( widget.NomImageSVG == "H" ) {
+
+      setState(() {
+        c = Colors.tealAccent ;
+      });
+
+
+    }
+
+    else if ( widget.NomImageSVG == "I" ) {
+
+      setState(() {
+        c = Colors.deepOrangeAccent;
+      });
+
+
+    }
+
+  }
+
+  @override
+  void initState() {
+
+    super.initState();
+
+  }
+
+  @override
+  void dispose() {
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    chargeCouleur() ;
+
+    return    GestureDetector(
+
+        onTap: () {
+
+          if  (widget.nomTheme == "ROUTE" )
+
+          {
+
+
+            Navigator.of(context, rootNavigator: true ).push(TransitionDroit( page:
+                    EcranRoute(titrePage: '${ widget.nomTheme}'  )));
+
+
+          }
+
+        //  Navigator.push(context, SlideRightRoute(page: Screen2())),
+
+        },
+
+
+          child: Card(
+
+            color: kCouleurBlancGeneral,
+            elevation: 4.0,
+            shadowColor : Colors.black ,
+            margin: EdgeInsets.symmetric(vertical : 8 ,horizontal: 8),
+              clipBehavior: Clip.antiAlias ,
+
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                    Row(
+                      children: [
+                        Expanded(
+                           child: Container(
+
+                              child: SvgPicture.asset(
+                              'assets/iconCours/${widget.NomImageSVG}.svg',
+                              height: 80.0,
+                              width: 80.0,
+                               color: Colors.white,
+
+                              allowDrawingOutsideViewBox: true,
+                            ),
+                            color: c,
+
+
+
+                          ),
+                        ),
+                      ],
+                    ),
+
+                  /*Divider(
+                    color: Colors.black45,
+                  ),*/
+                  Expanded(
+                    child: Container(
+
+                      child: Text(
+                        '${widget.nomTheme}',
+textAlign: TextAlign.center ,
+                         style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15 ,
+                             height : 2 ,
+                         ),
+                       ),
+                     ),
+                  ),
+
+                ],
+              ),
+
+          ),
+
+      );
+  }
+}
+
+
+
+/////////////////////////////////////////////////////////////////////
+         ///// ------  EFFET ECRAN  ROUTE///////
+/////////////////////////////////////////////////////////////////////
+
+
+class VerticalItemRoute extends StatefulWidget {
+   final String nomTheme;
+
+  VerticalItemRoute({Key key, this.nomTheme}) : super(key: key);
+
+  @override
+  VerticalItemRouteState createState() => VerticalItemRouteState();
+
+
+}
+
+class VerticalItemRouteState extends State<VerticalItemRoute> {
+
+
+
+
+  @override
+  void initState() {
+
+    super.initState();
+
+  }
+
+  @override
+  void dispose() {
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return    GestureDetector(
+
+      child: Card(
+        color: kCouleurBlancGeneral,
+        elevation: 2.0,
+        shadowColor : Colors.black ,
+        margin: EdgeInsets.symmetric(vertical : 2 ,horizontal: 2),
+        clipBehavior: Clip.antiAlias ,
+
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(7.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+          children: [
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text(
+                  '${widget.nomTheme}', style: TextStyle(fontSize: 20.0),
+                  textAlign: TextAlign.justify,
+                ),
+
+              ),
+
+             Padding(
+                padding: const EdgeInsets.only(  right: 20),
+
+                child: Icon(
+                  Icons.arrow_forward_ios_sharp,
+                  color: Colors.blueAccent ,
+                  size: 10,
+                ),
+              ),
+
+          ],
+        ),
+      ),
 
     );
   }
 }
 
 
+
+/////////////////////////////////////////////////////////////////////
+              ///// ------  EFFET ECRAN EXAMEN///////
+/////////////////////////////////////////////////////////////////////
 
 
 
@@ -506,7 +801,7 @@ class HorizontalItemExamen extends StatelessWidget {
         child: Card(
           //semanticContainer: false,
 
-          color: kCouleurAppBar,
+          color: kCouleurBlancGeneral,
           elevation: 6.0,
           shadowColor : Colors.black38 ,
           margin: EdgeInsets.symmetric(vertical : 8 ,horizontal: 8),

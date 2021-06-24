@@ -59,16 +59,9 @@ class ConducteurPassager with  ChangeNotifier , DiagnosticableTreeMixin  {
         1 ,
     'imageConducteurPassager' ,
     1 ,
-      'explication1',
+      'animation',
       1 ,
-      'explication1',
-      2 ,
-      'explication1',
-      3 ,
-      'explication1',
-      4 ,
-      'explication1',
-      5 ,
+
 
     ),
 
@@ -79,16 +72,9 @@ class ConducteurPassager with  ChangeNotifier , DiagnosticableTreeMixin  {
         1 ,
     'imageConducteurPassager',
     2 ,
-      'explication1',
+      'animation',
       0 ,
-      'explication1',
-      0 ,
-      'explication1',
-      0 ,
-      'explication1',
-      0 ,
-      'explication1',
-      0 ,
+
     ),
 
 
@@ -97,16 +83,10 @@ class ConducteurPassager with  ChangeNotifier , DiagnosticableTreeMixin  {
             ' Le chauffeur doit quant à lui, disposer de 55 cm minimum.' ,5 ,
         'imageConducteurPassager' ,
     3 ,
-      'explication1',
+      'animation',
       0 ,
-      'explication1',
-      0 ,
-      'explication1',
-      0 ,
-      'explication1',
-      0 ,
-      'explication1',
-      0 ,
+
+
     ) ,
 
   ] ;
@@ -144,7 +124,7 @@ class ConducteurPassager with  ChangeNotifier , DiagnosticableTreeMixin  {
     }
   }
 
-  List listeQuestionConducteurPassager() {
+  List listeQuestion() {
     return _listeQuestionConducteurPassager;
   }
 
@@ -193,45 +173,15 @@ class ConducteurPassager with  ChangeNotifier , DiagnosticableTreeMixin  {
     return _listeQuestionConducteurPassager[_numeroQuestion].numeroImageSource;
   }
 
-  String getCheminImageExplicationQuestionA() {
-    return _listeQuestionConducteurPassager[_numeroQuestion].cheminImageExplicationA;
+  String getCheminQuestionAnimationExplication() {
+    return _listeQuestionConducteurPassager[_numeroQuestion].cheminQuestionAnimationExplication;
   }
 
-  int getNumeroImageExplicationQuestionA() {
-    return _listeQuestionConducteurPassager[_numeroQuestion].numeroImageExplicationA;
+  int getNumeroQuestionAnimationExplication() {
+    return _listeQuestionConducteurPassager[_numeroQuestion].numeroQuestionAnimationExplication;
   }
 
-  String getCheminImageExplicationQuestionB() {
-    return _listeQuestionConducteurPassager[_numeroQuestion].cheminImageExplicationB;
-  }
 
-  int getNumeroImageExplicationQuestionB() {
-    return _listeQuestionConducteurPassager[_numeroQuestion].numeroImageExplicationB;
-  }
-
-  String getCheminImageExplicationQuestionC() {
-    return _listeQuestionConducteurPassager[_numeroQuestion].cheminImageExplicationC;
-  }
-
-  int getNumeroImageExplicationQuestionC() {
-    return _listeQuestionConducteurPassager[_numeroQuestion].numeroImageExplicationC;
-  }
-
-  String getCheminImageExplicationQuestionD() {
-    return _listeQuestionConducteurPassager[_numeroQuestion].cheminImageExplicationD;
-  }
-
-  int getNumeroImageExplicationQuestionD() {
-    return _listeQuestionConducteurPassager[_numeroQuestion].numeroImageExplicationD;
-  }
-
-  String getCheminImageExplicationQuestionE() {
-    return _listeQuestionConducteurPassager[_numeroQuestion].cheminImageExplicationE;
-  }
-
-  int getNumeroImageExplicationQuestionE() {
-    return _listeQuestionConducteurPassager[_numeroQuestion].numeroImageExplicationE;
-  }
 
   /////////////////////////////////////////////////////////////////////
   ///// ---------------   LISTE DES FONCTIONS  OPTION -------------- /////////

@@ -1,455 +1,316 @@
+import 'dart:async';
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:sp_util/sp_util.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
+void main() => runApp(MyApp());
 
-import 'Option.dart';
-import 'Question.dart';
-
-class Favoris  extends   ChangeNotifier   {
-
-
-  List<Question> _listeQuestionFavoris = [];
-  List<Option> _listeDeChoixFavoris =  [];
-
-
-
-
-  int _numeroQuestion = 0;
-  int _numeroChoix = 0;
-  String _cleListeQuestionSauvegarder = 'cqf';
-  String _cleListeOptionSauvegarder = 'cof';
-  bool _serieFini;
-  int _total;
-  int _nbBonneReponse;
-  int _nbMauvaiseReponse;
-  int _nbQuestionRepondue;
-
-
-
-  Favoris( );
-
-  Favoris.C1(int a ) {
-    _numeroQuestion = a ;
-    _numeroChoix = a ;
-  }
-
-
-
-  int get getNumeroQuestion => _numeroQuestion;
-  set numeroQuestion(int numeroQuestion) => _numeroQuestion = numeroQuestion;
-
-  int get getNumeroChoix => _numeroChoix;
-  set numeroChoix(int numeroChoix) => _numeroChoix = numeroChoix;
-
-  String get getCleListeSauvegarder => _cleListeQuestionSauvegarder;
-  set cleListeSauvegarder(String cleListeSauvegarder) =>
-      _cleListeQuestionSauvegarder = cleListeSauvegarder;
-
-  bool get getSerieFini => _serieFini;
-  set serieFini(bool serieFini) => _serieFini = serieFini;
-
-  int get getTotal => _total;
-  set total(int total) => _total = total;
-
-  int get getNbBonneReponse => _nbBonneReponse;
-  set nbBonneReponse(int nbBonneReponse) => _nbBonneReponse = nbBonneReponse;
-
-  int get getNbMauvaiseReponse => _nbMauvaiseReponse;
-  set nbMauvaiseReponse(int nbMauvaiseReponse) =>
-      _nbMauvaiseReponse = nbMauvaiseReponse;
-
-  int get getNbQuestionRepondue => _nbQuestionRepondue;
-  set nbQuestionRepondue(int nbQuestionRepondue) =>
-      _nbQuestionRepondue = nbQuestionRepondue;
-
-  List<Question> get getListeQuestionFavoris=> _listeQuestionFavoris;
-
-  void setListeQuestionFavoris(List<Question> listeQuestionFavoris) {
-    _listeQuestionFavoris = listeQuestionFavoris;
-
-  }
-
-  List<Option> get getListeDeChoixFavoris => _listeDeChoixFavoris;
-  void setListeOptionFavoris(List<Option> listeDeChoixFavoris) {
-
-
-    _listeDeChoixFavoris = listeDeChoixFavoris;
-
-
-  }
-
-
-
-
-  /////////////////////////////////////////////////////////////////////
-  ///// ---------------   LISTE DES FONCTIONS POUR LES  QUESTIONS -------------- /////////
-  /////////////////////////////////////////////////////////////////////
-
-  void ajoutQuestionFavoris( String idQuestion , String nouvelQuestion , bool choixA ,
-      bool choixB , bool choixC , bool nouvelFaute ,
-      String nouvelExplication , int nouveauPoint ,
-      String cheminImageSource , int numeroImageSource  ,
-      String cheminImageExplicationA ,   int numeroImageExplicationA ,
-      String cheminImageExplicationB , int numeroImageExplicationB ,
-      String cheminImageExplicationC , int numeroImageExplicationC ,
-      String cheminImageExplicationD  , int numeroImageExplicationD ,
-      String cheminImageExplicationE , int numeroImageExplicationE)
-  {
-
-
-    final tampon =  Question(idQuestion , nouvelQuestion , choixA , choixB,
-        choixC ,  nouvelFaute , nouvelExplication , nouveauPoint ,
-        cheminImageSource , numeroImageSource , cheminImageExplicationA
-        ,numeroImageExplicationA , cheminImageExplicationB , numeroImageExplicationB ,
-        cheminImageExplicationC , numeroImageExplicationC ,
-        cheminImageExplicationD , numeroImageExplicationD ,
-        cheminImageExplicationE , numeroImageExplicationE )  ;
-
-    _listeQuestionFavoris.add(tampon) ;
-
-    notifyListeners() ;
-
-    SpUtil.putObjectList(_cleListeQuestionSauvegarder, _listeQuestionFavoris);
-
-
-
-  }
-
-  bool   VerificationQuestionFavoris( String  value ) {
-    // _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-    print('----------value -----------') ;
-    print(value) ;
-    print('----------_listeQuestionFavoris  -----------') ;
-    print(_listeQuestionFavoris.toString()) ;
-
-    if ((_listeQuestionFavoris.singleWhere((innerElement) => innerElement.id == value,
-        orElse: () => null)) != null) {
-
-
-
-      return true ;
-    }
-    else {
-
-      return false ;
-
-    }
-
-  }
-
-  int retourneIndiceQuestion(String value)
-  {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-
-    var  indice =  _listeQuestionFavoris.indexWhere((innerElement) => innerElement.id == value);
-    return indice ;
-  }
-
-
-  void questionSuivante() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    if (_numeroQuestion <= _listeQuestionFavoris.length - 1) {
-      _numeroQuestion++;
-    }
-  }
-
-
-  void   modifierNumQuestion( int value ) {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-
-    _numeroQuestion = value ;
-    _numeroChoix = value ;
-
-    notifyListeners();
-
-  }
-
-
-  void SuprimerQuestionsFavoris( int IdAsuprimer) {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    _listeQuestionFavoris.removeAt(IdAsuprimer);
-
-    SpUtil.putObjectList(_cleListeQuestionSauvegarder, _listeQuestionFavoris);
-
-  }
-
-  bool FinTheme() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    if (_numeroQuestion >= _listeQuestionFavoris.length - 1) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-
-
-  List listeQuestionDefinition() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris;
-  }
-
-  int getTailleQuestion() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris.length;
-  }
-
-  String getIdQuestion() {
-
-
-    // _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-    print('getIdQuestion');
-    print(_listeQuestionFavoris.toString()) ;
-    return _listeQuestionFavoris[_numeroQuestion].id;
-  }
-
-  String getQuestionText() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].questionText;
-  }
-
-  bool getReponseA() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].reponseA;
-  }
-
-  bool getReponseB() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].reponseB;
-  }
-
-  bool getReponseC() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].reponseC;
-  }
-
-
-  bool getFauteGrave() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].fauteGrave;
-  }
-
-  String getExplication() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].explication;
-  }
-
-  int getPoint() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].point;
-  }
-
-  String getCheminImageSourceQuestion() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].cheminImageSource;
-  }
-
-  int getNumeroImageSourceQuestion() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].numeroImageSource;
-  }
-
-  String getCheminImageExplicationQuestionA() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].cheminImageExplicationA;
-  }
-
-  int getNumeroImageExplicationQuestionA() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].numeroImageExplicationA;
-  }
-
-  String getCheminImageExplicationQuestionB() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].cheminImageExplicationB;
-  }
-
-  int getNumeroImageExplicationQuestionB() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].numeroImageExplicationB;
-  }
-
-  String getCheminImageExplicationQuestionC() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].cheminImageExplicationC;
-  }
-
-  int getNumeroImageExplicationQuestionC() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].numeroImageExplicationC;
-  }
-
-  String getCheminImageExplicationQuestionD() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].cheminImageExplicationD;
-  }
-
-  int getNumeroImageExplicationQuestionD() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].numeroImageExplicationD;
-  }
-
-  String getCheminImageExplicationQuestionE() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].cheminImageExplicationE;
-  }
-
-  int getNumeroImageExplicationQuestionE() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-
-    return _listeQuestionFavoris[_numeroQuestion].numeroImageExplicationE;
-  }
-
-  /////////////////////////////////////////////////////////////////////
-  ///// ---------------   LISTE DES FONCTIONS POUR LES OPTION -------------- /////////
-  /////////////////////////////////////////////////////////////////////
-
-  void ajoutOptionFavoris(  String idChoix ,  String reponseA , String reponseB ,  String reponseC ){
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v));
-
-    final tampon = Option( idChoix , reponseA , reponseB , reponseC ) ;
-    print(_listeDeChoixFavoris) ;
-
-    _listeDeChoixFavoris.add(tampon) ;
-    SpUtil.putObjectList(_cleListeOptionSauvegarder, _listeDeChoixFavoris);
-
-    notifyListeners() ;
-
-  }
-
-  bool   VerificationOptionFavoris( String  value ) {
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v));
-
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
-    print('----------value -----------') ;
-    print(value) ;
-    print('----------_listeQuestionFavoris  -----------') ;
-    print(_listeDeChoixFavoris.toString()) ;
-
-    if ((_listeDeChoixFavoris.singleWhere((innerElement) => innerElement.id == value,
-        orElse: () => null)) != null) {
-
-
-
-      return true ;
-    }
-    else {
-
-      return false ;
-
-    }
-
-  }
-
-  int retourneIndiceOption(String value)
-  {
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v));
-
-    var  indice =  _listeDeChoixFavoris.indexWhere((innerElement) => innerElement.id == value);
-    return indice ;
-  }
-
-  void SuprimerOptionFavoris( int IdAsuprimer) {
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v));
-
-
-    _listeDeChoixFavoris.removeAt(IdAsuprimer);
-
-    SpUtil.putObjectList(_cleListeOptionSauvegarder , _listeDeChoixFavoris);
-
-  }
-
-  int getTailleOption() {
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v));
-
-    return _listeQuestionFavoris.length;
-  }
-
-  String getIdOption() {
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v));
-
-    return _listeDeChoixFavoris[_numeroChoix].id;
-  }
-
-  String getOptionA() {
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v));
-
-    return _listeDeChoixFavoris[_numeroChoix].optionA;
-  }
-
-  String getOptionB() {
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v));
-
-    return _listeDeChoixFavoris[_numeroChoix].optionB;
-  }
-
-  String getOptionC() {
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v));
-
-
-    print('_numeroChoix') ;
-    print(_numeroChoix) ;
-    print('_listeDeChoixFavoris[_numeroChoix]') ;
-    print(_listeDeChoixFavoris.toString()) ;
-
-
-
-    return _listeDeChoixFavoris[_numeroChoix].optionC;
-  }
-
-
-  List listeOptionDefinition() {
-    return _listeDeChoixFavoris;
-  }
-
-  void optionSuivante() {
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v));
-
-    if (_numeroChoix <= _listeDeChoixFavoris.length - 1) {
-      _numeroChoix++;
-    }
-  }
-
-  void reset() {
-    _numeroQuestion = 0;
-    _numeroChoix = 0;
-  }
-
-
-
-
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
 }
 
+enum TtsState { playing, stopped, paused, continued }
 
+class _MyAppState extends State<MyApp> {
+  late FlutterTts flutterTts;
+  dynamic languages;
+  String? language;
+  double volume = 0.5;
+  double pitch = 1.0;
+  double rate = 0.5;
+  bool isCurrentLanguageInstalled = false;
+  int end = 0;
 
+  String? _newVoiceText;
 
+  TtsState ttsState = TtsState.stopped;
 
+  get isPlaying => ttsState == TtsState.playing;
+  get isStopped => ttsState == TtsState.stopped;
+  get isPaused => ttsState == TtsState.paused;
+  get isContinued => ttsState == TtsState.continued;
 
+  bool get isIOS => !kIsWeb && Platform.isIOS;
+  bool get isAndroid => !kIsWeb && Platform.isAndroid;
+  bool get isWeb => kIsWeb;
+
+  @override
+  initState() {
+    super.initState();
+    initTts();
+  }
+
+  initTts() {
+    flutterTts = FlutterTts();
+
+    _getLanguages();
+
+    if (isAndroid) {
+      _getEngines();
+    }
+
+    flutterTts.setStartHandler(() {
+      setState(() {
+        print("Playing");
+        ttsState = TtsState.playing;
+      });
+    });
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        print("Complete");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    flutterTts.setCancelHandler(() {
+      setState(() {
+        print("Cancel");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    if (isWeb || isIOS) {
+      flutterTts.setPauseHandler(() {
+        setState(() {
+          print("Paused");
+          ttsState = TtsState.paused;
+        });
+      });
+
+      flutterTts.setContinueHandler(() {
+        setState(() {
+          print("Continued");
+          ttsState = TtsState.continued;
+        });
+      });
+    }
+
+    flutterTts.setErrorHandler((msg) {
+      setState(() {
+        print("error: $msg");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    flutterTts.setProgressHandler(
+            (String text, int startOffset, int endOffset, String word) {
+          setState(() {
+            end = endOffset;
+          });
+        });
+  }
+
+  Future _getLanguages() async {
+    languages = await flutterTts.getLanguages;
+    if (languages != null) setState(() => languages);
+  }
+
+  Future _getEngines() async {
+    var engines = await flutterTts.getEngines;
+    if (engines != null) {
+      for (dynamic engine in engines) {
+        print(engine);
+      }
+    }
+  }
+
+  Future _speak() async {
+    await flutterTts.setVolume(volume);
+    await flutterTts.setSpeechRate(rate);
+    await flutterTts.setPitch(pitch);
+
+    if (_newVoiceText != null) {
+      await flutterTts.awaitSpeakCompletion(true);
+      await flutterTts.speak(_newVoiceText!);
+    }
+  }
+
+  Future _stop() async {
+    var result = await flutterTts.stop();
+    if (result == 1) setState(() => ttsState = TtsState.stopped);
+  }
+
+  Future _pause() async {
+    var result = await flutterTts.pause();
+    if (result == 1) setState(() => ttsState = TtsState.paused);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    flutterTts.stop();
+  }
+
+  List<DropdownMenuItem<String>> getLanguageDropDownMenuItems() {
+    var items = <DropdownMenuItem<String>>[];
+    for (dynamic type in languages) {
+      items.add(DropdownMenuItem(value: type as String, child: Text(type)));
+    }
+    return items;
+  }
+
+  void changedLanguageDropDownItem(String? selectedType) {
+    setState(() {
+      language = selectedType;
+      flutterTts.setLanguage(language!);
+      if (isAndroid) {
+        flutterTts
+            .isLanguageInstalled(language!)
+            .then((value) => isCurrentLanguageInstalled = (value as bool));
+      }
+    });
+  }
+
+  void _onChange(String text) {
+    setState(() {
+      _newVoiceText = text;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        home: Scaffold(
+            appBar: AppBar(
+              title: Text('Flutter TTS'),
+            ),
+            body: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(children: [
+                  _inputSection(),
+                  ttsState == TtsState.playing ? _progressBar(end) : Text(""),
+                  _btnSection(),
+                  languages != null ? _languageDropDownSection() : Text(""),
+                  _buildSliders()
+                ]))));
+  }
+
+  Widget _inputSection() => Container(
+      alignment: Alignment.topCenter,
+      padding: EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
+      child: TextField(
+        onChanged: (String value) {
+          _onChange(value);
+        },
+      ));
+
+  Widget _progressBar(int end) => Container(
+      alignment: Alignment.topCenter,
+      padding: EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
+      child: LinearProgressIndicator(
+        backgroundColor: Colors.red,
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+        value: end / _newVoiceText!.length,
+      ));
+
+  Widget _btnSection() {
+    if (isAndroid) {
+      return Container(
+          padding: EdgeInsets.only(top: 50.0),
+          child:
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            _buildButtonColumn(Colors.green, Colors.greenAccent,
+                Icons.play_arrow, 'PLAY', _speak),
+            _buildButtonColumn(
+                Colors.red, Colors.redAccent, Icons.stop, 'STOP', _stop),
+          ]));
+    } else {
+      return Container(
+          padding: EdgeInsets.only(top: 50.0),
+          child:
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            _buildButtonColumn(Colors.green, Colors.greenAccent,
+                Icons.play_arrow, 'PLAY', _speak),
+            _buildButtonColumn(
+                Colors.red, Colors.redAccent, Icons.stop, 'STOP', _stop),
+            _buildButtonColumn(
+                Colors.blue, Colors.blueAccent, Icons.pause, 'PAUSE', _pause),
+          ]));
+    }
+  }
+
+  Widget _languageDropDownSection() => Container(
+      padding: EdgeInsets.only(top: 50.0),
+      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        DropdownButton(
+          value: language,
+          items: getLanguageDropDownMenuItems(),
+          onChanged: changedLanguageDropDownItem,
+        ),
+        Visibility(
+          visible: isAndroid,
+          child: Text("Is installed: $isCurrentLanguageInstalled"),
+        ),
+      ]));
+
+  Column _buildButtonColumn(Color color, Color splashColor, IconData icon,
+      String label, Function func) {
+    return Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+              icon: Icon(icon),
+              color: color,
+              splashColor: splashColor,
+              onPressed: () => func()),
+          Container(
+              margin: const EdgeInsets.only(top: 8.0),
+              child: Text(label,
+                  style: TextStyle(
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.w400,
+                      color: color)))
+        ]);
+  }
+
+  Widget _buildSliders() {
+    return Column(
+      children: [_volume(), _pitch(), _rate()],
+    );
+  }
+
+  Widget _volume() {
+    return Slider(
+        value: volume,
+        onChanged: (newVolume) {
+          setState(() => volume = newVolume);
+        },
+        min: 0.0,
+        max: 1.0,
+        divisions: 10,
+        label: "Volume: $volume");
+  }
+
+  Widget _pitch() {
+    return Slider(
+      value: pitch,
+      onChanged: (newPitch) {
+        setState(() => pitch = newPitch);
+      },
+      min: 0.5,
+      max: 2.0,
+      divisions: 15,
+      label: "Pitch: $pitch",
+      activeColor: Colors.red,
+    );
+  }
+
+  Widget _rate() {
+    return Slider(
+      value: rate,
+      onChanged: (newRate) {
+        setState(() => rate = newRate);
+      },
+      min: 0.0,
+      max: 1.0,
+      divisions: 10,
+      label: "Rate: $rate",
+      activeColor: Colors.green,
+    );
+  }
+}

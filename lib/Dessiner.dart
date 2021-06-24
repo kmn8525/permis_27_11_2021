@@ -35,7 +35,7 @@ class DessinBasBarNavigation extends CustomPainter {
       ..color = Colors.black
       ..style = PaintingStyle.stroke
       ..strokeWidth = 0.5
-      ..maskFilter = MaskFilter.blur(BlurStyle.inner, 0.5);
+      ..maskFilter = MaskFilter.blur(BlurStyle.inner, 0.9);
 
     Path path = Path();
 
@@ -64,7 +64,7 @@ class DessinBasBarNavigation extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
+    return true;
   }
 }
 

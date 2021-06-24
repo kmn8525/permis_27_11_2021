@@ -3,22 +3,21 @@ import 'dart:async';
 import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:permis/BouttonProfil.dart';
+import 'package:permis/BouttonTheme.dart';
 import 'package:provider/provider.dart';
 
-import 'BouttonProfil.dart';
+import 'BouttonTheme.dart';
 import 'Constantes.dart';
 import 'EcranProfil.dart';
-import 'ListeResultats.dart';
+import 'TrasitionPages.dart';
 import 'Utility.dart';
 import 'VerticalItem.dart';
 
 
-final String titrePage='EcranThemes' ;
 
 
 class EcranTheme extends StatefulWidget   {
-  static  const String id = 'EcranThemes' ;
+  //static  const String id = 'EcranThemes' ;
 
 
   @override
@@ -27,11 +26,12 @@ class EcranTheme extends StatefulWidget   {
 
 
 class Theme {
+  String NomImageSVG;
+
+  String nomTheme ;
+
+
   Theme(this.NomImageSVG, this.nomTheme);
-
-  final String NomImageSVG;
-
-  final String nomTheme ;
 
 
 }
@@ -70,8 +70,7 @@ class EcranThemeState extends State<EcranTheme>  {
       if (!mounted) {
         return;
       }
-      setState(() {
-       });
+
     });
 
 
@@ -120,27 +119,11 @@ class EcranThemeState extends State<EcranTheme>  {
 
 
 
-
-  String chemin = 'assets/profil/martial.jpg' ;
-  String themeChoisi ;
-
-
-  String  utilisateurTheme( String tmp) {
-
-    themeChoisi = tmp ;
-
-
-    return themeChoisi ;
-  }
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
 
-      //imageFromPreferences = Utility.imageFromBase64String(img);
 
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -154,9 +137,10 @@ class EcranThemeState extends State<EcranTheme>  {
             nom  : Nom ,
                 onPressed: ()  {
 
-                  Navigator.of(context, rootNavigator: true ).push(MaterialPageRoute(
-                      builder: (BuildContext context  ) =>
-                          EcranProfil()));
+                  Navigator.of(context, rootNavigator: true ).push(TransitionBas(
+
+                      page :  EcranProfil()));
+
 
                 },
 
@@ -165,7 +149,7 @@ class EcranThemeState extends State<EcranTheme>  {
           ],
 
         ),
-        backgroundColor: kCouleurAppBar ,
+        backgroundColor: kCouleurBlancGeneral ,
       ),
 
 
@@ -175,9 +159,9 @@ class EcranThemeState extends State<EcranTheme>  {
           color: kCouleurBody,
 
           child: LiveGrid(
-            padding: EdgeInsets.fromLTRB(0 , 6 , 0 , 6),
-            showItemInterval: Duration(milliseconds: 50),
-            showItemDuration: Duration(milliseconds: 150),
+            padding: EdgeInsets.fromLTRB(0 , 10 , 0 , 80),
+            showItemInterval: Duration(milliseconds: 45),
+            showItemDuration: Duration(milliseconds: 100),
             visibleFraction: 0.001,
             itemCount: _themes.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

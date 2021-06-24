@@ -19,7 +19,7 @@ class BoutonReponse extends StatelessWidget {
         child: boutonEnfant,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(13.0),
-          color: kCouleurAppBar,
+          color: kCouleurBlancGeneral,
           boxShadow: [
             BoxShadow(
               color: kBoutonDegrade,

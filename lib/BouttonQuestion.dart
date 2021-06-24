@@ -22,7 +22,7 @@ class BoutonQuestion extends StatelessWidget {
         margin: EdgeInsets.all(30),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(13.0),
-          color: kCouleurAppBar,
+          color: kCouleurBlancGeneral,
           boxShadow: [
             BoxShadow(
               color: kBoutonDegrade,

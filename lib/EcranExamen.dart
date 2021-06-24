@@ -1,9 +1,10 @@
 
+
 import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'BouttonProfil.dart';
+import 'BouttonTheme.dart';
 import 'dart:async';
 
 import 'Constantes.dart';
@@ -11,9 +12,10 @@ import 'package:flutter_svg/svg.dart';
 
 import 'EcranProfil.dart';
 import 'EcranQuestions.dart';
-import 'package:permis/BouttonProfil.dart';
+import 'package:permis/BouttonTheme.dart';
 
 import 'ListeResultats.dart';
+import 'TrasitionPages.dart';
 import 'VerticalItem.dart';
 
 
@@ -120,18 +122,20 @@ class EcranExamenState extends State<EcranExamen>  with ChangeNotifier , SingleT
               child: BouttonProfil (
                  onPressed: ()  {
 
-                  Navigator.of(context, rootNavigator: true ).push(MaterialPageRoute(
-                      builder: (BuildContext context  ) =>
-                          EcranProfil()));
 
-                },
+                  Navigator.of(context, rootNavigator: true ).push(TransitionHaut(
+
+                      page :  EcranProfil(  )));
+
+
+                 },
 
               ) ,
             ) ,
           ],
 
         ),
-        backgroundColor: kCouleurAppBar ,
+        backgroundColor: kCouleurBlancGeneral ,
       ),
 
 
@@ -164,4 +168,5 @@ class EcranExamenState extends State<EcranExamen>  with ChangeNotifier , SingleT
 
 
 }
+
 

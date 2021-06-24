@@ -6,13 +6,22 @@ import 'package:flutter/material.dart';
 
 import 'EcranCours.dart';
 import 'EcranExamen.dart';
+import 'EcranIntroExamen.dart';
+import 'EcranIntroJeux.dart';
 import 'EcranJeux.dart';
+import 'EcranQuestionExamen.dart';
 import 'EcranReglages.dart';
 import 'EcranThemes.dart';
 
 
 class Accueil extends StatefulWidget {
-  @override
+      int selectedIndex = 0;
+
+
+     Accueil( this.selectedIndex)  ;
+
+
+    @override
   _AccueilState createState() => _AccueilState();
 
 }
@@ -21,7 +30,7 @@ class Accueil extends StatefulWidget {
 
 class _AccueilState extends State<Accueil> {
 
-  int _selectedIndex = 0;
+
 
   void initState() {
 
@@ -29,17 +38,18 @@ class _AccueilState extends State<Accueil> {
   }
 
   final List<Widget> _children = [
+    EcranCours(),
 
     EcranTheme(),
-    EcranCours(),
-   // EcranExamen(),
-    EcranJeux(),
+
+    EcranIntroExamen(),
+    EcranIntroJeux(),
     EcranReglages(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      widget.selectedIndex = index;
     });
   }
 
@@ -50,13 +60,15 @@ class _AccueilState extends State<Accueil> {
   }
 
   Widget material() {
-    ThemeData(
-      backgroundColor: Colors.grey[100],
-      scaffoldBackgroundColor: Colors.grey[200],
+     ThemeData(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+
     );
     return Scaffold(
-      body: _children[_selectedIndex],
+      body: _children[widget.selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey,
@@ -86,7 +98,7 @@ class _AccueilState extends State<Accueil> {
             title: Text('Reglage'),
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: widget.selectedIndex,
         // selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
       ),
@@ -139,10 +151,10 @@ class _AccueilState extends State<Accueil> {
               return EcranCours();
               break;
             case 2:
-              return EcranExamen();
+              return EcranIntroExamen();
               break;
             case 3:
-              return EcranJeux();
+              return EcranIntroJeux();
               break;
             default:
               return EcranReglages();

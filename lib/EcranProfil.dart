@@ -30,11 +30,7 @@ class EcranProfilState extends State<EcranProfil>  with ChangeNotifier , Diagnos
 
 
 
-  @override
-  void dispose() {
 
-    super.dispose();
-  }
   @override
   void initState() {
     super.initState();
@@ -49,6 +45,13 @@ class EcranProfilState extends State<EcranProfil>  with ChangeNotifier , Diagnos
 
     chargerImageDisque();
 
+  }
+
+
+  @override
+  void dispose() {
+
+    super.dispose();
   }
 
   String getcleImage(){
@@ -166,10 +169,8 @@ return cleNom ;
                         icon: Icon(Icons.arrow_back
                         ),
                         onPressed: (){
-                          Navigator.of(context, rootNavigator: false ).push(MaterialPageRoute(
-                              builder: (BuildContext context  ) => Accueil( )));
 
-                         // Navigator.pop(context);
+                          Navigator.pop(context);
 
                         },
                       ),
@@ -290,8 +291,7 @@ Widget _editionPhotoProfil(){
 
                 ) ,
 
-                child: imageFromPreferences != null
-                    ?
+                child: imageFromPreferences != null  ?
                 ClipOval(
                   child: Container(
                     width: 95,
@@ -502,7 +502,9 @@ Widget _editionPhotoProfil(){
         children: <Widget>[
           Expanded(
             child: InkWell(
-              onTap: () => print("followed"),
+              onTap: () {
+
+              },
               child: Container(
                 height: 40.0,
                 decoration: BoxDecoration(
@@ -524,7 +526,9 @@ Widget _editionPhotoProfil(){
           SizedBox(width: 14.0),
           Expanded(
             child: InkWell(
-              onTap: () => print("THEME"),
+              onTap: () {
+
+              },
               child: Container(
                 height: 40.0,
                 decoration: BoxDecoration(
@@ -546,7 +550,9 @@ Widget _editionPhotoProfil(){
 
           Expanded(
             child: InkWell(
-              onTap: () => print("EXAMEN"),
+              onTap: () {
+
+              },
               child: Container(
                 height: 40.0,
                 decoration: BoxDecoration(

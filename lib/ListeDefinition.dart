@@ -12,7 +12,7 @@ import 'Question.dart';
    int _numeroChoix = 0  ;
    String cleNumQD = "qDef";
    bool serieFini = false;
-   int total = 3;
+   int total ;
    int NbBonneReponse = 0;
    int NbMovaiseReponse = 0;
    int NbQuestionReondue = 0;
@@ -37,28 +37,29 @@ import 'Question.dart';
 
   }
 
-   void affihe(){
-     print('------  definition ------ ');
-
-      print(_listeQuestionDefinition.toString());
-     print(_listeOptionDefinition.toString());
 
 
-
-
-   }
    List<Option> _listeOptionDefinition = [
-     Option('d_o1' ,'Un accotement en saillie', ' Un accotement de plain pied',
+     Option('d_o1' ,'Un baccotement en saillie', ' Un accotement de plain pied',
          'Une piste cyclable'),
      Option('d_o2','La voie publique', ' La chaussée', 'La bande de circulation'),
-     Option('d_o3', 'Oui', ' Non', ' Non c’est une piste cyclable'),
+     Option('d_o3', 'oui en m\'écartant suffisament ', ' Non', 'null'),
+     Option('d_o4', 'je passe a droit de l\'ilo', ' je passe a gauche de l\'ilo', ' je tourne avant   l\'ilo'),
+     Option('d_o5', 'oui', 'non', 'null'),
+
+     Option('d_o6', 'oui', 'non', 'null'),
+     Option('d_o7', 'oui', 'non', 'null'),
+     Option('d_o8', 'oui', 'non', 'null'),
+     Option('d_o9', 'je peut passer et j\'ai la priorite', 'je doit m\'arreter', 'null'),
+
+
 
    ] ;
 
    List<Question> _listeQuestionDefinition = [
      Question(
         'd_q1' ,
-         ' Cette partie est : ',
+         ' Cette  partie  est  boire : ',
          false,
          false,
          true,
@@ -68,21 +69,14 @@ import 'Question.dart';
        'imageDefinition',
        1 ,
 
-       'explicationA',
+       'animation',
        1 ,
-       'explication1',
-       2 ,
-       'explication1',
-       3 ,
-       'explication1',
-       4 ,
-       'explication1',
-       5 ,
+
 
      ),
 
      Question(
-         'd_q2' , 'Cette partie est : ',
+         'd_q2' , 'Cette boire est manger  : ',
          true,
          false,
          false,
@@ -91,21 +85,30 @@ import 'Question.dart';
          1 ,
          'imageDefinition' ,
          2 ,
-       'explication2',
+       'animation',
        1 ,
-       'explication2',
-       2 ,
-       'explication2',
-       3 ,
-       'explication2',
-       0 ,
-       'explication2',
-       0  ,
+
 
      ),
 
      Question(
-         'd_q3'  , 'Cette bande rouge fait partie de la chaussée',
+         'd_q3'  , 'Je peut dépasser le cycliste sur ce ralentisseur de trafic',
+         false,
+         true,
+         false,
+         false,
+         'tous les dépassement sont interdits sur un ralentisseur de trafic  ',
+         1 ,
+         'imageDefinition' ,
+     3 ,
+       'animation',
+       1 ,
+
+
+
+     ),
+     Question(
+         'd_q4'  , 'je peut pour tourner a gauche dans ce carrefour ',
          true,
          false,
          false,
@@ -113,21 +116,94 @@ import 'Question.dart';
          ' On parle parfois de piste cyclable suggérée',
          1 ,
          'imageDefinition' ,
-     3 ,
-       'explication3',
-       1 ,
-       'explication3',
-       0 ,
-       'explication3',
-       0 ,
-       'explication3',
-       0 ,
-       'explication3',
-       0
+         4 ,
+         'animation',
+         1 ,
+
 
 
      ),
 
+     Question(
+         'd_q5'  , '  en contournant ce camion a l\'arret , j\'effectue un A depassement  ',
+         true,
+         false,
+         null,
+         false,
+         ' vous pouvez',
+         1 ,
+         'imageDefinition' ,
+         5 ,
+         'animation',
+         1 ,
+
+
+
+     ),
+
+     Question(
+         'd_q6'  , ' le vehicule qui me precede reste au milieu de la chaussée , je peut le depasser par la droite   ',
+         true,
+         false,
+         null,
+         false,
+         'le depassement s\'effectue par la gauche',
+         1 ,
+         'imageDefinition' ,
+         6 ,
+         'animation',
+         1 ,
+
+
+
+     ),
+
+     Question(
+         'd_q7'  , ' je peut tourner a droite a ce carrefour',
+         true,
+         false,
+         null,
+         false,
+         ' On parle parfois de piste cyclable suggérée',
+         1 ,
+         'imageDefinition' ,
+         7,
+         'animation',
+         1 ,
+
+
+     ),
+     Question(
+       'd_q8'  , ' Je peux emprunter la bande de bus pour effectuer un dépassement ',
+       true,
+       false,
+       null,
+       false,
+       ' La bande « bus », lorsqu\'elle est à gauche, ne peut être utilisée que pourtourner à gauche au prochain carrefour, pas pour dépasser',
+       1 ,
+       'imageDefinition' ,
+       8,
+       'animation',
+       1 ,
+
+
+     ),
+
+     Question(
+       'd_q9'  , ' Dans cette situation ',
+       true,
+       false,
+       null,
+       false,
+       'le feu vert prime sur le signal , routier vous pouvez donc continuer le signal ne servira que si le signal ne fonctionne pas   ',
+       1 ,
+       'imageDefinition' ,
+       9,
+       'animation',
+       1 ,
+
+
+     ),
 
    ];
 
@@ -137,6 +213,13 @@ import 'Question.dart';
    int get getNumChoDef =>  _numeroChoix ;
 
 
+     affiche(){
+     print('///// ---------------  DEFINITION   -------------- /////////' ) ;
+
+     print(_listeQuestionDefinition) ;
+
+
+    }
 
 /////////////////////////////////////////////////////////////////////
    ///// ---------------   LISTE DES FONCTIONS  QUESTIONS -------------- /////////
@@ -155,6 +238,7 @@ import 'Question.dart';
      }
    }
 
+
    void optionSuivante() {
      if (_numeroChoix <= _listeOptionDefinition.length - 1) {
        _numeroChoix++;
@@ -169,7 +253,7 @@ import 'Question.dart';
      }
    }
 
-   List listeQuestionDefinition() {
+   List listeQuestion() {
      return _listeQuestionDefinition;
    }
 
@@ -218,45 +302,15 @@ import 'Question.dart';
      return _listeQuestionDefinition[_numeroQuestion].numeroImageSource;
    }
 
-   String getCheminImageExplicationQuestionA() {
-     return _listeQuestionDefinition[_numeroQuestion].cheminImageExplicationA;
+   String getCheminQuestionAnimationExplication() {
+     return _listeQuestionDefinition[_numeroQuestion].cheminQuestionAnimationExplication;
    }
 
-   int getNumeroImageExplicationQuestionA() {
-     return _listeQuestionDefinition[_numeroQuestion].numeroImageExplicationA;
+   int getNumeroQuestionAnimationExplication() {
+     return _listeQuestionDefinition[_numeroQuestion].numeroQuestionAnimationExplication;
    }
 
-   String getCheminImageExplicationQuestionB() {
-     return _listeQuestionDefinition[_numeroQuestion].cheminImageExplicationB;
-   }
 
-   int getNumeroImageExplicationQuestionB() {
-     return _listeQuestionDefinition[_numeroQuestion].numeroImageExplicationB;
-   }
-
-   String getCheminImageExplicationQuestionC() {
-     return _listeQuestionDefinition[_numeroQuestion].cheminImageExplicationC;
-   }
-
-   int getNumeroImageExplicationQuestionC() {
-     return _listeQuestionDefinition[_numeroQuestion].numeroImageExplicationC;
-   }
-
-   String getCheminImageExplicationQuestionD() {
-     return _listeQuestionDefinition[_numeroQuestion].cheminImageExplicationD;
-   }
-
-   int getNumeroImageExplicationQuestionD() {
-     return _listeQuestionDefinition[_numeroQuestion].numeroImageExplicationD;
-   }
-
-   String getCheminImageExplicationQuestionE() {
-     return _listeQuestionDefinition[_numeroQuestion].cheminImageExplicationE;
-   }
-
-   int getNumeroImageExplicationQuestionE() {
-     return _listeQuestionDefinition[_numeroQuestion].numeroImageExplicationE;
-   }
 
    /////////////////////////////////////////////////////////////////////
    ///// ---------------   LISTE DES FONCTIONS  OPTION -------------- /////////
@@ -293,15 +347,24 @@ import 'Question.dart';
 
 
 
+/*
 
-
-
+   Card(
+   child: IntrinsicHeight(
+   child: Row(
+   crossAxisAlignment: CrossAxisAlignment.stretch,
+   children: <Widget>[
+   Container(
+   width: 20.0,
+   color: Colors.amber,
+   ),
+   // Expanded(...)
+   ],
+   ),
+   )
+   )
+*/
    }
-
-
-
-
-
 
 
 

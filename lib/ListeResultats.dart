@@ -63,9 +63,7 @@ class Resultats extends ChangeNotifier {
 
   Color getColoueurSelectionA (int indexCourant) {
 
-    print('indexCourant $indexCourant') ;
-    print('_listSelectionA') ;
-    print(_listSelectionA);
+
     return _listSelectionA[indexCourant] ;
 
   }
@@ -142,14 +140,13 @@ void ajouterCouleurResultats(  Color couleur){
   }
 
   void ajoutQuestionResultat( String idQuestion , String nouvelQuestion , bool choixA , bool choixB , bool choixC , bool nouvelFaute ,  String nouvelExplication , int nouveauPoint , String cheminImageSource , int numeroImageSource  ,
-  String cheminImageExplicationA ,   int numeroImageExplicationA , String cheminImageExplicationB , int numeroImageExplicationB , String cheminImageExplicationC , int numeroImageExplicationC ,
-      String cheminImageExplicationD  , int numeroImageExplicationD , String cheminImageExplicationE , int numeroImageExplicationE)
+  String cheminQuestionExplication ,   int numeroQuestionImageExplication)
   {
 
 
     final tampon =  Question(idQuestion , nouvelQuestion , choixA , choixB ,  choixC , nouvelFaute , nouvelExplication , nouveauPoint ,
-        cheminImageSource , numeroImageSource , cheminImageExplicationA ,numeroImageExplicationA , cheminImageExplicationB , numeroImageExplicationB ,
-        cheminImageExplicationC , numeroImageExplicationC , cheminImageExplicationD , numeroImageExplicationD , cheminImageExplicationE , numeroImageExplicationE )  ;
+        cheminImageSource , numeroImageSource , cheminQuestionExplication ,numeroQuestionImageExplication   )  ;
+
     _listeQuestionsUtilisateurs.add(tampon) ;
     notifyListeners() ;
 

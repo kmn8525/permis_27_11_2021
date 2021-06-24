@@ -9,14 +9,21 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'Option.dart';
 import 'Question.dart';
 
-class Favoris  extends   ChangeNotifier   {
+
+class Favoris extends StatefulWidget {
+  const Favoris({Key key}) : super(key: key);
+
+  @override
+  FavorisState createState() => FavorisState();
+}
+
+class FavorisState extends State<Favoris> with  ChangeNotifier{
 
 
+  List<Question> _listeQuestionFavoris =  [];
 
-      List<Question> _listeQuestionFavoris =  [];
 
-
-      List<Option> _listeDeChoixFavoris = [] ;
+  List<Option> _listeDeChoixFavoris = [] ;
 
 
 
@@ -33,15 +40,21 @@ class Favoris  extends   ChangeNotifier   {
   int _nbMauvaiseReponse;
   int _nbQuestionRepondue;
 
+  bool verifiIdQuestion = false  ;
+  FavorisState();
+  FavorisState.C1(int a) {
 
-
-  Favoris( );
-
-  Favoris.C1(int a ) {
     _numeroQuestion = a ;
     _numeroChoix = a ;
   }
 
+ /* Favoris( );
+
+  Favoris.C1(int a ) {
+  _numeroQuestion = a ;
+  _numeroChoix = a ;
+  }
+*/
 
 
   int get getNumeroQuestion => _numeroQuestion;
@@ -52,7 +65,7 @@ class Favoris  extends   ChangeNotifier   {
 
   String get getCleListeSauvegarder => _cleListeQuestionSauvegarder;
   set cleListeSauvegarder(String cleListeSauvegarder) =>
-      _cleListeQuestionSauvegarder = cleListeSauvegarder;
+  _cleListeQuestionSauvegarder = cleListeSauvegarder;
 
   bool get getSerieFini => _serieFini;
   set serieFini(bool serieFini) => _serieFini = serieFini;
@@ -65,19 +78,18 @@ class Favoris  extends   ChangeNotifier   {
 
   int get getNbMauvaiseReponse => _nbMauvaiseReponse;
   set nbMauvaiseReponse(int nbMauvaiseReponse) =>
-      _nbMauvaiseReponse = nbMauvaiseReponse;
+  _nbMauvaiseReponse = nbMauvaiseReponse;
 
   int get getNbQuestionRepondue => _nbQuestionRepondue;
   set nbQuestionRepondue(int nbQuestionRepondue) =>
-      _nbQuestionRepondue = nbQuestionRepondue;
+  _nbQuestionRepondue = nbQuestionRepondue;
 
   List<Question> get getListeQuestionFavoris=> _listeQuestionFavoris;
 
   void setListeQuestionFavoris(List<Question> listeQuestionFavoris) {
-    _listeQuestionFavoris = listeQuestionFavoris;
+  _listeQuestionFavoris = listeQuestionFavoris;
 
   }
-
 
 
 
@@ -89,26 +101,29 @@ class Favoris  extends   ChangeNotifier   {
 
 
   void ajoutQuestionFavoris( String idQuestion , String nouvelQuestion , bool choixA , bool choixB , bool choixC , bool nouvelFaute ,  String nouvelExplication , int nouveauPoint , String cheminImageSource , int numeroImageSource  ,
-      String cheminImageExplicationA ,   int numeroImageExplicationA , String cheminImageExplicationB , int numeroImageExplicationB , String cheminImageExplicationC , int numeroImageExplicationC ,
-      String cheminImageExplicationD  , int numeroImageExplicationD , String cheminImageExplicationE , int numeroImageExplicationE)
+  String cheminQuestionImageExplicationA ,   int numeroQuestionImageExplication  )
   {
 
 
 
-    // var t = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  // var t = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+
+
+  Question tampon = new  Question(idQuestion , nouvelQuestion , choixA , choixB ,  choixC , nouvelFaute , nouvelExplication , nouveauPoint ,
+  cheminImageSource , numeroImageSource , cheminQuestionImageExplicationA ,numeroQuestionImageExplication  )  ;
 
 
 
-    Question tampon = new  Question(idQuestion , nouvelQuestion , choixA , choixB ,  choixC , nouvelFaute , nouvelExplication , nouveauPoint ,
-        cheminImageSource , numeroImageSource , cheminImageExplicationA ,numeroImageExplicationA , cheminImageExplicationB , numeroImageExplicationB ,
-        cheminImageExplicationC , numeroImageExplicationC , cheminImageExplicationD , numeroImageExplicationD , cheminImageExplicationE , numeroImageExplicationE )  ;
 
 
-    _listeQuestionFavoris.add(tampon) ;
+  _listeQuestionFavoris.add(tampon) ;
 
-    notifyListeners() ;
 
-    SpUtil.putObjectList(_cleListeQuestionSauvegarder, _listeQuestionFavoris);
+  SpUtil.putObjectList(_cleListeQuestionSauvegarder, _listeQuestionFavoris);
+
+  notifyListeners() ;
+
+
 
 
 
@@ -119,34 +134,40 @@ class Favoris  extends   ChangeNotifier   {
 
   bool   VerificationQuestionFavoris( String  value ) {
 
-if ( _listeQuestionFavoris.length == 0 ) {
+
+  if ( _listeQuestionFavoris.isEmpty   ) {
+
+  verifiIdQuestion =  false ;
 
 
-  return false ;
-}
 
-else {
+  }
+
+  else  {
 
 
   _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
-  if ((_listeQuestionFavoris.singleWhere((innerElement) => innerElement.id == value,
-      orElse: () => null)) != null) {
 
 
 
-    return true ;
+  if ((_listeQuestionFavoris.firstWhere((innerElement) => innerElement.id == value,
+  orElse: () => null)) != null) {
+
+  verifiIdQuestion =  true ;
+
+
   }
   else {
 
-    return false ;
+
+  verifiIdQuestion =  false ;
 
   }
 
 
+  }
 
-
-}
-
+  return verifiIdQuestion ;
 
   }
 
@@ -154,190 +175,155 @@ else {
   {
 
 
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
 
 
-    var  indice =  _listeQuestionFavoris.indexWhere((innerElement) => innerElement.id == value);
-    return indice ;
+  var  indice =  _listeQuestionFavoris.indexWhere((innerElement) => innerElement.id == value);
+  return indice ;
   }
 
 
   void questionSuivante() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
 
-    if (_numeroQuestion <= _listeQuestionFavoris.length - 1) {
-      _numeroQuestion++;
-    }
+  if (_numeroQuestion <= _listeQuestionFavoris.length - 1) {
+  _numeroQuestion++;
+  }
   }
 
 
   void   modifierNumQuestion( int value ) {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
 
 
-    _numeroQuestion = value ;
-    _numeroChoix = value ;
+  _numeroQuestion = value ;
+  _numeroChoix = value ;
 
-    notifyListeners();
+  notifyListeners();
 
   }
 
 
   void SuprimerQuestionsFavoris( int IdAsuprimer) {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
 
-    _listeQuestionFavoris.removeAt(IdAsuprimer);
+  _listeQuestionFavoris.removeAt(IdAsuprimer);
+
 
     SpUtil.putObjectList(_cleListeQuestionSauvegarder, _listeQuestionFavoris);
+
+
 
   }
 
   bool FinTheme() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
 
-    if (_numeroQuestion >= _listeQuestionFavoris.length - 1) {
-      return true;
-    } else {
-      return false;
-    }
+  if (_numeroQuestion >= _listeQuestionFavoris.length - 1) {
+  return true;
+  } else {
+  return false;
+  }
   }
 
 
 
-  List listeQuestionDefinition() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  List listeQuestionFavoris() {
 
-    return _listeQuestionFavoris;
+  _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+
+
+
+
+
+  return _listeQuestionFavoris;
+
+
   }
 
   int getTailleQuestion() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
 
-    return _listeQuestionFavoris.length;
+  return _listeQuestionFavoris.length;
   }
 
   String getIdQuestion() {
 
 
-    // _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
+  // _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v));
 
-    return _listeQuestionFavoris[_numeroQuestion].id;
+  return _listeQuestionFavoris[_numeroQuestion].id;
   }
 
   String getQuestionText() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
 
-    return _listeQuestionFavoris[_numeroQuestion].questionText;
+  return _listeQuestionFavoris[_numeroQuestion].questionText;
   }
 
   bool getReponseA() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
 
-    return _listeQuestionFavoris[_numeroQuestion].reponseA;
+  return _listeQuestionFavoris[_numeroQuestion].reponseA;
   }
 
   bool getReponseB() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
 
-    return _listeQuestionFavoris[_numeroQuestion].reponseB;
+  return _listeQuestionFavoris[_numeroQuestion].reponseB;
   }
 
   bool getReponseC() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
 
-    return _listeQuestionFavoris[_numeroQuestion].reponseC;
+  return _listeQuestionFavoris[_numeroQuestion].reponseC;
   }
 
 
   bool getFauteGrave() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
 
-    return _listeQuestionFavoris[_numeroQuestion].fauteGrave;
+  return _listeQuestionFavoris[_numeroQuestion].fauteGrave;
   }
 
   String getExplication() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
 
-    return _listeQuestionFavoris[_numeroQuestion].explication;
+  return _listeQuestionFavoris[_numeroQuestion].explication;
   }
 
   int getPoint() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
 
-    return _listeQuestionFavoris[_numeroQuestion].point;
+  return _listeQuestionFavoris[_numeroQuestion].point;
   }
 
   String getCheminImageSourceQuestion() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
 
-    return _listeQuestionFavoris[_numeroQuestion].cheminImageSource;
+  return _listeQuestionFavoris[_numeroQuestion].cheminImageSource;
   }
 
   int getNumeroImageSourceQuestion() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
 
-    return _listeQuestionFavoris[_numeroQuestion].numeroImageSource;
+  return _listeQuestionFavoris[_numeroQuestion].numeroImageSource;
   }
 
-  String getCheminImageExplicationQuestionA() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  String getCheminQuestionAnimationExplication() {
+  _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
 
-    return _listeQuestionFavoris[_numeroQuestion].cheminImageExplicationA;
+  return _listeQuestionFavoris[_numeroQuestion].cheminQuestionAnimationExplication;
   }
 
-  int getNumeroImageExplicationQuestionA() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  int getNumeroQuestionAnimationExplication() {
+  _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
 
-    return _listeQuestionFavoris[_numeroQuestion].numeroImageExplicationA;
+  return _listeQuestionFavoris[_numeroQuestion].numeroQuestionAnimationExplication;
   }
 
-  String getCheminImageExplicationQuestionB() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
 
-    return _listeQuestionFavoris[_numeroQuestion].cheminImageExplicationB;
-  }
 
-  int getNumeroImageExplicationQuestionB() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
-
-    return _listeQuestionFavoris[_numeroQuestion].numeroImageExplicationB;
-  }
-
-  String getCheminImageExplicationQuestionC() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
-
-    return _listeQuestionFavoris[_numeroQuestion].cheminImageExplicationC;
-  }
-
-  int getNumeroImageExplicationQuestionC() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
-
-    return _listeQuestionFavoris[_numeroQuestion].numeroImageExplicationC;
-  }
-
-  String getCheminImageExplicationQuestionD() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
-
-    return _listeQuestionFavoris[_numeroQuestion].cheminImageExplicationD;
-  }
-
-  int getNumeroImageExplicationQuestionD() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
-
-    return _listeQuestionFavoris[_numeroQuestion].numeroImageExplicationD;
-  }
-
-  String getCheminImageExplicationQuestionE() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
-
-    return _listeQuestionFavoris[_numeroQuestion].cheminImageExplicationE;
-  }
-
-  int getNumeroImageExplicationQuestionE() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
-
-    return _listeQuestionFavoris[_numeroQuestion].numeroImageExplicationE;
-  }
 
   /////////////////////////////////////////////////////////////////////
   ///// ---------------   LISTE DES FONCTIONS POUR LES OPTION -------------- /////////
@@ -345,23 +331,23 @@ else {
 
   void ajoutOptionFavoris(  String idChoix ,  String reponseA , String reponseB ,  String reponseC ){
 
-    if (_listeDeChoixFavoris.length == 0 ) {
-      Option tampon = new Option( idChoix , reponseA , reponseB , reponseC ) ;
-      _listeDeChoixFavoris.add(tampon) ;
-      SpUtil.putObjectList(_cleListeOptionSauvegarder, _listeDeChoixFavoris);
+  if (_listeDeChoixFavoris.length == 0 ) {
+  Option tampon = new Option( idChoix , reponseA , reponseB , reponseC ) ;
+  _listeDeChoixFavoris.add(tampon) ;
+  SpUtil.putObjectList(_cleListeOptionSauvegarder, _listeDeChoixFavoris);
 
-    }
-    else {
-      _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
+  }
+  else {
+  _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
 
-      Option tampon = new Option( idChoix , reponseA , reponseB , reponseC ) ;
-      _listeDeChoixFavoris.add(tampon) ;
-      SpUtil.putObjectList(_cleListeOptionSauvegarder, _listeDeChoixFavoris);
+  Option tampon = new Option( idChoix , reponseA , reponseB , reponseC ) ;
+  _listeDeChoixFavoris.add(tampon) ;
+  SpUtil.putObjectList(_cleListeOptionSauvegarder, _listeDeChoixFavoris);
 
 
-    }
+  }
 
-    notifyListeners() ;
+  notifyListeners() ;
 
   }
 
@@ -370,92 +356,96 @@ else {
 
   int retourneIndiceOption(String value)
   {
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
+  _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
 
-    var  indice =  _listeDeChoixFavoris.indexWhere((innerElement) => innerElement.id == value);
-    return indice ;
+  var  indice =  _listeDeChoixFavoris.indexWhere((innerElement) => innerElement.id == value);
+  return indice ;
   }
 
   void SuprimerOptionFavoris( int IdAsuprimer) {
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
+  _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
 
 
-    _listeDeChoixFavoris.removeAt(IdAsuprimer);
+  _listeDeChoixFavoris.removeAt(IdAsuprimer);
 
-    SpUtil.putObjectList(_cleListeOptionSauvegarder , _listeDeChoixFavoris);
+  SpUtil.putObjectList(_cleListeOptionSauvegarder , _listeDeChoixFavoris);
 
   }
 
 
   List<Option>  get  getListeDeChoixFavoris {
 
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
+  _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
 
-   return _listeDeChoixFavoris;
-   }
+  return _listeDeChoixFavoris;
+  }
 
 
   void setListeOptionFavoris(List<Option> listeDeChoixFavoris) {
 
 
-    _listeDeChoixFavoris = listeDeChoixFavoris;
+  _listeDeChoixFavoris = listeDeChoixFavoris;
 
 
   }
   int getTailleOption() {
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
+  _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
 
-    return _listeQuestionFavoris.length;
+  return _listeQuestionFavoris.length;
   }
 
   String getIdOption() {
-    _listeQuestionFavoris = SpUtil.getObjList(_cleListeQuestionSauvegarder, (v) => Question.fromJson(v as Map<String, dynamic>));
+  _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
 
-    return _listeDeChoixFavoris[_numeroChoix].id;
+  return _listeDeChoixFavoris[_numeroChoix].id;
   }
 
   String getOptionA() {
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
+  _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
 
-    return _listeDeChoixFavoris[_numeroChoix].optionA;
+  return _listeDeChoixFavoris[_numeroChoix].optionA;
   }
 
   String getOptionB() {
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
+  _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
 
-    return _listeDeChoixFavoris[_numeroChoix].optionB;
+  return _listeDeChoixFavoris[_numeroChoix].optionB;
   }
 
   String getOptionC() {
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
+  _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
 
-    return _listeDeChoixFavoris[_numeroChoix].optionC;
+  return _listeDeChoixFavoris[_numeroChoix].optionC;
   }
 
 
   List listeOptionFavoris() {
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
+  _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
 
-    return _listeDeChoixFavoris;
+  return _listeDeChoixFavoris;
   }
 
   void optionSuivante() {
-    _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
+  _listeDeChoixFavoris = SpUtil.getObjList(_cleListeOptionSauvegarder, (v) => Option.fromJson(v as Map<String, dynamic>));
 
-    if (_numeroChoix <= _listeDeChoixFavoris.length - 1) {
-      _numeroChoix++;
-    }
+  if (_numeroChoix <= _listeDeChoixFavoris.length - 1) {
+  _numeroChoix++;
+  }
   }
 
   void reset() {
-    _numeroQuestion = 0;
-    _numeroChoix = 0;
+  _numeroQuestion = 0;
+  _numeroChoix = 0;
   }
 
 
-
-
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
 }
+
+
 
 
 

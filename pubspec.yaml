@@ -35,8 +35,12 @@ dependencies:
   toast: ^0.1.5
   tutorial_coach_mark: ^1.0.0
   fast_immutable_collections: ^4.0.6
-
-
+  expand_widget: ^2.0.0
+  auto_size_text: ^2.1.0
+  screenshot: ^0.2.0
+  share: ^2.0.4
+  flutter_platform_widgets: ^1.9.0
+  ionicons: ^0.1.2
 
 
 
@@ -61,16 +65,28 @@ flutter:
   uses-material-design: true
   assets:
    - assets/iconTheme/
+   - assets/icons/
    - assets/imageDefinition/
-   - assets/imageDefinition/explication1/
-   - assets/imageDefinition/explication2/
-   - assets/imageDefinition/explication3/
+   - assets/imageDefinition/animation/
+   - assets/imageDefinition/source/
    - assets/profil/
-   - assets/imageConducteurPassager/
-   - assets/imageConducteurPassager/explication1/
+   - assets/imageConducteurPassager/source/
+   - assets/imageConducteurPassager/source/
+   - assets/imageConducteurPassager/animation/
    - assets/emoji/
    - assets/ImageInjonction/
    - assets/ImageSignaux/
+   - assets/iconCours/
+   - assets/imageJeuxPanneaux/
+   - assets/imageJeuxPanneaux/imageA/
+   - assets/imageJeuxPanneaux/imageB/
+   - assets/imageJeuxPanneaux/imageC/
+   - assets/imageJeuxPanneaux/imageD/
+   - assets/imageJeuxPanneaux/imageE/
+   - assets/imageJeuxPanneaux/imageF/
+   - assets/imageJeuxPanneaux/imageG/
+   - assets/imageJeuxPanneaux/imageH/
+   - assets/imageJeuxPanneaux/imageI/
 
   fonts:
     - family: reglages
@@ -88,4 +104,5 @@ flutter:
     - family: jeux
       fonts:
         - asset: assets/fonts/jeux.ttf
+
 

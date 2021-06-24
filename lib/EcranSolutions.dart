@@ -7,12 +7,13 @@ import 'package:provider/provider.dart';
 import 'Dessiner.dart';
 import 'EcranQuestions.dart';
 import 'EcranResultats.dart';
+import 'TrasitionPages.dart';
 
 
 class EcranSolutions extends StatefulWidget {
-  final String TitreTheme;
+    String TitreTheme;
 
-  const EcranSolutions({Key key, this.TitreTheme}) : super(key: key);
+    EcranSolutions({Key key, this.TitreTheme}) : super(key: key);
 
 
   @override
@@ -20,10 +21,6 @@ class EcranSolutions extends StatefulWidget {
 
 }
 
-/*
-Color(0xfff44336) rouge
-Color(0xff4caf50)  vert
-*/
 
 class EcranSolutionsState extends State<EcranSolutions> {
 
@@ -31,16 +28,67 @@ List tampon ;
 String nom ;
 int total ;
 int indice ;
+int numeroEcran ;
 
   get _aChoisi => null;
+
+
+  void chargerEcran() {
+    setState(() {
+    if (widget.TitreTheme == 'DEFINITION')  {
+
+
+        numeroEcran = 1 ;
+
+
+    }
+
+    else if (widget.TitreTheme == 'CONDUCTEUR')  {
+
+
+        numeroEcran = 1 ;
+
+
+    }
+
+    else if (widget.TitreTheme == 'FAVORIS')  {
+
+      numeroEcran = 1 ;
+    }
+
+    else if (widget.TitreTheme == 'FAVORIS')  {
+
+      numeroEcran = 1 ;
+
+
+    }
+
+
+
+    else if (widget.TitreTheme == 'Jeux_Panneaux')  {
+
+      numeroEcran = 3 ;
+
+    }
+
+    else if (widget.TitreTheme == 'Question_Examen')  {
+
+
+        numeroEcran = 2 ;
+
+
+    }
+
+    });
+
+  }
 
   @override
   void initState() {
     super.initState();
-
+    chargerEcran() ;
     tampon =  Provider.of<Resultats>(context , listen: false).listeCouleur();
 
-     super.initState() ;
 
 
   }
@@ -63,12 +111,13 @@ void _likeThis() {
 
 
 void BoutonSuivant() {
-
+print('-------------------numeroEcran ------------') ;
+print(numeroEcran);
   Provider.of<Resultats>(context , listen: false).reset();
 
-  Navigator.of(context, rootNavigator: true ).push(MaterialPageRoute(
-      builder: (BuildContext context  ) =>
-          Accueil(  )));
+  Navigator.of(context, rootNavigator: true ).push(TransitionBas(
+
+      page :   Accueil(numeroEcran )));
 
 
 }
@@ -79,7 +128,10 @@ void BoutonSuivant() {
 
     final Size size = MediaQuery.of(context).size;
 
+    chargerEcran() ;
 
+    print('-------------------numeroEcran ------------') ;
+    print(numeroEcran);
     return Scaffold(
       extendBody: true,
 
@@ -129,10 +181,9 @@ void BoutonSuivant() {
 
                             onTap: ()  {
 
-                              print( 'index $index') ;
-                              Navigator.of(context, rootNavigator: true ).push(MaterialPageRoute(
+                               Navigator.of(context, rootNavigator: true ).push(MaterialPageRoute(
                                   builder: (BuildContext context  ) =>
-                                      EcranResultat(indexCourant: index )));
+                                      EcranResultat(indexCourant: index ,  Titre : widget.TitreTheme )));
 
 
                             },
@@ -146,7 +197,7 @@ void BoutonSuivant() {
                                 //semanticContainer: false,
                                 // color : Colors.black ,
 
-                                color: item,
+                                color: item   ,
                                 elevation: 5.0,
                                 shadowColor : Colors.black26 ,
                                 margin: EdgeInsets.symmetric(vertical : 8 ,horizontal: 8),
@@ -168,7 +219,7 @@ void BoutonSuivant() {
                                       Expanded(
                                         child: Center(
                                           child: Text(
-                                            '${index}',
+                                            '${index + 1}',
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold,
@@ -194,7 +245,6 @@ void BoutonSuivant() {
               ),
             ),
 
-
             Container(
               child: Positioned(
 
@@ -217,9 +267,9 @@ void BoutonSuivant() {
                           backgroundColor: Colors.orange,
                           child: Icon(Icons.close),
                           elevation: 0.1,
-                          onPressed: () {_likeThis();
-
-                          Provider.of<Resultats>(context , listen: false).SuprimerLesResultat();
+                          onPressed: () {
+                            BoutonSuivant();
+                           Provider.of<Resultats>(context , listen: false).SuprimerLesResultat();
 
                           }),
                     ),
@@ -228,9 +278,7 @@ void BoutonSuivant() {
                       height: 80,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-
-
+                        children:<Widget> [
                           Container(
                             width: size.width * 0.20,
                           ),
@@ -254,21 +302,6 @@ void BoutonSuivant() {
 
 
       backgroundColor: null,
-/*
-      floatingActionButton: SizedBox(
-        width: 80,
-        height: 80 ,
-        child: FloatingActionButton(
-          onPressed: _likeThis,
-          backgroundColor: Colors.red,
-          child: _coeur,
-          elevation: 5,
-
-
-        ),
-      ),*/
-
-
 
       floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
 
