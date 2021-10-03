@@ -4,7 +4,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
-import 'QuestionPanneaux.dart';
+import '../QuestionPanneaux.dart';
 
 class QuestionPanneauSignalisation  with  ChangeNotifier , DiagnosticableTreeMixin {
 

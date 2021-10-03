@@ -1,316 +1,460 @@
-import 'dart:async';
-import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart' show kIsWeb;
-
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
   @override
-  _MyAppState createState() => _MyAppState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'TutorialCoachMark Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
+    );
+  }
 }
 
-enum TtsState { playing, stopped, paused, continued }
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
 
-class _MyAppState extends State<MyApp> {
-  late FlutterTts flutterTts;
-  dynamic languages;
-  String? language;
-  double volume = 0.5;
-  double pitch = 1.0;
-  double rate = 0.5;
-  bool isCurrentLanguageInstalled = false;
-  int end = 0;
+class _MyHomePageState extends State<MyHomePage> {
+  TutorialCoachMark tutorialCoachMark;
+  List<TargetFocus> targets = List();
 
-  String? _newVoiceText;
+  GlobalKey keyButton = GlobalKey();
+  GlobalKey keyButton1 = GlobalKey();
+  GlobalKey keyButton2 = GlobalKey();
+  GlobalKey keyButton3 = GlobalKey();
+  GlobalKey keyButton4 = GlobalKey();
+  GlobalKey keyButton5 = GlobalKey();
 
-  TtsState ttsState = TtsState.stopped;
-
-  get isPlaying => ttsState == TtsState.playing;
-  get isStopped => ttsState == TtsState.stopped;
-  get isPaused => ttsState == TtsState.paused;
-  get isContinued => ttsState == TtsState.continued;
-
-  bool get isIOS => !kIsWeb && Platform.isIOS;
-  bool get isAndroid => !kIsWeb && Platform.isAndroid;
-  bool get isWeb => kIsWeb;
+  String tmp = "null" ;
+  String text5 = " ";
+  int tailleList = 0 ;
+  bool  viskey3 = true ;
 
   @override
-  initState() {
+  void initState() {
+
+    initTargets();
+
+    showTutorial();
+
     super.initState();
-    initTts();
-  }
-
-  initTts() {
-    flutterTts = FlutterTts();
-
-    _getLanguages();
-
-    if (isAndroid) {
-      _getEngines();
-    }
-
-    flutterTts.setStartHandler(() {
-      setState(() {
-        print("Playing");
-        ttsState = TtsState.playing;
-      });
-    });
-
-    flutterTts.setCompletionHandler(() {
-      setState(() {
-        print("Complete");
-        ttsState = TtsState.stopped;
-      });
-    });
-
-    flutterTts.setCancelHandler(() {
-      setState(() {
-        print("Cancel");
-        ttsState = TtsState.stopped;
-      });
-    });
-
-    if (isWeb || isIOS) {
-      flutterTts.setPauseHandler(() {
-        setState(() {
-          print("Paused");
-          ttsState = TtsState.paused;
-        });
-      });
-
-      flutterTts.setContinueHandler(() {
-        setState(() {
-          print("Continued");
-          ttsState = TtsState.continued;
-        });
-      });
-    }
-
-    flutterTts.setErrorHandler((msg) {
-      setState(() {
-        print("error: $msg");
-        ttsState = TtsState.stopped;
-      });
-    });
-
-    flutterTts.setProgressHandler(
-            (String text, int startOffset, int endOffset, String word) {
-          setState(() {
-            end = endOffset;
-          });
-        });
-  }
-
-  Future _getLanguages() async {
-    languages = await flutterTts.getLanguages;
-    if (languages != null) setState(() => languages);
-  }
-
-  Future _getEngines() async {
-    var engines = await flutterTts.getEngines;
-    if (engines != null) {
-      for (dynamic engine in engines) {
-        print(engine);
-      }
-    }
-  }
-
-  Future _speak() async {
-    await flutterTts.setVolume(volume);
-    await flutterTts.setSpeechRate(rate);
-    await flutterTts.setPitch(pitch);
-
-    if (_newVoiceText != null) {
-      await flutterTts.awaitSpeakCompletion(true);
-      await flutterTts.speak(_newVoiceText!);
-    }
-  }
-
-  Future _stop() async {
-    var result = await flutterTts.stop();
-    if (result == 1) setState(() => ttsState = TtsState.stopped);
-  }
-
-  Future _pause() async {
-    var result = await flutterTts.pause();
-    if (result == 1) setState(() => ttsState = TtsState.paused);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    flutterTts.stop();
-  }
-
-  List<DropdownMenuItem<String>> getLanguageDropDownMenuItems() {
-    var items = <DropdownMenuItem<String>>[];
-    for (dynamic type in languages) {
-      items.add(DropdownMenuItem(value: type as String, child: Text(type)));
-    }
-    return items;
-  }
-
-  void changedLanguageDropDownItem(String? selectedType) {
-    setState(() {
-      language = selectedType;
-      flutterTts.setLanguage(language!);
-      if (isAndroid) {
-        flutterTts
-            .isLanguageInstalled(language!)
-            .then((value) => isCurrentLanguageInstalled = (value as bool));
-      }
-    });
-  }
-
-  void _onChange(String text) {
-    setState(() {
-      _newVoiceText = text;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-            appBar: AppBar(
-              title: Text('Flutter TTS'),
-            ),
-            body: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(children: [
-                  _inputSection(),
-                  ttsState == TtsState.playing ? _progressBar(end) : Text(""),
-                  _btnSection(),
-                  languages != null ? _languageDropDownSection() : Text(""),
-                  _buildSliders()
-                ]))));
-  }
 
-  Widget _inputSection() => Container(
-      alignment: Alignment.topCenter,
-      padding: EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
-      child: TextField(
-        onChanged: (String value) {
-          _onChange(value);
-        },
-      ));
-
-  Widget _progressBar(int end) => Container(
-      alignment: Alignment.topCenter,
-      padding: EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
-      child: LinearProgressIndicator(
-        backgroundColor: Colors.red,
-        valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-        value: end / _newVoiceText!.length,
-      ));
-
-  Widget _btnSection() {
-    if (isAndroid) {
-      return Container(
-          padding: EdgeInsets.only(top: 50.0),
-          child:
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            _buildButtonColumn(Colors.green, Colors.greenAccent,
-                Icons.play_arrow, 'PLAY', _speak),
-            _buildButtonColumn(
-                Colors.red, Colors.redAccent, Icons.stop, 'STOP', _stop),
-          ]));
-    } else {
-      return Container(
-          padding: EdgeInsets.only(top: 50.0),
-          child:
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            _buildButtonColumn(Colors.green, Colors.greenAccent,
-                Icons.play_arrow, 'PLAY', _speak),
-            _buildButtonColumn(
-                Colors.red, Colors.redAccent, Icons.stop, 'STOP', _stop),
-            _buildButtonColumn(
-                Colors.blue, Colors.blueAccent, Icons.pause, 'PAUSE', _pause),
-          ]));
-    }
-  }
-
-  Widget _languageDropDownSection() => Container(
-      padding: EdgeInsets.only(top: 50.0),
-      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        DropdownButton(
-          value: language,
-          items: getLanguageDropDownMenuItems(),
-          onChanged: changedLanguageDropDownItem,
-        ),
-        Visibility(
-          visible: isAndroid,
-          child: Text("Is installed: $isCurrentLanguageInstalled"),
-        ),
-      ]));
-
-  Column _buildButtonColumn(Color color, Color splashColor, IconData icon,
-      String label, Function func) {
-    return Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+    return Scaffold(
+      appBar: AppBar(
+        actions: <Widget>[
           IconButton(
-              icon: Icon(icon),
-              color: color,
-              splashColor: splashColor,
-              onPressed: () => func()),
-          Container(
-              margin: const EdgeInsets.only(top: 8.0),
-              child: Text(label,
-                  style: TextStyle(
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.w400,
-                      color: color)))
-        ]);
-  }
+            icon: Icon(Icons.add),
+            onPressed: () {},
+          ),
+          PopupMenuButton(
+            key: keyButton1,
+            icon: Icon(Icons.view_list, color: Colors.white),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: Text("Is this"),
+              ),
+              PopupMenuItem(
+                child: Text("What"),
+              ),
+              PopupMenuItem(
+                child: Text("You Want?"),
+              ),
+            ],
+          )
+        ],
+      ),
+      body: Container(
+        color: Colors.white,
+        child: Stack(
+          children: <Widget>[
+            Visibility(
 
-  Widget _buildSliders() {
-    return Column(
-      children: [_volume(), _pitch(), _rate()],
+              child: Padding(
+                padding: const EdgeInsets.only(top: 100.0),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    key: keyButton,
+                    color: Colors.blue,
+                    height: 100,
+                    width: MediaQuery.of(context).size.width - 20,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: RaisedButton(
+                        color: Colors.blueAccent,
+                        child: Icon(Icons.remove_red_eye),
+                        onPressed: () {
+
+                          showTutorial();
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+
+            Visibility(
+              child: Positioned(
+                left : 50 ,
+                top : 50 ,
+                right : 20 ,
+                // bottom: 5,
+                child: Padding(
+                  padding: const EdgeInsets.all(40.0),
+                  child: SizedBox(
+                    width: 100,
+                    height: 50,
+                    child: RaisedButton(
+                      key: keyButton3,
+                      onPressed: () {},
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Visibility(
+              visible: true,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(50.0),
+                  child: SizedBox(
+                    width: 150,
+                    height: 100,
+                    child: RaisedButton(
+                      key: keyButton4,
+                      onPressed: () {
+
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Visibility(
+              visible: true,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(50.0),
+                  child: SizedBox(
+                    width: 80,
+                    height: 80,
+                    child: RaisedButton(
+                      key: keyButton5,
+                      onPressed: () {},
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 
-  Widget _volume() {
-    return Slider(
-        value: volume,
-        onChanged: (newVolume) {
-          setState(() => volume = newVolume);
-        },
-        min: 0.0,
-        max: 1.0,
-        divisions: 10,
-        label: "Volume: $volume");
+  void initTargets() {
+    targets.add(
+      TargetFocus(
+        enableOverlayTab : true ,
+
+        identify: "Target 0",
+        keyTarget: keyButton1,
+        contents: [
+          TargetContent(
+              align: ContentAlign.bottom,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "kkkkkkk",
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30.0),
+                      child: Text(
+                        "dddd.",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+              ))
+        ],
+      ),
+    );
+    targets.add(TargetFocus(
+      enableOverlayTab : true ,
+
+      identify: "4",
+      keyTarget: keyButton3,
+      contents: [
+        TargetContent(
+            align: ContentAlign.top,
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  InkWell(
+                    onTap: () {
+
+
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Image.network(
+                        "https://juststickers.in/wp-content/uploads/2019/01/flutter.png",
+                        height: 200,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20.0),
+                    child: Text(
+                      "Image Load network",
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
+                    ),
+                  ),
+                  Text(
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+            ))
+      ],
+      shape: ShapeLightFocus.Circle,
+    ));
+
+    targets.add(
+      TargetFocus(
+        enableOverlayTab : true ,
+
+        identify: "1",
+        keyTarget: keyButton,
+        color: Colors.purple,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            child: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "martial",
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20.0),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      "Noel.",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+        shape: ShapeLightFocus.RRect,
+        radius: 25,
+      ),
+    );
+    targets.add(
+        TargetFocus(
+          enableOverlayTab : true ,
+
+          identify: "2",
+          keyTarget: keyButton4,
+          contents: [
+            TargetContent(
+                align: ContentAlign.left,
+                child: Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "$text5",
+                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20.0),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Text(
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
+                    ],
+                  ),
+                )),
+            TargetContent(
+                align: ContentAlign.top,
+                child: Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Multiples content",
+                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20.0),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Text(
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
+                    ],
+                  ),
+                ))
+          ],
+          shape: ShapeLightFocus.Circle,
+        ));
+    targets.add(TargetFocus(
+      enableOverlayTab : true ,
+
+      identify: "3",
+      keyTarget: keyButton5,
+      contents: [
+        TargetContent(
+            align: ContentAlign.right,
+            child: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "$text5",
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20.0),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
+            ))
+      ],
+
+      shape: ShapeLightFocus.RRect,
+      radius: 25,
+      paddingFocus : 70 ,
+    ));
+    targets.add(
+        TargetFocus(
+          enableOverlayTab : true ,
+          identify: "5",
+          keyTarget: keyButton2,
+          contents: [
+            TargetContent(
+                align: ContentAlign.top,
+                child: Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20.0),
+                        child: Text(
+                          "Martial ",
+                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
+                        ),
+                      ),
+
+                    ],
+                  ),
+                )),
+            TargetContent(
+                align: ContentAlign.bottom,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20.0),
+                      child: Text(
+                        "salut",
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
+                      ),
+                    ),
+
+                  ],
+                ))
+          ],
+          shape: ShapeLightFocus.Circle,
+        ));
   }
 
-  Widget _pitch() {
-    return Slider(
-      value: pitch,
-      onChanged: (newPitch) {
-        setState(() => pitch = newPitch);
+  void showTutorial() {
+    tutorialCoachMark = TutorialCoachMark(
+      context,
+      targets: targets,
+      // colorShadow: Color(0xff343A40),
+      textSkip: "SKIP",
+      paddingFocus: 10,
+      opacityShadow: 0.5,
+      onFinish: () {
+        print("finish");
+        setState(() {
+          tailleList = 0 ;
+        });
       },
-      min: 0.5,
-      max: 2.0,
-      divisions: 15,
-      label: "Pitch: $pitch",
-      activeColor: Colors.red,
-    );
-  }
-
-  Widget _rate() {
-    return Slider(
-      value: rate,
-      onChanged: (newRate) {
-        setState(() => rate = newRate);
+      onClickTarget: (target) {
+        print('onClickTarget: $target');
       },
-      min: 0.0,
-      max: 1.0,
-      divisions: 10,
-      label: "Rate: $rate",
-      activeColor: Colors.green,
-    );
+      onSkip: () {
+        setState(() {
+          tailleList = 0 ;
+        });
+      },
+      onClickOverlay: (target) {
+
+
+
+
+        if (  (targets[tailleList].identify) == "2") {
+
+          print('taille de deux ');
+          setState(() {
+            text5 = "peut mieux faire" ;
+          });
+
+
+        }
+        else {
+
+          tailleList++ ;
+
+        }
+
+
+
+        /* keyButton5 == null ;
+        print( ' keyButton4') ;
+        print(  GlobalKey);*/
+      },
+    )..show();
   }
 }
+
+

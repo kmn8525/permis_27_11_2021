@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:permis/resultat/resultatDefinition.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sp_util/sp_util.dart';
@@ -16,7 +17,7 @@ import 'Question.dart';
 import 'TrasitionPages.dart';
 import 'Utility.dart';
 
-var tampon = null ;
+var tampon  ;
 String CleTheme ;
 
 class VerticalItem extends StatelessWidget {
@@ -72,12 +73,15 @@ class HorizontalItemQuestionState extends State<HorizontalItemQuestion> {
 
   int i = 0 ;
   int IdQuestion ;
-bool verifExisteQuestion ;
+  int   tailleListeSauver  ;
+
+  bool verifExisteQuestion ;
 
   Future<void> recupereDonneSauvegarde() async {
     Utility.instance.getIntegerValue(RecuperCleQDefinion)
         .then((value) => setState(() {
        numQ_Definition = value ;
+
 
     }));
 
@@ -165,10 +169,12 @@ super.initState();
 
             if  (widget.nomTheme == "DEFINITION" )
 
-              {
 
+            {
+              tampon =  ResultatDefinition()  ;
+              tailleListeSauver =   tampon.RestitutionDesValeurSauvegarder();
 
-                if ( numQ_Definition > 0) {
+                if ( numQ_Definition >  0) {
                 var alertStyle = AlertStyle(
                   animationType: AnimationType.fromTop,
                   isCloseButton: false,
@@ -217,9 +223,8 @@ super.initState();
                       onPressed:  () {
 
 
-
                         Navigator.of(context, rootNavigator: true ).push(TransitionDroit(
-                            page :  EcranQuestions(titrePage: '${ widget.nomTheme}' , NumImage: numQ_Definition)));
+                            page :  EcranQuestions(titrePage: '${ widget.nomTheme}' , NumImage: numQ_Definition + 1)));
 
                       },
 
@@ -239,9 +244,12 @@ super.initState();
 
                       onPressed:  () {
 
+                        tampon.SuprimerLesResultat();
+
                         Navigator.of(context, rootNavigator: true ).push(TransitionDroit(
 
                             page :   EcranQuestions(titrePage: '${ widget.nomTheme}' , NumImage: 0)));
+
 
 
 
@@ -262,16 +270,24 @@ super.initState();
 
               }
 
+              // else  if ( tailleListeSauver != 0  ) {
+              //     if (numQ_Definition == (tailleListeSauver - 1)) {
+              //       Navigator.of(context, rootNavigator: true).push(
+              //           TransitionDroit(
+              //
+              //               page: EcranQuestions(
+              //                   titrePage: '${ widget.nomTheme}',
+              //                   NumImage: tailleListeSauver)));
+              //     }
+              //   }
+
+
+
               else {
-
-
 
                   Navigator.of(context, rootNavigator: true ).push(TransitionDroit(
 
                       page :  EcranQuestions(titrePage: '${ widget.nomTheme}' , NumImage: numQ_Definition)));
-
-
-
 
 
                 }
@@ -411,20 +427,20 @@ super.initState();
           child: Card(
 
             color: kCouleurBlancGeneral,
-            elevation: 4.0,
+            elevation: 1.5,
             shadowColor : Colors.black ,
-            margin: EdgeInsets.symmetric(vertical : 8 ,horizontal: 8),
+            margin: EdgeInsets.symmetric(vertical : 5 ,horizontal: 5),
 
 
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
-                  Radius.circular(13),)) ,
+                  Radius.circular(10),)) ,
 
 
             child: Container(
 
               alignment: Alignment.center ,
-              padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+              padding: EdgeInsets.fromLTRB(14, 0, 14, 0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -434,8 +450,8 @@ super.initState();
 
                     child: SvgPicture.asset(
                       'assets/iconTheme/${widget.NomImageSVG}.svg',
-                      height: 43.0,
-                      width: 43.0,
+                      height: 35.0,
+                      width: 35.0,
                       allowDrawingOutsideViewBox: true,
                     ),
                   ),
@@ -608,7 +624,7 @@ class HorizontalItemCourAcceuilState extends State<HorizontalItemCourAcceuil> {
           child: Card(
 
             color: kCouleurBlancGeneral,
-            elevation: 4.0,
+            elevation: 1.5,
             shadowColor : Colors.black ,
             margin: EdgeInsets.symmetric(vertical : 8 ,horizontal: 8),
               clipBehavior: Clip.antiAlias ,
@@ -627,8 +643,8 @@ class HorizontalItemCourAcceuilState extends State<HorizontalItemCourAcceuil> {
 
                               child: SvgPicture.asset(
                               'assets/iconCours/${widget.NomImageSVG}.svg',
-                              height: 80.0,
-                              width: 80.0,
+                              height: 70.0,
+                              width: 70.0,
                                color: Colors.white,
 
                               allowDrawingOutsideViewBox: true,
@@ -654,7 +670,7 @@ textAlign: TextAlign.center ,
                          style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontSize: 15 ,
+                            fontSize: 12 ,
                              height : 2 ,
                          ),
                        ),
@@ -713,7 +729,7 @@ class VerticalItemRouteState extends State<VerticalItemRoute> {
 
       child: Card(
         color: kCouleurBlancGeneral,
-        elevation: 2.0,
+        elevation: 1.0,
         shadowColor : Colors.black ,
         margin: EdgeInsets.symmetric(vertical : 2 ,horizontal: 2),
         clipBehavior: Clip.antiAlias ,
@@ -802,7 +818,7 @@ class HorizontalItemExamen extends StatelessWidget {
           //semanticContainer: false,
 
           color: kCouleurBlancGeneral,
-          elevation: 6.0,
+          elevation: 1.5,
           shadowColor : Colors.black38 ,
           margin: EdgeInsets.symmetric(vertical : 8 ,horizontal: 8),
 

@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:permis/Constantes.dart';
+import 'package:permis/resultat/resultatDefinition.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share/share.dart';
@@ -15,7 +16,7 @@ import 'package:share/share.dart';
 import 'Dessiner.dart';
 import 'EcranQuestions.dart';
 import 'EcranSolutions.dart';
-import 'ListeResultats.dart';
+import 'QuestionSauvegarder.dart';
 
 final  cleEcranResultat = new GlobalKey<EcranResultatState>();
 
@@ -25,17 +26,16 @@ var listRep = [] ;
 
 
 
-var tampon  ;
-String chemin = 'imageDefinition' ;
+ String chemin = 'imageDefinition' ;
 int MoyennePoint = 0 ;
 
 
 class EcranResultat extends StatefulWidget {
 
   final int indexCourant;
-  final String Titre;
+  final String TitreTheme;
 
-  const EcranResultat({Key key, this.indexCourant, this.Titre}) : super(key: key);
+  const EcranResultat({Key key, this.indexCourant, this.TitreTheme}) : super(key: key);
 
 
   @override
@@ -48,33 +48,35 @@ enum TtsState { playing, stopped, paused, continued }
 class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
 
 
+
   final  _screenshotController = ScreenshotController();
 
-  List listeQuestionResultat ;
-  List listeChoixResultat ;
-  List verification ;
-
-  String questionTexte ;
- String option_A;
- String option_B;
- String  option_C;
- String liensImage ;
 
 
-  Color couleurBouton_A  = Colors.white ;
-  Color couleurBouton_B  = Colors.white ;
-  Color couleurBouton_C  = Colors.white;
+  var tampon ;
 
-  Color couleurSelection_A  ;
-  Color couleurSelection_B  ;
-  Color couleurSelection_C  ;
+
+  String  questionTexte ;
+  String  option_A;
+  String  option_B;
+  String  option_C;
+  String  liensImage ;
+
+
+  Color couleurBoutonOption_A  = Colors.white ;
+  Color couleurBoutonOption_B  = Colors.white ;
+  Color couleurBoutonOption_C  = Colors.white;
+
+  Color couleurSelectionLettre_A  ;
+  Color couleurSelectionLettre_B  ;
+  Color couleurSelectionLettre_C  ;
 
 
 
   bool clic_bouton_A = true;
   bool clic_bouton_B = true;
   bool clic_bouton_C = true;
-
+  bool fauteGrave;
   bool visibilite_bouton_Suivant = true;
 
   bool visibilite_bouton_C = false;
@@ -92,22 +94,16 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
   // SAUVEGARDER LES QUESTION ET OPTION-------------- /////////
   /////////////////////////////////////////////////////////////////////
 
-  String idQuestion ;
-  String idOption;
-  String q;
-  bool g;
-  String e;
-  bool repA;
-  bool repB;
-  bool repC;
+  int idQuestion ;
+  String question;
+  bool fautegrave;
+  String explication;
   String  cheminImageSource;
-  int numImagesource;
+  int numeroImagesource;
   String  cheminQuestionExplication;
-  int numeroQuestionExplication;
+  int numeroQuestionAnimationExplication;
 
-  String optionA;
-  String optionB;
-  String optionC;
+
 
   FlutterTts flutterTts;
   dynamic languages;
@@ -117,7 +113,7 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
   double rate = 1.0;
   String text_parler ;
   String  id = "";
-  String RecuperCleListeFavoris=" " ;
+  String RecuperCleListeFavoris = " " ;
 
 
   TtsState ttsState = TtsState.stopped;
@@ -247,7 +243,7 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
 
     setState(() {
 
-      if ( option_C  == 'null' ) {
+      if ( option_C  == "null" ) {
         visibilite_bouton_C = false ;
 
 
@@ -266,31 +262,87 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
 
   }
 
+  Object chargementDonnerQuestion() {
+    setState(() {
+      if (widget.TitreTheme == 'DEFINITION')  {
 
+
+        tampon =  ResultatDefinition()  ;
+        tampon.RestitutionDesValeurSauvegarder();
+
+
+
+
+      }
+
+      else if (widget.TitreTheme == 'CONDUCTEUR')  {
+
+
+
+
+      }
+
+      else if (widget.TitreTheme == 'FAVORIS')  {
+
+       }
+
+      else if (widget.TitreTheme == 'FAVORIS')  {
+
+
+
+      }
+
+
+
+      else if (widget.TitreTheme == 'Jeux_Panneaux')  {
+
+
+      }
+
+      else if (widget.TitreTheme == 'Question_Examen')  {
+
+
+
+
+      }
+
+    });
+
+    return tampon ;
+  }
+
+
+
+  void ActualisationDesvaleurAsauvegarder()
+  {
+
+    idQuestion = tampon.getIdQuestion(widget.indexCourant ) ;
+    questionTexte = tampon.getQuestionText(widget.indexCourant ) ;
+    fauteGrave = tampon.getFauteGrave(widget.indexCourant ) ;
+    explication = tampon.getExplication(widget.indexCourant ) ;
+    cheminImageSource = tampon.getCheminImageSourceQuestion(widget.indexCourant ) ;
+    numeroImagesource = tampon.getNumeroImageSourceQuestion(widget.indexCourant ) ;
+    option_A = tampon.getOptionA(widget.indexCourant ) ;
+    option_B = tampon.getOptionB(widget.indexCourant ) ;
+    option_C = tampon.getOptionC(widget.indexCourant ) ;
+
+    couleurBoutonOption_A =  tampon.getColoueurBoutonOptionA(widget.indexCourant ) ;
+    couleurBoutonOption_B = tampon.getColoueurBoutonOptionB(widget.indexCourant ) ;
+    couleurBoutonOption_C = tampon.getColoueurBoutonOptionC(widget.indexCourant ) ;
+    couleurSelectionLettre_A  = tampon.getColoueurBoutonLettreOptionA(widget.indexCourant ) ;
+    couleurSelectionLettre_B =  tampon.getColoueurBoutonLettreOptionB(widget.indexCourant ) ;
+    couleurSelectionLettre_C =  tampon.getColoueurBoutonLettreOptionC(widget.indexCourant ) ;
+
+
+    print("couleurBoutonOption_AcouleurBoutonOption_A");
+    print(couleurBoutonOption_A);
+
+  }
   @override
   void initState() {
     initTts();
-    listeQuestionResultat =  Provider.of<Resultats>(context , listen: false).listeQuestionResultat() ;
-    listeChoixResultat =  Provider.of<Resultats>(context , listen: false).listeOption();
-
-    questionTexte =  Provider.of<Resultats>(context , listen: false).getQuestionText(widget.indexCourant);
-    option_A =  Provider.of<Resultats>(context , listen: false).getOptionA(widget.indexCourant);
-    option_B = Provider.of<Resultats>(context , listen: false).getOptionB(widget.indexCourant);
-    option_C = Provider.of<Resultats>(context , listen: false).getOptionC(widget.indexCourant);
-
-    couleurBouton_A =   Provider.of<Resultats>(context , listen: false).getColoueurBoutonA(widget.indexCourant);
-    couleurBouton_B =   Provider.of<Resultats>(context , listen: false).getColoueurBoutonB(widget.indexCourant);
-    couleurBouton_C =   Provider.of<Resultats>(context , listen: false).getColoueurBoutonC(widget.indexCourant);
-
-    couleurSelection_A  = Provider.of<Resultats>(context , listen: false).getColoueurSelectionA(widget.indexCourant);
-    couleurSelection_B  = Provider.of<Resultats>(context , listen: false).getColoueurSelectionB(widget.indexCourant);
-    couleurSelection_C  = Provider.of<Resultats>(context , listen: false).getColoueurSelectionC(widget.indexCourant);
-
-
-
-    liensImage =  Provider.of<EcranQuestionsState>(context , listen: false).liensImageImageSource();
-    text_parler =  Provider.of<Resultats>(context , listen: false).getExplication(widget.indexCourant);
-
+    chargementDonnerQuestion();
+    ActualisationDesvaleurAsauvegarder();
     masqueBouton( ) ;
 
     _speak() ;
@@ -325,11 +377,11 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
 
   }
 
-  void _captureEcran() async {
+  /*void _captureEcran() async {
     final imageFile = await _screenshotController.capture();
     Share.shareFiles([imageFile.path] , subject :'envoie de la question $idQuestion' , text : 'voici de la question ');
   }
-
+*/
 
 
 
@@ -339,7 +391,7 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
 
     Navigator.of(context, rootNavigator: true ).push(MaterialPageRoute(
         builder: (BuildContext context  ) =>
-            EcranSolutions( TitreTheme: widget.Titre, )));
+            EcranSolutions( TitreTheme: widget.TitreTheme, )));
 
 
   }
@@ -361,7 +413,7 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
 
             Container(
               padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
-              child: Text('${widget.Titre}') ,
+              child: Text('${widget.TitreTheme}') ,
 
 
             ),
@@ -381,7 +433,7 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
                       ),
                     ),
                     onTap: () {
-                      _captureEcran();
+                      //_captureEcran();
                       _arretVolume() ;
 
 
@@ -407,6 +459,8 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
           ),*/
           height: hauteur,
           child: Stack(
+            alignment :  AlignmentDirectional.center,
+
             children: <Widget>[
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -422,8 +476,8 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
                         Expanded(
                           child: Container(
                             child: Image.asset(
-                              'assets/$liensImage/source/${widget.indexCourant + 1}.webp',
-                              height: 223,
+                              'assets/$cheminImageSource/source/$numeroImagesource.webp',
+                              height: 205,
 
                             ),
                           ),
@@ -434,32 +488,10 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
                       ],
                     ),
                   ),
-                  Container(
-                      margin: EdgeInsets.all(1),
-                      child: Column(
-                        children: [
 
-                          /////////////////////////////////////////////////////////////////////
-                          ///// ---------------   ZONE  QUESTION  -------------- /////////
-                          /////////////////////////////////////////////////////////////////////
-
-                          Container(
-                            margin: EdgeInsets.fromLTRB(10, 1, 10, 60),
-
-                            child: Text(
-                              ' $questionTexte' ,
-
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-
-
-                        ],
-                      )),
                   Expanded(
                     child: SingleChildScrollView(
-                      padding: EdgeInsets.fromLTRB( 0, 0, 0, 50),
+                      padding: EdgeInsets.fromLTRB( 0, 20, 0, 150),
 
                       child: Column(
                         children: <Widget>[
@@ -468,48 +500,74 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
                             runSpacing: -70,
                             children: <Widget>[
 
+
+                              /////////////////////////////////////////////////////////////////////
+                              ///// ---------------   ZONE  QUESTION  -------------- /////////
+                              /////////////////////////////////////////////////////////////////////
+
+                              Container(
+                                  margin: EdgeInsets.fromLTRB(10, 1, 10, 60),
+
+                                  child: Column(
+                                    children: [
+                                      Center(
+                                        child: Text(
+                                          '$questionTexte'    ,
+                                          textAlign : TextAlign.center ,
+
+
+                                          style: TextStyle(fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+
+
+                                    ],
+                                  )),
+
                               /////////////////////////////////////////////////////////////////////
                               ///// ---------------   BOUTON  1  -------------- /////////
                               /////////////////////////////////////////////////////////////////////
                               Row(
                                 children: <Widget>[
-                                  Center(
-                                    child: Container(
-                                      margin: EdgeInsets.fromLTRB(20, 40, 30, 50),
-
+                                  Expanded(
+                                    child: Center(
                                       child: Container(
-                                        child: AbsorbPointer(
-                                          absorbing: desactive_boutonA,
-                                          child: RaisedButton(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(8.0),
-                                              // side: BorderSide(color: Colors.red)
-                                            ),
-                                            elevation: 3,
-                                            textColor: Colors.black,
-                                            child: Text(
-                                            '$option_A'      ,
-                                              style: TextStyle(
+                                        margin: EdgeInsets.fromLTRB(10, 40, 0, 50),
 
-                                                color: Colors.black,
-                                                fontSize: 15,
+                                        child: Container(
+                                          child: AbsorbPointer(
+                                            absorbing: desactive_boutonA,
+                                            child: RaisedButton(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(8.0),
+                                                // side: BorderSide(color: Colors.red)
                                               ),
+                                              elevation:  1.5,
+                                              textColor: Colors.black,
+                                              child: Text(
+                                              '$option_A'      ,
+                                                style: TextStyle(
+
+                                                  color: Colors.black,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              onPressed: () {
+
+
+
+                                              },
+                                              color: couleurBoutonOption_A ,
                                             ),
-                                            onPressed: () {
-
-
-
-                                            },
-                                            color: couleurBouton_A ,
                                           ),
+                                          height: 50.0,
+                                          width: 260,
                                         ),
-                                        height: 60.0,
-                                        width: 260,
                                       ),
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                    margin: EdgeInsets.fromLTRB(0, 0, 25, 10),
 
                                     child: Container(
                                       child: AbsorbPointer(
@@ -519,23 +577,25 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
                                             borderRadius: BorderRadius.circular(8.0),
                                             // side: BorderSide(color: Colors.red)
                                           ),
-                                          elevation: 3,
+                                          elevation: 1.5,
                                           textColor: Colors.black,
-                                          child: Text(
-                                            'A',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 15,
+
+                                            child: Text(
+                                              'A',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 15,
+                                              ),
                                             ),
-                                          ),
+
                                           onPressed: () {
 
                                           },
-                                          color: couleurSelection_A ,
+                                          color: couleurSelectionLettre_A ,
                                         ),
                                       ),
-                                      height: 40.0,
-                                      width:  40,
+                                      height: 35.0,
+                                      width:  35.0,
                                     ),
                                   ),
                                 ],
@@ -548,41 +608,43 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Center(
-                                    child: Container(
-                                      //margin: EdgeInsets.all(40),
-                                      //  padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
+                                  Expanded(
+                                    child: Center(
+                                      child: Container(
+                                        //margin: EdgeInsets.all(40),
+                                        //  padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
 
-                                      margin: EdgeInsets.fromLTRB(40, 40, 20, 50),                                    child: AbsorbPointer(
-                                        absorbing: desactive_boutonB,
-                                        child: RaisedButton(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(8.0),
-                                            // side: BorderSide(color: Colors.red)
-                                          ),
-                                          elevation: 3,
-                                          textColor: Colors.black,
-                                          child: Text(
-                                           '$option_B',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 15
+                                        margin: EdgeInsets.fromLTRB(10, 40, 0, 50),                                    child: AbsorbPointer(
+                                          absorbing: desactive_boutonB,
+                                          child: RaisedButton(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(8.0),
+                                              // side: BorderSide(color: Colors.red)
                                             ),
-                                          ),
-                                          onPressed: () {
+                                            elevation: 1.5,
+                                            textColor: Colors.black,
+                                            child: Text(
+                                             '$option_B',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 15
+                                              ),
+                                            ),
+                                            onPressed: () {
 
 
-                                           },
-                                          color: couleurBouton_B ,
+                                             },
+                                            color: couleurBoutonOption_B ,
     ),
+                                        ),
+                                        height: 50.0,
+                                        width: 260,
                                       ),
-                                      height: 60.0,
-                                      width: 260,
                                     ),
                                   ),
                                   Container(
                                     // margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                    padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                    margin: EdgeInsets.fromLTRB(0, 0, 25, 10),
                                     child: Container(
 
                                       child: AbsorbPointer(
@@ -592,7 +654,7 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
                                             borderRadius: BorderRadius.circular(10.0),
                                             // side: BorderSide(color: Colors.red)
                                           ),
-                                          elevation: 3,
+                                          elevation: 1.5,
                                           textColor: Colors.black,
                                           child: Center(
                                             child: Text(
@@ -606,11 +668,11 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
                                           onPressed: () {
 
                                           },
-                                          color: couleurSelection_B ,
+                                          color: couleurSelectionLettre_B ,
     ),
                                       ),
-                                      height: 40.0,
-                                      width:  40.0,
+                                      height: 35.0,
+                                      width:  35.0 ,
                                     ),
                                   ),
                                 ],
@@ -623,37 +685,39 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
 
                               Row(
                                 children: <Widget>[
-                                  Center(
-                                    child: Container(
-                                      margin: EdgeInsets.fromLTRB(40, 40, 20, 50),
+                                  Expanded(
+                                    child: Center(
+                                      child: Container(
+                                        margin: EdgeInsets.fromLTRB(10, 40, 0, 50),
 
-                                      child: Visibility(
-                                        visible: visibilite_bouton_C,
-                                        child: Container(
-                                          child: AbsorbPointer(
-                                            absorbing: desactive_boutonC,
-                                            child: RaisedButton(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(8.0),
-                                                // side: BorderSide(color: Colors.red)
-                                              ),
-                                              elevation: 3,
-                                              textColor: Colors.black,
-                                              child: Text(
-                                                option_C ,
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 15,
+                                        child: Visibility(
+                                          visible: visibilite_bouton_C,
+                                          child: Container(
+                                            child: AbsorbPointer(
+                                              absorbing: desactive_boutonC,
+                                              child: RaisedButton(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(8.0),
+                                                  // side: BorderSide(color: Colors.red)
                                                 ),
-                                              ),
-                                              onPressed: () {
+                                                elevation: 1.5,
+                                                textColor: Colors.black,
+                                                child: Text(
+                                                  option_C ,
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                                onPressed: () {
 
-                                              },
-                                              color: couleurBouton_C ,
+                                                },
+                                                color: couleurBoutonOption_C ,
+                                              ),
                                             ),
+                                            height: 50,
+                                            width: 260,
                                           ),
-                                          height: 60,
-                                          width: 260,
                                         ),
                                       ),
                                     ),
@@ -662,7 +726,7 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
                                   Visibility(
                                     visible: visibilite_bouton_C,
                                     child: Container(
-                                      padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                      margin: EdgeInsets.fromLTRB(0, 0, 25, 10),
 
                                       child: AbsorbPointer(
                                         absorbing: desactive_boutonC,
@@ -671,7 +735,7 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
                                             borderRadius: BorderRadius.circular(8.0),
                                             // side: BorderSide(color: Colors.red)
                                           ),
-                                          elevation: 3,
+                                          elevation: 1.5,
                                           textColor: Colors.black,
                                           child: Text(
                                             'C',
@@ -683,11 +747,11 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
                                           onPressed: () {
 
                                           },
-                                          color: couleurSelection_C ,
+                                          color: couleurSelectionLettre_C ,
                                         ),
                                       ),
-                                      height: 52.0,
-                                      width:  40,
+                                      height:35.0,
+                                      width: 35.0  ,
                                     ),
                                   ),
                                 ],
@@ -707,7 +771,7 @@ class EcranResultatState extends State<EcranResultat>  with ChangeNotifier{
                                       children: [
                                         Center(
                                           child: Text(
-                                            '$text_parler',
+                                            '$explication',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(fontWeight: FontWeight.bold),
                                           ),

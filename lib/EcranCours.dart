@@ -2,6 +2,7 @@ import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'BouttonTheme.dart';
 import 'Constantes.dart';
@@ -34,10 +35,9 @@ class _EcranCoursState extends State<EcranCours> {
 
 @override
   void initState() {
+  chargerImageDisque() ;
 
   cleNom = Provider.of<EcranProfilState>(context , listen: false).getcleNom();
-  cleImageProfil = Provider.of<EcranProfilState>(context , listen: false).getcleImage();
-
 
   Utility.instance.getStringValue(cleNom)
       .then((value) => setState(() {
@@ -66,6 +66,19 @@ class _EcranCoursState extends State<EcranCours> {
 
   super.initState();
      super.initState();
+  }
+
+
+
+  chargerImageDisque() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final imageKeyValue = prefs.getString(IMAGE_KEY);
+    if (imageKeyValue != null) {
+      final imageString = await Utility.loadImageFromPrefs();
+      setState(() {
+        img = Utility.imageFrom64BaseString(imageString);
+      });
+    }
   }
 
   @override

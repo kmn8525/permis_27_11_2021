@@ -43,6 +43,21 @@ const kCouleurBlancGeneral =  Color(0xffffffff) ;
 const kBoutonDegrade = Color(0x29000000) ;
 const kCouleurScaffold =  Color(0xffffffff) ;
 const kCouleurBody = Color(0xfff3f8ff)  ;
+
+const kcouleurBlanche =  Color(0xffffffff) ;
+const kcouleurOrange  =  Color(0xffFF6733 );
+const kcouleurVerte   =  Color(0xff8BC102 ) ;
+const kcouleurRouge   =  Color(0xffFE1A1A ) ;
+const kcouleurBleu    =  Color(0xff1A5EFE );
+const kcouleurGris    =  Color(0xffD1D1D1 );
+
+
+/*
+couleurStringChoixUtilisateur= couleurChoix.toString();
+couleurSauvegarChoixUtilisateur = couleurStringChoixUtilisateur.split('(0xff')[1].split(')')[0];
+*/
+
+
 ////F5F5F8
 //Color(0xffE5EDF3)  ;
 //f9f7f7

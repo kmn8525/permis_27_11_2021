@@ -19,25 +19,35 @@ class _EcranIntroJeuxState extends State<EcranIntroJeux> {
 
         body: SizedBox.expand(
           child: Container(
+            width: 80.0,
+            height: 80.0,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/profil/jeux.jpg"),
-                fit: BoxFit.scaleDown,
-              ),
+
+                image: AssetImage('assets/icons/logo_intro_jeux.webp'),
+                  fit: BoxFit.cover ,
+               ),
+
+              color:  Color(0xfff3f8ff),
+
+
             ),
             child: Column(
               children:<Widget> [
 
                 Container(
-                  padding: EdgeInsets.fromLTRB( 0, 300, 0, 25),
+                  padding: EdgeInsets.fromLTRB( 0, 450, 0, 10),
 
                   child: ElevatedButton.icon(
                     label: Text('PANNEAUX' ,
                       style: TextStyle(
                           fontWeight: FontWeight.bold ,
-                          fontSize: 50),),
+                          fontSize: 20 ,
+
+                      ),
+                    ),
                     icon: Icon(Icons.accessibility ,
-                        size : 50),
+                        size : 20),
                     onPressed: () {
                       Navigator.of(context, rootNavigator: true ).push(TransitionHaut(
 
@@ -47,16 +57,16 @@ class _EcranIntroJeuxState extends State<EcranIntroJeux> {
                   ),
                 ) ,
                 Container(
-                  padding: EdgeInsets.fromLTRB( 0, 0, 0, 25),
+                  padding: EdgeInsets.fromLTRB( 0, 0, 0, 10),
 
                   child: ElevatedButton.icon(
                     label: Text('A LA SUITE' ,
                       style: TextStyle(
                           fontWeight: FontWeight.bold ,
-                          fontSize: 50),
+                          fontSize: 20),
                     ),
                     icon: Icon(Icons.wysiwyg_rounded ,
-                        size : 50),
+                        size : 20),
                     onPressed: () {
                       Navigator.of(context, rootNavigator: true ).push(TransitionHaut(
 
@@ -67,16 +77,16 @@ class _EcranIntroJeuxState extends State<EcranIntroJeux> {
                 ) ,
 
                 Container(
-                  padding: EdgeInsets.fromLTRB( 0, 0, 0, 25),
+                  padding: EdgeInsets.fromLTRB( 0, 0, 0, 10),
 
                   child: ElevatedButton.icon(
                     label: Text('PRIORITER' ,
                         style: TextStyle(
                             fontWeight: FontWeight.bold ,
-                            fontSize: 50),
+                            fontSize: 20),
                   ),
                     icon: Icon(Icons.paste_outlined ,
-                        size : 50),
+                        size : 20),
                     onPressed: () {
                       Navigator.of(context, rootNavigator: true ).push(TransitionHaut(
 

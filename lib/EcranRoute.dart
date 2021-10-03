@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'BouttonTheme.dart';
 import 'Constantes.dart';
 import 'EcranProfil.dart';
-import 'ListeResultats.dart';
 import 'Utility.dart';
 import 'VerticalItem.dart';
 

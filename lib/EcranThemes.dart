@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permis/BouttonTheme.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'BouttonTheme.dart';
 import 'Constantes.dart';
@@ -44,10 +45,9 @@ class EcranThemeState extends State<EcranTheme>  {
 
   @override
   void initState() {
+    chargerImageDisque();
 
     cleNom = Provider.of<EcranProfilState>(context , listen: false).getcleNom();
-    cleImageProfil = Provider.of<EcranProfilState>(context , listen: false).getcleImage();
-
 
     Utility.instance.getStringValue(cleNom)
         .then((value) => setState(() {
@@ -57,14 +57,7 @@ class EcranThemeState extends State<EcranTheme>  {
     }));
 
 
-    Utility.getImageFromPreferences(cleImageProfil).then((value) {
-      if (null == value) {
-        return;
-      }
-      setState(() {
-        img = Utility.imageFromBase64String(value);
-      });
-    });
+
 
     Future.delayed(Duration(milliseconds: 500) * 5, () {
       if (!mounted) {
@@ -78,6 +71,16 @@ class EcranThemeState extends State<EcranTheme>  {
   }
 
 
+   chargerImageDisque() async {
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+     final imageKeyValue = prefs.getString(IMAGE_KEY);
+     if (imageKeyValue != null) {
+       final imageString = await Utility.loadImageFromPrefs();
+       setState(() {
+         img = Utility.imageFrom64BaseString(imageString);
+       });
+     }
+   }
    @override
    void dispose() {
 
@@ -85,32 +88,33 @@ class EcranThemeState extends State<EcranTheme>  {
    }
 
    List<Theme> _themes = [
-    Theme('informations', 'DEFINITION'),
-    Theme('conducteur', 'CONDUCTEUR'),
-    Theme('policiere', 'INJONCTIONS'),
-    Theme('feuxControl', 'FEUX'),
-     Theme('disk', 'FAVORIS'),
-    Theme('danger', 'SIGNAUX'),
-     Theme('paint', 'MARQUES_ROUTIERES'),
-    Theme('chantier', 'VOIE_PUBLIC'),
-    Theme('priorites', 'PRIORITES'),
-    Theme('pieton', 'USAGERS_FAIBLES'),
-    Theme('train4', 'AUTRES_USAGERS'),
+    Theme('definition', 'DEFINITION'),
+    Theme('homme_au_volant', ' CONDUCTEUR / PASSAGER'),
+    Theme('policiere', 'PERSONNES QUALIFIÉES'),
+    Theme('feuxControl', ' FEUX'),
+    Theme('panneaux_ensemble', 'SIGNAUX'),
+     Theme('paint', 'MARQUES ROUTIERES'),
+   // Theme('chantier', 'VOIE_PUBLIC'),
+    Theme('direction', 'PRIORITES'),
+    Theme('pieton', 'USAGERS FAIBLES'),
+    Theme('tramway', 'TRAIN / TRAM / BUS'),
     Theme('vitesse', 'VITESSE'),
-    Theme('depacement', 'CROISEMENT_DEPACEMENT'),
-    Theme('direction', 'PARTAGER_ROUTE'),
-    Theme('escargot', 'ZONE_LENTE'),
-    Theme('lieu', 'OU_CIRCULER'),
-    Theme('autoroute', 'ROUTES_AUTOROUTES'),
-    Theme('stopss', 'INTERDICTION'),
-    Theme('accident', 'PANNE_ACCIDENT'),
-    Theme('pas_alcool', 'ALCOOL_IMPREGNATION'),
-    Theme('vest', 'EQUIPEMENTS_GENERAL'),
-    Theme('mainvolant', 'TECHNIQUE_CONDUITE'),
-    Theme('battery', 'MECANIQUE_VEHICULE'),
-    Theme('parkingss', 'ARRET_STATIONEMENT'),
-    Theme('ecologie', 'ECOLOGIE'),
-     Theme('ampoule', 'DIVERS'),
+    Theme('depasse', 'CROISEMENT / DEPACEMENT'),
+    Theme('escargot', 'ENDROITS PARTICLIERS'),
+     Theme('lieu', 'OU CIRCULER'),
+     Theme('wiper', 'VISIBILITER REDUITE'),
+     Theme('autoroute', 'ROUTES / AUTOROUTES'),
+     Theme('accident', 'PANNE / ACCIDENT'),
+    Theme('pas_alcool', 'ALCOOL / DROGUES'),
+    Theme('vest', 'EQUIPEMENTS GENERAL'),
+    Theme('main_volant', 'TECHNIQUE DE CONDUITE'),
+    Theme('battery', 'VEHICULE / MECANIQUE  '),
+    Theme('parking_voiture', 'ARRET / STATIONEMENT'),
+     Theme('chantier', 'FAUTES GRAVES'),
+     Theme('ecologie', 'ECOLOGIE'),
+     Theme('disk', 'FAVORIS'),
+
+
 
 
 

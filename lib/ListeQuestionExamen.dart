@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'AnimerQuestion.dart';
 import 'Option.dart';
 import 'Question.dart';
 
@@ -38,33 +39,35 @@ class QuestionExamen    with  ChangeNotifier , DiagnosticableTreeMixin {
   }
 
   void affihe(){
-    print('------  definition ------ ');
 
-    print(_listeQuestionExamen.toString());
-    print(_listeOptionExamen.toString());
 
 
 
 
   }
-  List<Option> _listeOptionExamen = [
 
-    Option('d_o1','La voie publique', ' La chaussée', 'La bande de circulation'),
-    Option('d_o2', 'Oui', ' Non', ' Non c’est une piste cyclable'),
-    Option('d_o5', 'oui', 'non', 'null'),
-    Option('d_o4', 'je passe a droit de l\'ilo', ' je passe a gauche de l\'ilo', ' je tourne avant   l\'ilo'),
-
-    Option('d_o6', 'oui', 'non', 'null'),
-    Option('d_o7', 'oui', 'non', 'null'),
-
-
-  ] ;
 
   List<Question> _listeQuestionExamen = [
 
 
+    Question(1, 'Cette partie est  : ', false, false, true, false,
+      ' partie de la voie publique réservée aux cyclistes et cyclomotoristes classe A . ',
+      1 , 'imageDefinition', 1 ,
+
+      Option( 'Un baccotement en saillie  ', ' Un accotement de plain pied',
+          'Une piste cyclable'),
+
+      AnimerQuestion ("imageDefinition",
+        1 , true , "partie de la voie publique, sur la quelle les bicyclettes et les cyclomoteurs classe A doivent circuler. " , 100 , 10 , 80 , 500 , 70 ,100 ,
+        2 , true , " Une piste cyclable est indiquée par: soit le signal d’obligation D7" ,50 , 140 , 100  , 250 , 50 ,50 ,
+        3 , true , " soit indiquée par le signal d’obligation D9" , 150 , 140 , 60 , 250 , 50  , 50 ,
+        4 , true ,"soit indiquée par le signal d’obligation D10 ", 250 , 140 , 60  ,  250 , 50  , 50  ,
+        0 , false , "null" , 0 , 0 , 0 , 0 , 0  , 0 ,
+      ) ,
+    ),
+
     Question(
-      'd_q1' , 'Cette partie est : ',
+      2 , 'Cette  partie est    : ',
       true,
       false,
       false,
@@ -73,93 +76,177 @@ class QuestionExamen    with  ChangeNotifier , DiagnosticableTreeMixin {
       1 ,
       'imageDefinition' ,
       2 ,
-      'animation',
+
+      Option( 'La voie publique', ' La chaussée', 'La bande de circulation'),
+
+      AnimerQuestion ("imageDefinition",
+        1 , true , "partie de la voie publique, sur la quelle les bicyclettes et les cyclomoteurs classe A doivent circuler. " , 100 , 10 , 80 , 500 , 70 ,100 ,
+        2 , true , " Une piste cyclable est indiquée par: soit le signal d’obligation D7" ,50 , 140 , 100  , 250 , 50 ,50 ,
+        3 , true , " soit indiquée par le signal d’obligation D9" , 150 , 140 , 60 , 250 , 50  , 50 ,
+        4 , true ,"soit indiquée par le signal d’obligation D10 ", 250 , 140 , 60  ,  250 , 50  , 50  ,
+        0 , false , "null" , 0 , 0 , 0 , 0 , 0  , 0 ,
+      ) ,
+
+    ),
+
+    Question(
+      3 , 'Je peut dépasser le cycliste sur ce ralentisseur de trafic',
+      false,
+      true,
+      false,
+      false,
+      'tous les dépassement sont interdits sur un ralentisseur de trafic  ',
       1 ,
+      'imageDefinition' ,
+      3 ,
+
+      Option(  'oui en m\'écartant suffisament ', ' Non', 'null'),
+
+      AnimerQuestion ("imageDefinition",
+        1 , true , "partie de la voie publique, sur la quelle les bicyclettes et les cyclomoteurs classe A doivent circuler. " , 100 , 10 , 80 , 500 , 70 ,100 ,
+        2 , true , " Une piste cyclable est indiquée par: soit le signal d’obligation D7" ,50 , 140 , 100  , 250 , 50 ,50 ,
+        3 , true , " soit indiquée par le signal d’obligation D9" , 150 , 140 , 60 , 250 , 50  , 50 ,
+        4 , true ,"soit indiquée par le signal d’obligation D10 ", 250 , 140 , 60  ,  250 , 50  , 50  ,
+        0 , false , "null" , 0 , 0 , 0 , 0 , 0  , 0 ,
+      ) ,
+
+
+    ),
+    Question(
+      4  , 'je peut pour tourner a gauche dans ce carrefour ',
+      true,
+      false,
+      false,
+      false,
+      ' On parle parfois de piste cyclable suggérée',
+      1 ,
+      'imageDefinition' ,
+      4 ,
+
+      Option( 'je passe a droit de l\'ilo', ' je passe a gauche de l\'ilo', ' je tourne avant   l\'ilo'),
+
+      AnimerQuestion ("imageDefinition",
+        1 , true , "partie de la voie publique, sur la quelle les bicyclettes et les cyclomoteurs classe A doivent circuler. " , 100 , 10 , 80 , 500 , 70 ,100 ,
+        2 , true , " Une piste cyclable est indiquée par: soit le signal d’obligation D7" ,50 , 140 , 100  , 250 , 50 ,50 ,
+        3 , true , " soit indiquée par le signal d’obligation D9" , 150 , 140 , 60 , 250 , 50  , 50 ,
+        4 , true ,"soit indiquée par le signal d’obligation D10 ", 250 , 140 , 60  ,  250 , 50  , 50  ,
+        0 , false , "null" , 0 , 0 , 0 , 0 , 0  , 0 ,
+      ) ,
 
 
     ),
 
     Question(
-        'd_q2'  , 'Cette bande rouge fait partie de la chaussée',
-        true,
-        false,
-        false,
-        false,
-        ' On parle parfois de piste cyclable suggérée',
-        1 ,
-        'imageDefinition' ,
-        3 ,
-        'animation',
-        1 ,
+      5 , '  en contournant ce camion a l\'arret , j\'effectue un A depassement  ',
+      true,
+      false,
+      null,
+      false,
+      ' vous pouvez',
+      1 ,
+      'imageDefinition' ,
+      5 ,
 
-
-
-    ),
-
-    Question(
-        'd_q4'  , 'pour tourner a gauche dans ce carrefour ',
-        true,
-        false,
-        false,
-        false,
-        ' On parle parfois de piste cyclable suggérée',
-        1 ,
-        'imageDefinition' ,
-        4 ,
-        'animation',
-        1 ,
+      Option( 'oui', 'non', 'null'),
+      AnimerQuestion ("imageDefinition",
+        1 , true , "partie de la voie publique, sur la quelle les bicyclettes et les cyclomoteurs classe A doivent circuler. " , 100 , 10 , 80 , 500 , 70 ,100 ,
+        2 , true , " Une piste cyclable est indiquée par: soit le signal d’obligation D7" ,50 , 140 , 100  , 250 , 50 ,50 ,
+        3 , true , " soit indiquée par le signal d’obligation D9" , 150 , 140 , 60 , 250 , 50  , 50 ,
+        4 , true ,"soit indiquée par le signal d’obligation D10 ", 250 , 140 , 60  ,  250 , 50  , 50  ,
+        0 , false , "null" , 0 , 0 , 0 , 0 , 0  , 0 ,
+      ) ,
 
 
     ),
 
     Question(
-        'd_q5'  , '  en contournant ce camion a l\'arret , j\'effectue un depassement  ',
-        true,
-        false,
-        null,
-        false,
-        ' vous pouvez',
-        1 ,
-        'imageDefinition' ,
-        5 ,
-        'animation',
-        1 ,
+      6  , ' le vehicule qui me precede reste au milieu de la chaussée , je peut le depasser par la droite   ',
+      true,
+      false,
+      null,
+      false,
+      'le depassement s\'effectue par la gauche',
+      1 ,
+      'imageDefinition' ,
+      6 ,
+
+      Option( 'oui', 'non', 'null'),
+      AnimerQuestion ("imageDefinition",
+        1 , true , "partie de la voie publique, sur la quelle les bicyclettes et les cyclomoteurs classe A doivent circuler. " , 100 , 10 , 80 , 500 , 70 ,100 ,
+        2 , true , " Une piste cyclable est indiquée par: soit le signal d’obligation D7" ,50 , 140 , 100  , 250 , 50 ,50 ,
+        3 , true , " soit indiquée par le signal d’obligation D9" , 150 , 140 , 60 , 250 , 50  , 50 ,
+        4 , true ,"soit indiquée par le signal d’obligation D10 ", 250 , 140 , 60  ,  250 , 50  , 50  ,
+        0 , false , "null" , 0 , 0 , 0 , 0 , 0  , 0 ,
+      ) ,
 
 
     ),
 
     Question(
-        'd_q6'  , ' le vehicule qui me precede reste au milieu de la chaussée , je peut le depasser par la droite   ',
-        true,
-        false,
-        null,
-        false,
-        'le depassement s\'effectue par la gauche',
-        1 ,
-        'imageDefinition' ,
-        6 ,
-        'animation',
-        1 ,
+      7 , ' je peut tourner a droite a ce carrefour',
+      true,
+      false,
+      null,
+      false,
+      ' On parle parfois de piste cyclable suggérée',
+      1 ,
+      'imageDefinition' ,
+      7,
 
+      Option( 'oui', 'non', 'null'),
+      AnimerQuestion ("imageDefinition",
+        1 , true , "partie de la voie publique, sur la quelle les bicyclettes et les cyclomoteurs classe A doivent circuler. " , 100 , 10 , 80 , 500 , 70 ,100 ,
+        2 , true , " Une piste cyclable est indiquée par: soit le signal d’obligation D7" ,50 , 140 , 100  , 250 , 50 ,50 ,
+        3 , true , " soit indiquée par le signal d’obligation D9" , 150 , 140 , 60 , 250 , 50  , 50 ,
+        4 , true ,"soit indiquée par le signal d’obligation D10 ", 250 , 140 , 60  ,  250 , 50  , 50  ,
+        0 , false , "null" , 0 , 0 , 0 , 0 , 0  , 0 ,
+      ) ,
 
     ),
     Question(
-        'd_q7'  , ' je peut tourner a droite  ',
-        true,
-        false,
-        null,
-        false,
-        ' On parle parfois de piste cyclable suggérée',
-        1 ,
-        'imageDefinition' ,
-        7,
-        'animation',
-         1 ,
+      8  , ' Je peux emprunter la bande de bus pour effectuer un dépassement ',
+      true,
+      false,
+      null,
+      false,
+      ' La bande « bus », lorsqu\'elle est à gauche, ne peut être utilisée que pourtourner à gauche au prochain carrefour, pas pour dépasser',
+      1 ,
+      'imageDefinition' ,
+      8,
 
+      Option(  'oui', 'non', 'null'),
+      AnimerQuestion ("imageDefinition",
+        1 , true , "partie de la voie publique, sur la quelle les bicyclettes et les cyclomoteurs classe A doivent circuler. " , 100 , 10 , 80 , 500 , 70 ,100 ,
+        2 , true , " Une piste cyclable est indiquée par: soit le signal d’obligation D7" ,50 , 140 , 100  , 250 , 50 ,50 ,
+        3 , true , " soit indiquée par le signal d’obligation D9" , 150 , 140 , 60 , 250 , 50  , 50 ,
+        4 , true ,"soit indiquée par le signal d’obligation D10 ", 250 , 140 , 60  ,  250 , 50  , 50  ,
+        0 , false , "null" , 0 , 0 , 0 , 0 , 0  , 0 ,
+      ) ,
 
     ),
 
+    Question(
+      9 , ' Dans cette situation ',
+      true,
+      false,
+      null,
+      false,
+      'le feu vert prime sur le signal , routier vous pouvez donc continuer le signal ne servira que si le signal ne fonctionne pas   ',
+      1 ,
+      'imageDefinition' ,
+      9,
 
+      Option( 'oui', 'non', 'null'),
+      AnimerQuestion ("imageDefinition",
+        1 , true , "partie de la voie publique, sur la quelle les bicyclettes et les cyclomoteurs classe A doivent circuler. " , 100 , 10 , 80 , 500 , 70 ,100 ,
+        2 , true , " Une piste cyclable est indiquée par: soit le signal d’obligation D7" ,50 , 140 , 100  , 250 , 50 ,50 ,
+        3 , true , " soit indiquée par le signal d’obligation D9" , 150 , 140 , 60 , 250 , 50  , 50 ,
+        4 , true ,"soit indiquée par le signal d’obligation D10 ", 250 , 140 , 60  ,  250 , 50  , 50  ,
+        0 , false , "null" , 0 , 0 , 0 , 0 , 0  , 0 ,
+      ) ,
+
+
+    ),
 
   ];
 
@@ -170,11 +257,299 @@ class QuestionExamen    with  ChangeNotifier , DiagnosticableTreeMixin {
 
 
 
-/////////////////////////////////////////////////////////////////////
-  ///// ---------------   LISTE DES FONCTIONS  QUESTIONS -------------- /////////
+  /////////////////////////////////////////////////////////////////////
+  ///// ---------------   LISTE DES FONCTIONS POUR LES  ANIMATIONS -------------- /////////
   /////////////////////////////////////////////////////////////////////
 
-  int retourneIndiceQuestion( String value){
+  String getCheminImageAnimations() {
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.cheminImageAnimations;
+  }
+
+  int  getNumeroImageA() {
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.numeroImageA;
+  }
+
+
+  bool   getVisibiliteA() {
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.visibiliteA;
+  }
+
+
+  String getDescriptionA() {
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.DescriptionA;
+  }
+
+
+  double getPositionGaucheA() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionGaucheA;
+
+  }
+
+  double getPositionHautA() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionHautA;
+
+  }
+
+  double getPositionDroiteA() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionDroiteA;
+
+  }
+
+  double getPositionBasA() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionBasA;
+
+  }
+
+  double getHauteurA () {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.hauteurA;
+
+  }
+
+
+  double getLargeurA () {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.largeurA;
+
+  }
+
+
+  ///// *******************    B  *******************  /////////
+
+
+
+  int  getNumeroImageB() {
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.numeroImageB;
+  }
+
+
+  bool   getVisibiliteB() {
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.visibiliteB;
+  }
+
+
+  String getDescriptionB() {
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.DescriptionB;
+  }
+
+
+  double getPositionGaucheB() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionGaucheB;
+
+  }
+
+  double getPositionHautB() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionHautB;
+
+  }
+
+  double getPositionDroiteB() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionDroiteB;
+
+  }
+
+  double getPositionBasB() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionBasB;
+
+  }
+
+  double getHauteurB () {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.hauteurB;
+
+  }
+
+
+  double getLargeurB () {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.largeurB;
+
+  }
+
+  ///// *******************    C  *******************  /////////
+
+
+
+  int  getNumeroImageC() {
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.numeroImageC;
+  }
+
+
+  bool   getVisibiliteC() {
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.visibiliteC;
+  }
+
+
+  String getDescriptionC() {
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.DescriptionC;
+  }
+
+
+  double getPositionGaucheC() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionGaucheC;
+
+  }
+
+  double getPositionHautC() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionHautC;
+
+  }
+
+  double getPositionDroiteC() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionDroiteC;
+
+  }
+
+  double getPositionBasC() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionBasC;
+
+  }
+
+  double getHauteurC () {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.hauteurC;
+
+  }
+
+
+  double getLargeurC () {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.largeurC;
+
+  }
+
+  ///// *******************    D  *******************  /////////
+
+
+
+  int  getNumeroImageD() {
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.numeroImageD;
+  }
+
+
+  bool   getVisibiliteD() {
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.visibiliteD;
+  }
+
+
+  String getDescriptionD() {
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.DescriptionD;
+  }
+
+
+  double getPositionGaucheD() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionGaucheD;
+
+  }
+
+  double getPositionHautD() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionHautD;
+
+  }
+
+  double getPositionDroiteD() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionDroiteD;
+
+  }
+
+  double getPositionBasD() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionBasD;
+
+  }
+
+  double getHauteurD() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.hauteurD;
+
+  }
+
+
+  double getLargeurD() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.largeurD;
+
+  }
+
+  ///// *******************    E   *******************  /////////
+
+
+
+  int  getNumeroImageE() {
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.numeroImageE;
+  }
+
+
+  bool   getVisibiliteE() {
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.visibiliteE;
+  }
+
+
+  String getDescriptionE() {
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.DescriptionE;
+  }
+
+
+  double getPositionGaucheE() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionGaucheE;
+
+  }
+
+  double getPositionHautE() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionHautE;
+
+  }
+
+  double getPositionDroiteE() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionDroiteE;
+
+  }
+
+  double getPositionBasE() {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.positionBasE;
+
+  }
+
+  double getHauteurE () {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.hauteurE;
+
+  }
+
+
+  double getLargeurE () {
+
+    return _listeQuestionExamen[_numeroQuestion].animationquestion.largeurE;
+
+  }
+
+
+
+
+  /////////////////////////////////////////////////////////////////////
+  ///// ---------------   LISTE DES FONCTIONS POUR LES  QUESTIONS -------------- /////////
+  /////////////////////////////////////////////////////////////////////
+
+  int retourneIndiceQuestion( int value){
 
     var  indice =  _listeQuestionExamen.indexWhere((innerElement) => innerElement.id == value);
 
@@ -187,11 +562,8 @@ class QuestionExamen    with  ChangeNotifier , DiagnosticableTreeMixin {
     }
   }
 
-  void optionSuivante() {
-    if (_numeroChoix <= _listeOptionExamen.length - 1) {
-      _numeroChoix++;
-    }
-  }
+
+
 
   bool FinTheme() {
     if (_numeroQuestion >= _listeQuestionExamen.length - 1) {
@@ -201,7 +573,7 @@ class QuestionExamen    with  ChangeNotifier , DiagnosticableTreeMixin {
     }
   }
 
-  List listeQuestionDefinition() {
+  List listeQuestion() {
     return _listeQuestionExamen;
   }
 
@@ -209,7 +581,7 @@ class QuestionExamen    with  ChangeNotifier , DiagnosticableTreeMixin {
     return _listeQuestionExamen.length;
   }
 
-  String getIdQuestion() {
+  int getIdQuestion() {
     return _listeQuestionExamen[_numeroQuestion].id;
   }
 
@@ -250,50 +622,29 @@ class QuestionExamen    with  ChangeNotifier , DiagnosticableTreeMixin {
     return _listeQuestionExamen[_numeroQuestion].numeroImageSource;
   }
 
-  String getCheminQuestionAnimationExplication() {
-    return _listeQuestionExamen[_numeroQuestion].cheminQuestionAnimationExplication;
-  }
-
-  int getNumeroQuestionAnimationExplication() {
-    return _listeQuestionExamen[_numeroQuestion].numeroQuestionAnimationExplication;
-  }
-
 
   /////////////////////////////////////////////////////////////////////
-  ///// ---------------   LISTE DES FONCTIONS  OPTION -------------- /////////
+  ///// ---------------   LISTE DES FONCTIONS  POUR LES OPTION -------------- /////////
   /////////////////////////////////////////////////////////////////////
-
-
-  String getIdOption() {
-    return _listeOptionExamen[_numeroChoix].id;
-  }
 
   String getOptionA() {
-    return _listeOptionExamen[_numeroChoix].optionA;
+    return _listeQuestionExamen[_numeroQuestion].option.optionA;
   }
 
+
+
   String getOptionB() {
-    return _listeOptionExamen[_numeroChoix].optionB;
+    return _listeQuestionExamen[_numeroQuestion].option.optionB;
   }
 
   String getOptionC() {
-    return _listeOptionExamen[_numeroChoix].optionC;
-  }
-
-
-  List listeOptionDefinition() {
-    return _listeOptionExamen;
+    return _listeQuestionExamen[_numeroQuestion].option.optionC;
   }
 
 
   void reset() {
     _numeroQuestion = 0;
-    _numeroChoix = 0;
   }
-
-
-
-
 
 }
 

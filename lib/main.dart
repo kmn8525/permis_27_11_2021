@@ -1,7 +1,9 @@
+ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
 import 'package:permis/EcranProfil.dart';
+import 'package:permis/resultat/resultatDefinition.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_util/sp_util.dart';
 
@@ -12,7 +14,6 @@ import 'EcranResultats.dart';
 import 'ListeConducteurPassager.dart';
 import 'ListeDefinition.dart';
 import 'ListeFavoris.dart';
-import 'ListeResultats.dart';
 import 'NomProfil.dart';
 
 
@@ -24,6 +25,15 @@ import 'NomProfil.dart';
     context,
   ); //here context can also be null
 }*/
+
+/*
+void main() => runApp(
+  DevicePreview(
+    enabled: !kReleaseMode,
+    builder: (context) => MyApp(), // Wrap your app
+  ),
+);
+*/
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -210,13 +220,13 @@ void main() async{
 
 
 
-
   runApp(
+
       MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => NomProfil()),
           ChangeNotifierProvider(create: (_) => EcranResultatState()),
-          ChangeNotifierProvider(create: (_) => Resultats()),
+          ChangeNotifierProvider(create: (_) => ResultatDefinition()),
           ChangeNotifierProvider(create: (_) => Definition.C2()),
           ChangeNotifierProvider(create: (_) => ConducteurPassager.C2()),
           ChangeNotifierProvider(create: (_) => EcranQuestionsState()),
@@ -224,7 +234,7 @@ void main() async{
           ChangeNotifierProvider(create: (_) => FavorisState()),
 
 
-        ],
+        ] ,
         child:  MaterialApp(
 
           theme: ThemeData(
@@ -239,7 +249,10 @@ void main() async{
 
 
       ),
+
     );
+
+
 }
 
 

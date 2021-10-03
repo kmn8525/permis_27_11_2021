@@ -177,10 +177,10 @@ class EcranQuestionPanneauxState extends State<EcranQuestionPanneaux>    with  S
 
 
 
-  void _captureEcran() async {
+  /*void _captureEcran() async {
     final imageFile = await _screenshotController.capture();
     Share.shareFiles([imageFile.path] , subject :'envoie de la question ' , text : 'voici de la question ');
-  }
+  }*/
     bool valeur_Panneau_Choisi_A() {
     if (clic_panneau_A == true) {
       valeur_choisi = true;
@@ -691,7 +691,7 @@ _speak();
                     child:  Container(
 
                       child: SvgPicture.asset(
-                        'assets/icons/suivant.svg',
+                        'assets/icons/next.svg',
                         height: 45.0,
                         width:  45.0,
                         allowDrawingOutsideViewBox: true,
@@ -823,7 +823,7 @@ _speak();
                       size: 30,
                     ),
                     onPressed: () {
-                      _captureEcran();
+                      //_captureEcran();
                       _arretVolume() ;
 
 
@@ -879,8 +879,7 @@ _speak();
                       child: Column(
                         children: <Widget>[
                           Container(
-                          //  margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                            margin: EdgeInsets.all(2),
+                           //  margin: EdgeInsets.all(2),
 
                             child: Container(
 
@@ -892,14 +891,14 @@ _speak();
                                         child: SvgPicture.asset(
                                           'assets/${tampon.CheminImageCorrecte()}/${tampon.CheminNumeroImageCorrecte()}.svg',
                                           width:  100,
-                                          height: 300,
+                                          height: 250,
 
                                         ),)
                                     ,
                                     apuyer : (){
                                     } ,
-                                    hauteur: 400,
-                                    largeur: 350,
+                                    hauteur: 300,
+                                    largeur: 250,
 
                                   )
 
@@ -1001,7 +1000,7 @@ _speak();
 
 
                                                   }
-                                                   
+
                                                    else {
 
                                                      setState(() {
@@ -1641,6 +1640,7 @@ _speak();
 
 
                                     ],
+
                                   ),
                                 ),
                               ),
@@ -1654,20 +1654,20 @@ _speak();
                       ),
                     ),
                   ),
-                  /////////////////////////////////////////////////////////////////////
+                     /////////////////////////////////////////////////////////////////////
                   ///// ---------------    ZONE  EXPLICATION  -------------- /////////
                   /////////////////////////////////////////////////////////////////////
 
-                  SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: Visibility(
-                      visible: visibilite_zone_explication,
+
+                  Visibility(
+                    visible: visibilite_zone_explication,
 
 
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.fromLTRB(20, 10, 0, 100),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(3, 5, 0, 100),
 
                             child: Container(
                                 child: BoutonPanneaux(
@@ -1686,14 +1686,14 @@ _speak();
 
                             ),
                           ),
+                        ),
 
 
 
 
-                        ],
-                      ),
-
+                      ],
                     ),
+
                   ),
 
                 ],
@@ -1705,6 +1705,7 @@ _speak();
                   alignment :  AlignmentDirectional.topCenter,
 
                   children:<Widget> [
+
 
                     CustomPaint(
                       size: Size(size.width, 90),

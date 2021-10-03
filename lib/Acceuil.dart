@@ -38,10 +38,8 @@ class _AccueilState extends State<Accueil> {
   }
 
   final List<Widget> _children = [
-    EcranCours(),
-
     EcranTheme(),
-
+    EcranCours(),
     EcranIntroExamen(),
     EcranIntroJeux(),
     EcranReglages(),

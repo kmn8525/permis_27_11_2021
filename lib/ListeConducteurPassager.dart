@@ -44,50 +44,11 @@ class ConducteurPassager with  ChangeNotifier , DiagnosticableTreeMixin  {
 
 
   List<Option> _listeOptionConducteurPassager= [
-   Option('cp_o1' , 'Oui' , ' Non, je dois être titulaire d’un permis de conduire catégorie C	 ' , 'Non, je dois être titulaire d’un permis de conduire catégorie C ou D' ) ,
-    Option( 'cp_o2' , '5 places passagers' , ' 8 places passagers  ' , ' 18 places passagers' ) ,
-    Option( 'cp_o3' , '40 cm  ' , ' 45 cm' , ' 60 cm	' ) ,
-
 
 
   ] ;
   List<Question> _listeQuestionConducteurPassager = [
-    Question('cp_q1' ,'Je peux conduire un véhicule affecté au transport de choses d’une MMA de 6 tonnes, avec un permis de conduire catégorie B '
-          , true , false , false , false ,
-        'Pour conduire un véhicule affecté au transport de choses dont la MMA '
-            'dépasse 3500 kg, vous devez être titulaire d’un permis de conduire catégorie C. Ni le permis B ni le permis D ne sont valables.' ,
-        1 ,
-    'imageConducteurPassager' ,
-    1 ,
-      'animation',
-      1 ,
 
-
-    ),
-
-
-    Question('cp_q2', 'Un permis de conduire valable pour la catégorie B permet de conduire un véhicule affecté au transport de personnes comprenant maximum'
-        , false , true , false , false, 'Maximum 8 places non compris le siège du conducteur. Sinon , '
-            'vous devez être titulaire d’un permis de conduire catégorie D.' ,
-        1 ,
-    'imageConducteurPassager',
-    2 ,
-      'animation',
-      0 ,
-
-    ),
-
-
-    Question('cp_q3','L’espace latéral minimal pour le passager d’une place avant d’un véhicule automobile est de'
-        , true , false , false , true,'Chaque passager prenant place à l’avant d’un véhicule doit disposer d’une largeur minimale de 40 cm.'
-            ' Le chauffeur doit quant à lui, disposer de 55 cm minimum.' ,5 ,
-        'imageConducteurPassager' ,
-    3 ,
-      'animation',
-      0 ,
-
-
-    ) ,
 
   ] ;
 
@@ -132,7 +93,7 @@ class ConducteurPassager with  ChangeNotifier , DiagnosticableTreeMixin  {
     return _listeQuestionConducteurPassager.length;
   }
 
-  String getIdQuestion() {
+  int getIdQuestion() {
     return _listeQuestionConducteurPassager[_numeroQuestion].id;
   }
 
@@ -173,13 +134,6 @@ class ConducteurPassager with  ChangeNotifier , DiagnosticableTreeMixin  {
     return _listeQuestionConducteurPassager[_numeroQuestion].numeroImageSource;
   }
 
-  String getCheminQuestionAnimationExplication() {
-    return _listeQuestionConducteurPassager[_numeroQuestion].cheminQuestionAnimationExplication;
-  }
-
-  int getNumeroQuestionAnimationExplication() {
-    return _listeQuestionConducteurPassager[_numeroQuestion].numeroQuestionAnimationExplication;
-  }
 
 
 
@@ -188,9 +142,6 @@ class ConducteurPassager with  ChangeNotifier , DiagnosticableTreeMixin  {
   /////////////////////////////////////////////////////////////////////
 
 
-  String getIdOption() {
-    return _listeOptionConducteurPassager[_numeroChoix].id;
-  }
 
   String getOptionA() {
     return _listeOptionConducteurPassager[_numeroChoix].optionA;

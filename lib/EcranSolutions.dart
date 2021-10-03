@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permis/Acceuil.dart';
-import 'package:permis/ListeResultats.dart';
+import 'package:permis/QuestionSauvegarder.dart';
+import 'package:permis/resultat/resultatDefinition.dart';
 import 'package:provider/provider.dart';
 
+import 'ConvertirCouleurHexaminale.dart';
 import 'Dessiner.dart';
 import 'EcranQuestions.dart';
 import 'EcranResultats.dart';
 import 'TrasitionPages.dart';
+
 
 
 class EcranSolutions extends StatefulWidget {
@@ -24,11 +27,13 @@ class EcranSolutions extends StatefulWidget {
 
 class EcranSolutionsState extends State<EcranSolutions> {
 
-List tampon ;
-String nom ;
+ String nom ;
 int total ;
 int indice ;
 int numeroEcran ;
+var  tailleListeSectionSauvegarde ;
+
+var tampon ;
 
   get _aChoisi => null;
 
@@ -38,7 +43,11 @@ int numeroEcran ;
     if (widget.TitreTheme == 'DEFINITION')  {
 
 
-        numeroEcran = 1 ;
+      tampon =  ResultatDefinition()  ;
+      tampon.RestitutionDesValeurSauvegarder();
+      tailleListeSectionSauvegarde = tampon.getTaillelisteResultatDefinition();
+
+        numeroEcran = 0 ;
 
 
     }
@@ -46,19 +55,19 @@ int numeroEcran ;
     else if (widget.TitreTheme == 'CONDUCTEUR')  {
 
 
-        numeroEcran = 1 ;
+        numeroEcran = 0 ;
 
 
     }
 
     else if (widget.TitreTheme == 'FAVORIS')  {
 
-      numeroEcran = 1 ;
+      numeroEcran = 0 ;
     }
 
     else if (widget.TitreTheme == 'FAVORIS')  {
 
-      numeroEcran = 1 ;
+      numeroEcran = 0 ;
 
 
     }
@@ -87,7 +96,6 @@ int numeroEcran ;
   void initState() {
     super.initState();
     chargerEcran() ;
-    tampon =  Provider.of<Resultats>(context , listen: false).listeCouleur();
 
 
 
@@ -111,11 +119,18 @@ void _likeThis() {
 
 
 void BoutonSuivant() {
-print('-------------------numeroEcran ------------') ;
-print(numeroEcran);
-  Provider.of<Resultats>(context , listen: false).reset();
 
-  Navigator.of(context, rootNavigator: true ).push(TransitionBas(
+
+  if (widget.TitreTheme == 'DEFINITION')  {
+    //tampon =  ResultatDefinition()  ;
+    tampon.SuprimerLesResultat();
+
+
+  }
+
+
+
+    Navigator.of(context, rootNavigator: true ).push(TransitionBas(
 
       page :   Accueil(numeroEcran )));
 
@@ -130,8 +145,8 @@ print(numeroEcran);
 
     chargerEcran() ;
 
-    print('-------------------numeroEcran ------------') ;
-    print(numeroEcran);
+    /*print('-------------------numeroEcran ------------') ;
+    print(numeroEcran);*/
     return Scaffold(
       extendBody: true,
 
@@ -140,17 +155,11 @@ print(numeroEcran);
         backgroundColor: Colors.white ,
       ),
 
-      body:  Container(
-        child: Stack(
+      body:  Stack(
+        alignment :  AlignmentDirectional.bottomCenter,
 
           children:<Widget> [
             Container(
-              decoration: BoxDecoration(
-                gradient: RadialGradient(
-                  radius: 3,
-                    colors: [Colors.white, Colors.blueAccent]
-                ),
-              ),
 
               /*decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -161,95 +170,107 @@ print(numeroEcran);
                       stops: [0.1, 0.3, 0.7, 1],
                       colors: [Colors.green, Colors.blue, Colors.orange, Colors.pink])
               ),*/
-              child: Column(
-                children: <Widget> [
-
-
-                  _BilanResultat(),
-                  Center(
-
-                    child: GridView.builder(
-                        shrinkWrap: true,
-
-                        gridDelegate:
-                        SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
-                        itemCount: tampon.length,
-                        itemBuilder: (context, index) {
-                          Color item = tampon[index];
-
-                          return GestureDetector(
-
-                            onTap: ()  {
-
-                               Navigator.of(context, rootNavigator: true ).push(MaterialPageRoute(
-                                  builder: (BuildContext context  ) =>
-                                      EcranResultat(indexCourant: index ,  Titre : widget.TitreTheme )));
-
-
-                            },
-
-                            child: Container(
-                              height: double.infinity,
 
 
 
-                              child: Card(
-                                //semanticContainer: false,
-                                // color : Colors.black ,
-
-                                color: item   ,
-                                elevation: 5.0,
-                                shadowColor : Colors.black26 ,
-                                margin: EdgeInsets.symmetric(vertical : 8 ,horizontal: 8),
+                  child: Column(
+                      children: <Widget> [
 
 
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(13),)) ,
+                      _BilanResultat(),
+
+                          Center(
+
+                          child: GridView.builder(
+                              physics: AlwaysScrollableScrollPhysics(),
+
+                              shrinkWrap: true,
+
+                              gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4
+
+                              ),
+
+                              itemCount: tailleListeSectionSauvegarde ,
+                              itemBuilder: (context, index) {
+                                 Color item =  tampon.getCouleurBoutonChoixUtulisateur(index);
+                                 return GestureDetector(
+
+                                  onTap: ()  {
 
 
-                                child: Container(
 
-                                  alignment: Alignment.center ,
-                                  padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
+                                     Navigator.of(context, rootNavigator: true ).push(MaterialPageRoute(
+                                        builder: (BuildContext context  ) =>
+                                            EcranResultat(indexCourant: index ,  TitreTheme : widget.TitreTheme )));
 
-                                      Expanded(
-                                        child: Center(
-                                          child: Text(
-                                            '${index + 1}',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 30),
-                                          ),
+
+                                  },
+
+                                  child: Container(
+                                    height: double.infinity,
+
+
+
+                                    child: Card(
+                                      //semanticContainer: false,
+                                      // color : Colors.black ,
+
+                                      color: item   ,
+                                      elevation: 5.0,
+                                      shadowColor : Colors.black26 ,
+                                      margin: EdgeInsets.symmetric(vertical : 8 ,horizontal: 8),
+
+
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(13),)) ,
+
+
+                                      child: Container(
+
+                                        alignment: Alignment.center ,
+                                        padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: <Widget>[
+
+                                            Expanded(
+                                              child: Center(
+                                                child: Text(
+                                                  '${index + 1}',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 30),
+                                                ),
+                                              ),
+                                            ),
+
+
+                                          ],
                                         ),
                                       ),
-
-
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
+                                );
+                              }),
 
+                        ),
+
+
+
+
+                    ],
                   ),
 
 
-
-                ],
-              ),
             ),
 
             Container(
               child: Positioned(
 
-                bottom: 0,
-                child: Stack(
+                 child: Stack(
                   alignment :  AlignmentDirectional.topCenter,
                   overflow: Overflow.visible,
 
@@ -269,24 +290,10 @@ print(numeroEcran);
                           elevation: 0.1,
                           onPressed: () {
                             BoutonSuivant();
-                           Provider.of<Resultats>(context , listen: false).SuprimerLesResultat();
 
                           }),
                     ),
-                    Container(
-                      width: size.width,
-                      height: 80,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children:<Widget> [
-                          Container(
-                            width: size.width * 0.20,
-                          ),
 
-
-                        ],
-                      ),
-                    )
 
 
                   ],
@@ -297,13 +304,7 @@ print(numeroEcran);
           ],
 
         ),
-      ),
 
-
-
-      backgroundColor: null,
-
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
 
 
     );
@@ -341,11 +342,11 @@ Widget _BilanResultat() {
 
 
           child: Text(
-            ' 0 / 10 ',
+            ' ',
             style: TextStyle(
               fontFamily: 'Spectral',
               color: Colors.black,
-              fontSize: 30.0,
+              fontSize: 15.0,
               fontWeight: FontWeight.w300,
                 backgroundColor : Colors.white ,
             ),
@@ -353,9 +354,9 @@ Widget _BilanResultat() {
           decoration: BoxDecoration(
             border: Border.all(
               color: Colors.black,
-              width: 3,
+              width: 2,
             ),
-            borderRadius: BorderRadius.circular(5.0),
+            borderRadius: BorderRadius.circular(3.0),
           ),
         ),
 

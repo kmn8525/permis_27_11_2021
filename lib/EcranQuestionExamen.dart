@@ -13,6 +13,7 @@ import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:permis/Acceuil.dart';
 import 'package:permis/EcranExamen.dart';
 import 'package:permis/EcranIntroExamen.dart';
+import 'package:permis/resultat/resultatDefinition.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:screenshot/screenshot.dart';
@@ -22,7 +23,6 @@ import 'Dessiner.dart';
 import 'EcranSolutions.dart';
 
 import 'ListeQuestionExamen.dart';
-import 'ListeResultats.dart';
 import 'package:flutter/animation.dart';
 
 import 'TrasitionPages.dart';
@@ -200,11 +200,11 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
   // SAUVEGARDER LES QUESTION ET OPTION-------------- /////////
   /////////////////////////////////////////////////////////////////////
 
-  String idQuestion ;
+  int idQuestion ;
   String idOption;
-  String q;
-  bool g;
-  String e;
+  String question;
+  bool grave;
+  String explication;
   bool repA;
   bool repB;
   bool repC;
@@ -216,6 +216,7 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
   String optionA;
   String optionB;
   String optionC;
+
 
 
   /////////////////////////////////////////////////////////////////////
@@ -414,9 +415,8 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
         point  = tampon.getPoint();
         couleurChoix = Colors.red ;
 
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionA(couleurPardefault_A);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionB(couleurPardefault_B);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionC(couleurPardefault_C);
+
+
 
         if ((verif_a == true) & (verif_b == true)) {
           couleurPardefault_A = Colors.green;
@@ -437,9 +437,6 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
 
 
 
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonA(couleurPardefault_A);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonB(couleurPardefault_B);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonC(couleurPardefault_C);
 
 
 
@@ -454,9 +451,6 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
       else if ((a != null) & (b != null) & (c != null))
       {
 
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionA (couleurApresSelection_A);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionB (couleurApresSelection_B);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionC (couleurApresSelection_C);
 
         couleurChoix = Colors.red ;
 
@@ -499,9 +493,6 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
         }
 
 
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonA(couleurApresSelection_A);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonB(couleurApresSelection_B);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonC(couleurApresSelection_C);
 
 
       }
@@ -518,9 +509,6 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
         couleurChoix = Colors.red ;
 
 
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionA (couleurApresSelection_A);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionB (couleurApresSelection_B);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionC (Colors.white);
 
         if ((verif_a == a) & (verif_b == b)) {
           couleurApresSelection_A = Colors.green;
@@ -559,10 +547,6 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
         }
 
 
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonA(couleurApresSelection_A);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonB(couleurApresSelection_B);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonC(couleurPardefault_C);
-
 
       }
 
@@ -573,10 +557,6 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
       else if ((a != null) & (c != null) )
       {
 
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionA (couleurApresSelection_A);
-
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionC (couleurApresSelection_C);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionB (Colors.white);
 
         verif_a = tampon.getReponseA();
         verif_b = tampon.getReponseB();
@@ -618,9 +598,6 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
         }
 
 
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonA(couleurApresSelection_A);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonB(couleurPardefault_B);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonC(couleurApresSelection_C);
 
       }
 
@@ -630,10 +607,6 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
       else if ((b != null) & (c != null) )
       {
 
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionB (couleurApresSelection_B);
-
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionC (couleurApresSelection_C);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionA (Colors.white);
 
         verif_a = tampon.getReponseA();
         verif_b = tampon.getReponseB();
@@ -675,10 +648,6 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
         }
 
 
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonA(couleurPardefault_A);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonB(couleurApresSelection_B);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonC(couleurApresSelection_C);
-
 
       }
 
@@ -693,9 +662,6 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
         verif_c = tampon.getReponseC();
         couleurChoix = Colors.red ;
 
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionA (couleurApresSelection_A);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionB (Colors.white);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionC (Colors.white);
 
 
         if ((verif_a == a) & (verif_b == true)) {
@@ -745,10 +711,6 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
 
 
 
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonA(couleurApresSelection_A);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonB(couleurPardefault_B);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonC(couleurPardefault_C);
-
       }
 
       // --------------------------------------//
@@ -759,10 +721,6 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
       {
 
 
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionB (couleurApresSelection_B);
-
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionC (Colors.white);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionA (Colors.white);
 
         verif_a = tampon.getReponseA();
         verif_b = tampon.getReponseB();
@@ -810,9 +768,6 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
 
         }
 
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonA(couleurPardefault_A);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonB(couleurApresSelection_B);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonC(couleurPardefault_C);
 
 
       }
@@ -827,11 +782,6 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
         verif_c = tampon.getReponseC();
 
         couleurChoix = Colors.red ;
-
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionC (couleurApresSelection_C);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionB (Colors.white);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurSelectionA (Colors.white);
-
 
 
         if ((verif_c == c) & (verif_a == true)) {
@@ -872,9 +822,6 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
 
         }
 
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonA(couleurPardefault_A);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonB(couleurPardefault_B);
-        Provider.of<Resultats>(context , listen: false).ajouterColoueurBoutonC(couleurApresSelection_C);
 
 
       }
@@ -966,15 +913,15 @@ class EcranQuestionsExamenState extends State<EcranQuestionsExamen>  with   Sing
 
            Color CouleurAchoisi =  verificationDesReponse(choix_1, choix_2, choix_3);
 
-          Provider.of<Resultats>(context , listen: false).ajouterCouleurResultats(CouleurAchoisi);
+         // Provider.of<Resultats>(context , listen: false).ajouterCouleurResultats(CouleurAchoisi);
 
           ValiderResultats();
 
-          Provider.of<Resultats>(context , listen: false).ajoutQuestionResultat(
-              idQuestion , q ,repA , repB , repC , g
-              , e ,point , cheminImageSource , numeroImagesource  , cheminQuestionAnimationExplication , numeroQuestionAnimationExplication);
+          Provider.of<ResultatDefinition>(context , listen: false).ajoutQuestionExamen(
+              idQuestion , question ,repA , repB , repC , grave,
+              explication ,point , cheminImageSource , numeroImagesource ,
+              optionA , optionB , optionC);
 
-          Provider.of<Resultats>(context , listen: false).ajoutOptionResultat(idOption ,optionA, optionB, optionC);
 
           setState(() {
             desactive_boutonA = !desactive_boutonA;
@@ -1085,160 +1032,179 @@ void restartAnimation(){
   );
 
 
-  void _captureEcran() async {
+  /*void _captureEcran() async {
     final imageFile = await _screenshotController.capture();
     Share.shareFiles([imageFile.path] , subject :'envoie de la question $idQuestion' , text : 'voici de la question ');
   }
+*/
 
 
   void ActulisationDesvaleurAsauvegarder(){
     idQuestion = tampon.getIdQuestion();
-    q = tampon.getQuestionText();
-    g = tampon.getFauteGrave() ;
-    e = tampon.getExplication();
+    question = tampon.getQuestionText();
+    grave = tampon.getFauteGrave() ;
+    explication = tampon.getExplication();
     repA = tampon.getReponseA() ;
     repB = tampon.getReponseB() ;
     repC = tampon.getReponseC() ;
     cheminImageSource = tampon.getCheminImageSourceQuestion() ;
     numeroImagesource = tampon.getNumeroImageSourceQuestion() ;
-    cheminQuestionAnimationExplication = tampon.getCheminQuestionAnimationExplication() ;
-    numeroQuestionAnimationExplication = tampon.getNumeroQuestionAnimationExplication() ;
 
-
-
-    idOption = tampon.getIdOption() ;
     optionA = tampon.getOptionA() ;
     optionB = tampon.getOptionB();
     optionC = tampon.getOptionC();
   }
 
-  static const List<String> currenciesList = <String>[
-    'Il y a une erreur dans le contenue',
-    'Autre',
-    'Probleme image',
-  ];
-  Widget materialTextField() {
 
-    return  Container(
-      padding: EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20.0),
-          topRight: Radius.circular(20.0),
-        ),
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: 'Saisissez ce que vous voulez !',
-        ),
-        onChanged: (value) {
-          setState(() {
-            _tf = value;
-          });
-        },
-        onSubmitted: (value) {
-          setState(() {
-            _tfS = value;
-          });
-        },
-      ),
-    );
 
-  }
 
-  Widget cupertinoTextField() {
-
-    return   Container(
-      padding: EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20.0),
-          topRight: Radius.circular(20.0),
-        ),
-      ),
-      child: CupertinoTextField(
-        placeholder: 'Saisissez ce que vous voulez !',
-        onChanged: (value) {
-          setState(() {
-            _cTf = value;
-          });
-        },
-        onSubmitted: (value) {
-          setState(() {
-            _cTfS = value;
-          });
-        },
-      ),
-    );
-
-  }
 
 
   Widget EcranFormulaireTextField(BuildContext context) {
 
-    return Platform.isIOS ? cupertinoTextField() : materialTextField();
+    return Platform.isIOS ? buildShowCupertinoModalPopup(context) : ButtonBugMaterialDesing(context);
 
   }
 
 
-  Widget EcranFormulairePicker(BuildContext context) {
 
-    return Platform.isIOS ? iOSPicker() : androidDropdown(context);
+  /////////////////////////////////////////////////////////////////////
+  ///// ---------------   DESING ANDROID APPUIS SUR L'ICON BUG -------------- /////////
+  /////////////////////////////////////////////////////////////////////
 
+  String _choixItem = '';
+
+  Widget ButtonBugMaterialDesing(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            color: Color(0xFF737373),
+            height: 350,
+            child: Container(
+              child: _MenuNavigationMaterialDesing(),
+              decoration: BoxDecoration(
+                color: Colors.white70,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(10),
+                  topRight: const Radius.circular(10),
+                ),
+              ),
+            ),
+          );
+        });
   }
-  String newValue ;
 
-  @override
-  Widget androidDropdown(BuildContext context) {
-    return DropdownButton<String>(
-      value: dropdownValue,
-      icon: Icon(Icons.arrow_downward),
-      iconSize: 24,
-      elevation: 16,
-      style: TextStyle(color: Colors.deepPurple),
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
+
+  Column _MenuNavigationMaterialDesing() {
+    final ButtonStyle style =
+    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 15));
+
+    return Column(
+      children: <Widget>[
+
+        Text('Signaler un bug' ,
+          style: TextStyle(
+            fontSize: 15,) ,) ,
+        Text('Quel est l\'element a l\'origine de votre probleme  ?' ,
+            style: TextStyle(
+              fontSize: 15,)),
+
+
+        ListTile(
+          leading: Icon(Icons.book),
+          title: Text(' La Question ' ,
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
+          ),
+          onTap: () => _selectionItem('Cooling'),
+        ),
+
+
+        ListTile(
+          leading: Icon(Icons.question_answer),
+          title: Text(' La ou Les reponses' ,
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold),),
+          onTap: () => _selectionItem('People'),
+        ),
+        ListTile(
+          leading: Icon(Icons.assessment),
+          title: Text('L\'explication' ,
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold),),
+          onTap: () => _selectionItem('Stats'),
+        ),
+
+        ListTile(
+          leading: Icon(Icons.image),
+          title: Text(' L\'image' ,
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold),),
+          onTap: () => _selectionItem('People'),
+        ),
+
+        ElevatedButton(
+          style: style ,
+          onPressed: () {},
+          child: const Text('ANNULER'),
+        ),
+
+      ],
+    );
+  }
+
+
+  void _selectionItem(String nom) {
+    Navigator.pop(context);
+    setState(() {
+      _choixItem = nom;
+    });
+  }
+
+
+  /////////////////////////////////////////////////////////////////////
+  // /// --------------- DESING ANDROID APPUIS SUR L'ICON BUG  -------------- /////////
+  /////////////////////////////////////////////////////////////////////
+
+  Future<void> buildShowCupertinoModalPopup(BuildContext context) {
+    return showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        title: const Text('Title'),
+        message: const Text('Message'),
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            child: const Text('Action One'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          CupertinoActionSheetAction(
+            child: const Text('Action Two'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          )
+        ],
+
+        cancelButton: CupertinoActionSheetAction(
+          child: Text("Cancel"),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
-      onChanged: (  newValue) {
-        setState(() {
 
-          dropdownValue =  newValue;
-
-
-        });
-      },
-      items: <String>['One', 'Two', 'Free', 'Four']
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
     );
   }
 
 
 
-  CupertinoPicker iOSPicker() {
-    List<Text> pickerItems = [];
-    for (String currency in currenciesList) {
-      pickerItems.add(Text(currency));
-    }
-
-    return CupertinoPicker(
-      backgroundColor: Colors.lightBlue,
-      itemExtent: 32.0,
-      onSelectedItemChanged: (selectedIndex) {
-        setState(() {
-          selectedCurrency = currenciesList[selectedIndex];
-        });
-      },
-      children: pickerItems,
-    );
-  }
 
   void BoutonSuivant() {
 
@@ -1298,9 +1264,9 @@ void restartAnimation(){
 
                 onPressed: ()
                 {
-                  Provider.of<Resultats>(context , listen: false).SuprimerLesResultat();
+                  Provider.of<ResultatDefinition>(context , listen: false).SuprimerLesResultat();
 
-                  Provider.of<Resultats>(context , listen: false).reset();
+                  Provider.of<ResultatDefinition>(context , listen: false).reset();
 
                   Navigator.pop(context);
                   resetColor();
@@ -1336,9 +1302,9 @@ void restartAnimation(){
 
               onPressed:  () {
                 _arretVolume();
-                Provider.of<Resultats>(context , listen: false).SuprimerLesResultat();
+                Provider.of<ResultatDefinition>(context , listen: false).SuprimerLesResultat();
 
-                Provider.of<Resultats>(context , listen: false).reset();
+                Provider.of<ResultatDefinition>(context , listen: false).reset();
 
 
                 Navigator.of(context, rootNavigator: true ).push(TransitionHaut(
@@ -1435,8 +1401,8 @@ void restartAnimation(){
 
      return  GestureDetector(
       child: SizedBox(
-        width: 70,
-        height: 70 ,
+        width: 65,
+        height: 65 ,
         child: LiquidCircularProgressIndicator(
           value: valeurAnimation   ,
           direction: Axis.vertical,
@@ -1454,24 +1420,23 @@ void restartAnimation(){
 
                       child: SvgPicture.asset(
                         'assets/icons/play.svg',
-                        height: 40.0,
-                        width:  40.0,
+                        height: 35.0,
+                        width:  35.0,
                         allowDrawingOutsideViewBox: true,
                       ),
                       onPressed: () {
 
                         Color CouleurAchoisi =  verificationDesReponse(choix_1, choix_2, choix_3);
 
-                        Provider.of<Resultats>(context , listen: false).ajouterCouleurResultats(CouleurAchoisi);
+                       // Provider.of<Resultats>(context , listen: false).ajouterCouleurResultats(CouleurAchoisi);
 
                         ValiderResultats();
+                        Provider.of<ResultatDefinition >(context , listen: false).ajoutQuestionExamen(
+                            idQuestion , question ,repA , repB , repC , grave,
+                            explication ,point , cheminImageSource , numeroImagesource ,
+                            optionA , optionB , optionC);
 
-                        Provider.of<Resultats>(context , listen: false).ajoutQuestionResultat(
-                            idQuestion , q ,repA , repB , repC , g
-                            , e ,point , cheminImageSource , numeroImagesource  , cheminQuestionAnimationExplication , numeroQuestionAnimationExplication);
 
-
-                        Provider.of<Resultats>(context , listen: false).ajoutOptionResultat(idOption ,optionA, optionB, optionC);
 
                         setState(() {
                           desactive_boutonA = !desactive_boutonA;
@@ -1515,9 +1480,10 @@ void restartAnimation(){
       extendBody: true,
 
       appBar: AppBar(
+        toolbarHeight : 40 ,
 
         leading:   IconButton(
-            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+            padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
             icon:   Icon(
               Icons.arrow_back,
               color: Colors.blueAccent ,
@@ -1541,39 +1507,21 @@ void restartAnimation(){
               ),
             ),
 
+
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(left: 30),
-                child: IconButton(
-
-                    icon:   Icon(
-                      Icons.ios_share,
-                      color: Colors.black ,
-                      size: 30,
-                    ),
-                    onPressed: () {
-                      _captureEcran();
-                      _arretVolume() ;
-
-
-                    }
-                ),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.only(left: 2),
+                margin: EdgeInsets.only(left: 10),
 
                 child: IconButton(
                     icon:   Icon(
                       Icons.bug_report_outlined,
                       color: Colors.black ,
-                      size: 30,
+                      size: 25,
                     ),
                     onPressed: () {
                       _arretVolume() ;
 
-
+                      EcranFormulaireTextField(context) ;
                     }
                 ),
               ),
@@ -1588,9 +1536,16 @@ void restartAnimation(){
 
         child: Container(
 
+          color:  Color(0xfff3f8ff),
+
+
           height: hauteur,
           child: Stack(
+            alignment :  AlignmentDirectional.center,
+
             children: <Widget>[
+
+
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -1599,25 +1554,24 @@ void restartAnimation(){
                       children: <Widget>[
 
                         /////////////////////////////////////////////////////////////////////
-                        ///// ---------------   ZONE  IMAGE QUESTION  -------------- /////////
+                        ///// ---------------   ZONE  IMAGE QUESTION -------------- /////////
                         /////////////////////////////////////////////////////////////////////
 
                         Expanded(
                           child: Container(
+
                             child: Image.asset(
                               'assets/${tampon.getCheminImageSourceQuestion()}/source/${tampon.getNumeroImageSourceQuestion()}.webp',
-                              height: 223,
+                              height: 205,
 
                             ),
                           ),
                         ),
 
 
-
                       ],
                     ),
                   ),
-
 
 
 
@@ -1627,11 +1581,12 @@ void restartAnimation(){
 
                       child: Column(
                         children: <Widget>[
-
                           Wrap(
                             // spacing: 2,
                             runSpacing: -70,
                             children: <Widget>[
+
+
 
                               /////////////////////////////////////////////////////////////////////
                               ///// ---------------   ZONE  QUESTION  -------------- /////////
@@ -1644,10 +1599,10 @@ void restartAnimation(){
                                     children: [
                                       Center(
                                         child: Text(
-                                          tampon.getQuestionText()     ,
+                                          tampon.getQuestionText() /*+ '$d '*/    ,
+                                          textAlign : TextAlign.center ,
 
 
-                                          textAlign: TextAlign.center,
                                           style: TextStyle(fontWeight: FontWeight.bold),
                                         ),
                                       ),
@@ -1655,57 +1610,58 @@ void restartAnimation(){
 
                                     ],
                                   )),
-
                               /////////////////////////////////////////////////////////////////////
                               ///// ---------------   BOUTON  1  -------------- /////////
                               /////////////////////////////////////////////////////////////////////
+
                               Row(
                                 children: <Widget>[
-                                  Center(
-                                    child: Container(
-                                      margin: EdgeInsets.fromLTRB(40, 40, 20, 50),
-
+                                  Expanded(
+                                    child: Center(
                                       child: Container(
-                                        child: AbsorbPointer(
-                                          absorbing: desactive_boutonA,
-                                          child: RaisedButton(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(8.0),
-                                              // side: BorderSide(color: Colors.red)
-                                            ),
-                                            elevation: 3,
-                                            textColor: Colors.black,
-                                            child: Text(
-                                              tampon.getOptionA(),
-                                              textAlign : TextAlign.center ,
-
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 15,
+                                        margin: EdgeInsets.fromLTRB(10, 40, 0, 50),
+                                        child: Container(
+                                          child: AbsorbPointer(
+                                            absorbing: desactive_boutonA,
+                                            child: RaisedButton(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(8.0),
+                                                // side: BorderSide(color: Colors.red)
                                               ),
+                                              elevation: 1.5,
+                                              textColor: Colors.black,
+                                              child: Text(
+                                                tampon.getOptionA(),
+                                                textAlign : TextAlign.center ,
+
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              onPressed: () {
+                                                setState(() {
+                                                  clic_bouton_A = !clic_bouton_A;
+                                                });
+
+                                                choix_1 = valeurChoisiA();
+
+
+
+                                              },
+                                              color: clic_bouton_A
+                                                  ? couleurApresSelection_A
+                                                  : couleurPardefault_A,
                                             ),
-                                            onPressed: () {
-                                              setState(() {
-                                                clic_bouton_A = !clic_bouton_A;
-                                              });
-
-                                              choix_1 = valeurChoisiA();
-
-
-
-                                            },
-                                            color: clic_bouton_A
-                                                ? couleurApresSelection_A
-                                                : couleurPardefault_A,
                                           ),
+                                          height: 50.0,
+                                          width: 260,
                                         ),
-                                        height: 60.0,
-                                        width: 260,
                                       ),
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                    margin: EdgeInsets.fromLTRB(0, 0, 25, 10),
 
                                     child: Container(
                                       child: AbsorbPointer(
@@ -1715,7 +1671,7 @@ void restartAnimation(){
                                             borderRadius: BorderRadius.circular(8.0),
                                             // side: BorderSide(color: Colors.red)
                                           ),
-                                          elevation: 3,
+                                          elevation: 1.5,
                                           textColor: Colors.black,
                                           child: Text(
                                             'A',
@@ -1741,8 +1697,8 @@ void restartAnimation(){
 
                                         ),
                                       ),
-                                      height: 40.0,
-                                      width:  40,
+                                      height: 35.0,
+                                      width:   35.0,
                                     ),
                                   ),
                                 ],
@@ -1755,46 +1711,50 @@ void restartAnimation(){
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Center(
-                                    child: Container(
-                                      //margin: EdgeInsets.all(40),
-                                      //  padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
+                                  Expanded(
+                                    child: Center(
+                                      child: Container(
+                                        //margin: EdgeInsets.all(40),
+                                        //  padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
 
-                                      margin: EdgeInsets.fromLTRB(40, 40, 20, 50),
-                                      child: AbsorbPointer(
-                                        absorbing: desactive_boutonB,
-                                        child: RaisedButton(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(8.0),
-                                            // side: BorderSide(color: Colors.red)
-                                          ),
-                                          elevation: 3,
-                                          textColor: Colors.black,
-                                          child: Text(
-                                            tampon.getOptionB(),
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 15
+                                        margin: EdgeInsets.fromLTRB(10, 40, 0, 50),
+                                        child: AbsorbPointer(
+                                          absorbing: desactive_boutonB,
+                                          child: RaisedButton(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(8.0),
+                                              // side: BorderSide(color: Colors.red)
                                             ),
+                                            elevation: 1.5,
+                                            textColor: Colors.black,
+                                            child: Text(
+                                              tampon.getOptionB(),
+                                              textAlign : TextAlign.center ,
+
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 15 ,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+                                                clic_bouton_B = !clic_bouton_B;
+                                              });
+
+
+                                              choix_2 = valeurChoisiB();
+                                            },
+                                            color: clic_bouton_B ? couleurApresSelection_B : couleurPardefault_B,
                                           ),
-                                          onPressed: () {
-                                            setState(() {
-                                              clic_bouton_B = !clic_bouton_B;
-                                            });
-
-
-                                            choix_2 = valeurChoisiB();
-                                          },
-                                          color: clic_bouton_B ? couleurApresSelection_B : couleurPardefault_B,
                                         ),
+                                        height: 50.0,
+                                        width: 260,
                                       ),
-                                      height: 60.0,
-                                      width: 260,
                                     ),
                                   ),
                                   Container(
                                     // margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                    padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                    margin: EdgeInsets.fromLTRB(0, 0, 25, 10),
                                     child: Container(
 
                                       child: AbsorbPointer(
@@ -1804,11 +1764,13 @@ void restartAnimation(){
                                             borderRadius: BorderRadius.circular(10.0),
                                             // side: BorderSide(color: Colors.red)
                                           ),
-                                          elevation: 3,
+                                          elevation: 1.5,
                                           textColor: Colors.black,
                                           child: Center(
                                             child: Text(
                                               'B',
+                                              textAlign : TextAlign.center ,
+
                                               style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 15,
@@ -1825,8 +1787,8 @@ void restartAnimation(){
                                           color: clic_bouton_B ? couleurApresSelection_B : couleurPardefault_B,
                                         ),
                                       ),
-                                      height: 40.0,
-                                      width:  40,
+                                      height: 35.0,
+                                      width:  35.0  ,
                                     ),
                                   ),
                                 ],
@@ -1839,42 +1801,46 @@ void restartAnimation(){
 
                               Row(
                                 children: <Widget>[
-                                  Center(
-                                    child: Container(
-                                      margin: EdgeInsets.fromLTRB(40, 40, 20, 50),
+                                  Expanded(
+                                    child: Center(
+                                      child: Container(
+                                        margin: EdgeInsets.fromLTRB(10, 40, 0, 50),
 
-                                      child: Visibility(
-                                        visible: visibilite_bouton_C,
-                                        child: Container(
-                                          child: AbsorbPointer(
-                                            absorbing: desactive_boutonC,
-                                            child: RaisedButton(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(8.0),
-                                                // side: BorderSide(color: Colors.red)
-                                              ),
-                                              elevation: 3,
-                                              textColor: Colors.black,
-                                              child: Text(
-                                                tampon.getOptionC() ,
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 15,
+                                        child: Visibility(
+                                          visible: visibilite_bouton_C,
+                                          child: Container(
+                                            child: AbsorbPointer(
+                                              absorbing: desactive_boutonC,
+                                              child: RaisedButton(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(8.0),
+                                                  // side: BorderSide(color: Colors.red)
                                                 ),
+                                                elevation: 1.5,
+                                                textColor: Colors.black,
+                                                child: Text(
+                                                  tampon.getOptionC() ,
+                                                  textAlign : TextAlign.center ,
+
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  setState(() {
+
+                                                    clic_bouton_C = !clic_bouton_C;
+                                                  });
+                                                  choix_3 = valeurChoisiC();
+
+                                                },
+                                                color: clic_bouton_C ? couleurApresSelection_C : couleurPardefault_C,
                                               ),
-                                              onPressed: () {
-                                                setState(() {
-
-                                                  clic_bouton_C = !clic_bouton_C;
-                                                });
-                                                choix_3 = valeurChoisiC();
-
-                                              },
-                                              color: clic_bouton_C ? couleurApresSelection_C : couleurPardefault_C,
                                             ),
+                                            height: 50,
+                                            width: 260,
                                           ),
-                                          height: 60,
-                                          width: 260,
                                         ),
                                       ),
                                     ),
@@ -1883,7 +1849,7 @@ void restartAnimation(){
                                   Visibility(
                                     visible: visibilite_bouton_C,
                                     child: Container(
-                                      padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                      margin: EdgeInsets.fromLTRB(0, 0, 25, 10),
 
                                       child: AbsorbPointer(
                                         absorbing: desactive_boutonC,
@@ -1892,10 +1858,12 @@ void restartAnimation(){
                                             borderRadius: BorderRadius.circular(8.0),
                                             // side: BorderSide(color: Colors.red)
                                           ),
-                                          elevation: 3,
+                                          elevation: 1.5,
                                           textColor: Colors.black,
                                           child: Text(
                                             'C',
+                                            textAlign : TextAlign.center ,
+
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 15,
@@ -1914,12 +1882,20 @@ void restartAnimation(){
                                               : couleurPardefault_C,
                                         ),
                                       ),
-                                      height: 52.0,
-                                      width: 40,
+                                      height: 35.0,
+                                      width:  35.0  ,
                                     ),
                                   ),
                                 ],
                               ),
+
+                              /////////////////////////////////////////////////////////////////////
+                              ///// ---------------   ZONE  Explication  -------------- /////////
+                              /////////////////////////////////////////////////////////////////////
+
+
+
+
 
                             ],
                           ),
@@ -1929,6 +1905,19 @@ void restartAnimation(){
                   ),
                 ],
               ),
+              Visibility(
+                visible: visibilite_imageExplication_1,
+                child: Positioned(
+                  bottom: 600 ,
+                  left: 100,
+                  child :  SvgPicture.asset(
+                    'assets/profil/nuage.svg',
+                    height: 100.0,
+                    width: 100.0,
+                    allowDrawingOutsideViewBox: true,
+                  ),
+                ),
+              ) ,
 
               Positioned(
                 bottom: -10,
@@ -1938,7 +1927,7 @@ void restartAnimation(){
                   children:<Widget> [
 
                     CustomPaint(
-                      size: Size(size.width, 85),
+                      size: Size(size.width, 90),
                       painter:  DessinBasBarNavigation(),
                     ),
                     Center(

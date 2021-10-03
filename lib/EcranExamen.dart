@@ -14,8 +14,7 @@ import 'EcranProfil.dart';
 import 'EcranQuestions.dart';
 import 'package:permis/BouttonTheme.dart';
 
-import 'ListeResultats.dart';
-import 'TrasitionPages.dart';
+ import 'TrasitionPages.dart';
 import 'VerticalItem.dart';
 
 
