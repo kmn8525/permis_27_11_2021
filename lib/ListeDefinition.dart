@@ -15,10 +15,10 @@ import 'AnimerQuestion.dart';
    int _numeroChoix = 0  ;
    String _cleListeQuestionDefinitionSauvegarder = "qDef";
    bool serieFini = false;
-   int total ;
+   int total_point = 0;
    int NbBonneReponse = 0;
-   int NbMovaiseReponse = 0;
-   int NbQuestionReondue = 0;
+   int NbMauvaiseReponse = 0;
+   int NbQuestionRepondu = 0;
    Color commencer = Colors.black;
    Color enCours = Colors.lightBlue;
 
@@ -31,15 +31,6 @@ import 'AnimerQuestion.dart';
    Definition.C2( );
 
 
-    void   SetNumQueOpt( int value ) {
-
-
-    _numeroQuestion = value ;
-    _numeroChoix = value ;
-
-    notifyListeners();
-
-  }
 
 
    List<Question> _listeQuestionSauvegarder  = [];
@@ -1170,15 +1161,61 @@ import 'AnimerQuestion.dart';
    ];
 
 
+   int get numeroQuestion => _numeroQuestion;
 
    String get getCleNumQueDef =>  _cleListeQuestionDefinitionSauvegarder ;
+
    int get getNumQueDef =>  _numeroQuestion ;
+
    int get getNumChoDef =>  _numeroChoix ;
 
+   int get  getTotalPoint => getTaille() ;
+
+   int get   getNbBonneReponse => NbBonneReponse ;
+
+   int get  getNbMauvaiseReponse => NbMauvaiseReponse ;
+
+   int get  getNbQuestionRepondu => NbQuestionRepondu ;
 
 
 
-      /////////////////////////////////////////////////////////////////////
+   set totalPoint(int value) {
+     total_point = value;
+   }
+
+
+   set  setNbBonneReponse(int value) {
+     NbBonneReponse = value;
+   }
+
+   set setNbMauvaiseReponse(int value) {
+     NbMauvaiseReponse = value;
+   }
+
+   set setNbQuestionRepondu(int value) {
+     NbQuestionRepondu = value;
+   }
+
+
+   double moyenne_de_bonne_reponse (){
+
+
+
+   }
+
+   double moyenne_de_mauvaise_reponse (){
+
+
+
+   }
+
+   double moyenne_de_reponse_repondu (){
+
+
+
+   }
+
+   /////////////////////////////////////////////////////////////////////
    ///// ---------------   LISTE DES FONCTIONS POUR LES  ANIMATIONS -------------- /////////
    /////////////////////////////////////////////////////////////////////
 

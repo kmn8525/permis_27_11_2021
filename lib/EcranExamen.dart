@@ -4,6 +4,7 @@ import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'Animation_horizontal_des_liste.dart';
 import 'BouttonTheme.dart';
 import 'dart:async';
 
@@ -15,7 +16,7 @@ import 'EcranQuestions.dart';
 import 'package:permis/BouttonTheme.dart';
 
  import 'TrasitionPages.dart';
-import 'VerticalItem.dart';
+import 'Animation_vertical_des_liste_.dart';
 
 
 final String titrePage='EcranThemes' ;

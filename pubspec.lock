@@ -373,6 +373,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  google_fonts:
+    dependency: "direct main"
+    description:
+      name: google_fonts
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
   graphs:
     dependency: transitive
     description:
@@ -380,6 +387,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0"
+  group_list_view:
+    dependency: "direct main"
+    description:
+      name: group_list_view
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.1"
   hive:
     dependency: transitive
     description:
@@ -471,6 +485,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  linear_progress_bar:
+    dependency: "direct main"
+    description:
+      name: linear_progress_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0+3"
   liquid_progress_indicator:
     dependency: "direct main"
     description:
@@ -952,6 +973,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.0"
+  zoom_widget:
+    dependency: "direct main"
+    description:
+      name: zoom_widget
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.1"
   zoomable_image:
     dependency: "direct main"
     description:

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'EcranCours.dart';
+import 'Ecran_acceuil_cours.dart';
 import 'EcranExamen.dart';
 import 'EcranIntroExamen.dart';
 import 'EcranIntroJeux.dart';
@@ -73,11 +73,14 @@ class _AccueilState extends State<Accueil> {
         backgroundColor: Colors.white,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.grid_on),
+            icon: Icon(Icons.grid_view),
             title: Text('Theme'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.library_books),
+            icon: Icon(
+                Icons.library_books ,
+
+            ),
             title: Text('Cours'),
           ),
           BottomNavigationBarItem(
@@ -88,7 +91,7 @@ class _AccueilState extends State<Accueil> {
 
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.videogame_asset),
+            icon: Icon(Icons.videogame_asset_sharp),
             title: Text('Jeux'),
           ),
           BottomNavigationBarItem(

@@ -14,92 +14,138 @@ class EcranIntroJeux extends StatefulWidget {
 class _EcranIntroJeuxState extends State<EcranIntroJeux> {
   @override
   Widget build(BuildContext context) {
+    double hauteur = MediaQuery.of(context).size.height;
+    double largeur = MediaQuery.of(context).size.width;
+    final ButtonStyle Style_button_panneu =
+    ElevatedButton.styleFrom(
+      textStyle: const TextStyle(
+          fontSize: 20 ,
+        ) ,
+       primary: Colors.white ,
+        onPrimary: Colors.black ,
+       shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4.0),
+          side: BorderSide(color: Colors.black, width: 0.5) ,
+      ),
+    );
+
+    final ButtonStyle Style_button_priorite =
+    ElevatedButton.styleFrom(
+      textStyle: const TextStyle(
+        fontSize: 20 ,
+      ) ,
+      primary: Colors.white ,
+      onPrimary: Colors.black ,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4.0),
+        side: BorderSide(color: Colors.black, width: 0.5) ,
+      ),
+    );
+
+    final ButtonStyle Style_button_question =
+    ElevatedButton.styleFrom(
+      textStyle: const TextStyle(
+        fontSize: 20 ,
+      ) ,
+      primary: Colors.white ,
+      onPrimary: Colors.black ,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4.0),
+        side: BorderSide(color: Colors.black, width: 0.7) ,
+      ),
+    );
+
     return MaterialApp(
       home: Scaffold(
+        backgroundColor : Colors.white ,
 
-        body: SizedBox.expand(
-          child: Container(
-            width: 80.0,
-            height: 80.0,
-            decoration: BoxDecoration(
-              image: DecorationImage(
+        body: Container(
+          color: Colors.white,
 
-                image: AssetImage('assets/icons/logo_intro_jeux.webp'),
-                  fit: BoxFit.cover ,
-               ),
+            width: largeur ,
+         height: hauteur,
+       /* decoration: BoxDecoration(
+        image: DecorationImage(
 
-              color:  Color(0xfff3f8ff),
+          image: AssetImage('assets/icons/logo_intro_jeux.webp'),
+        fit: BoxFit.cover,
+        ),
+        ) ,*/
 
+            child: Stack(
+              children: <Widget>[
 
-            ),
-            child: Column(
-              children:<Widget> [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
 
-                Container(
-                  padding: EdgeInsets.fromLTRB( 0, 450, 0, 10),
-
-                  child: ElevatedButton.icon(
-                    label: Text('PANNEAUX' ,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold ,
-                          fontSize: 20 ,
-
+                  children: <Widget>[
+                    Center(
+                      child: Container(
+                        child: Image.asset(
+                          'assets/icons/logo_intro_jeux.webp',
+                          height: 400,
+                          width: 600,
+                        ),
                       ),
                     ),
-                    icon: Icon(Icons.accessibility ,
-                        size : 20),
-                    onPressed: () {
-                      Navigator.of(context, rootNavigator: true ).push(TransitionHaut(
 
-                          page :  EcranQuestionPanneaux(  )));
+                    Center(
+                      child: ElevatedButton(
+                        style: Style_button_panneu,
+                        onPressed: () {
+                          Navigator.of(context, rootNavigator: true ).push(TransitionHaut(
 
-                    },
-                  ),
-                ) ,
-                Container(
-                  padding: EdgeInsets.fromLTRB( 0, 0, 0, 10),
+                              page :  EcranQuestionPanneaux(  )));
 
-                  child: ElevatedButton.icon(
-                    label: Text('A LA SUITE' ,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold ,
-                          fontSize: 20),
+                        },
+                        child: const Text('JEUX DES PANNEAUX 🚦 '),
+                      ),
                     ),
-                    icon: Icon(Icons.wysiwyg_rounded ,
-                        size : 20),
-                    onPressed: () {
-                      Navigator.of(context, rootNavigator: true ).push(TransitionHaut(
+                     SizedBox(
+                      height: 30,
+                    ) ,
 
-                          page :  EcranQuestionsExamen.C1(  )));
+                    Center(
+                      child: ElevatedButton(
+                        style: Style_button_question,
+                        onPressed: () {
+                          Navigator.of(context, rootNavigator: true ).push(TransitionHaut(
 
-                    },
-                  ),
-                ) ,
+                              page :  EcranQuestionPanneaux(  )));
 
-                Container(
-                  padding: EdgeInsets.fromLTRB( 0, 0, 0, 10),
+                        },
+                        child: const Text('QUESTION A LA SUITE ⏳'),
+                      ),
+                    ),
+                     SizedBox(
+                      height: 30,
+                    ) ,
+                    Center(
+                      child: ElevatedButton(
+                        style: Style_button_question,
+                        onPressed: () {
+                          Navigator.of(context, rootNavigator: true ).push(TransitionHaut(
 
-                  child: ElevatedButton.icon(
-                    label: Text('PRIORITER' ,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold ,
-                            fontSize: 20),
-                  ),
-                    icon: Icon(Icons.paste_outlined ,
-                        size : 20),
-                    onPressed: () {
-                      Navigator.of(context, rootNavigator: true ).push(TransitionHaut(
+                              page :  EcranQuestionPanneaux(  )));
 
-                          page :  EcranQuestionsExamen.C1(  )));
+                        },
+                        child: const Text('JEUX DES PRIORITER 🚧'),
+                      ),
+                    ),
 
-                    },
-                  ),
-                ) ,
+                    SizedBox(
+                      height: 30,
+                    ) ,
+
+
+                  ],
+                ),
               ],
-            ),
-          ),
-        ), //   <--- image
-      ),
+            ), ),
+                ) ,
+
+
     );
   }
 }

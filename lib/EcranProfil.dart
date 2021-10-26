@@ -11,8 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
+
 import 'package:permis/Constantes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,7 +25,6 @@ import 'EcranProfilTheme.dart';
 import 'TrasitionPages.dart';
 import 'Utility.dart';
 
-enum WhyFarther { harder, smarter, selfStarter, tradingCharter }
 
 class EcranProfil extends StatefulWidget  {
   @override
@@ -41,10 +39,11 @@ class EcranProfilState extends State<EcranProfil>  with ChangeNotifier , Diagnos
   Image image;
   String cleNom = "n";
   String cleImage = "i";
-  String newTaskTitle= 'Entrez Votre Nom';
+  String newTaskTitle = 'Entrez Votre Nom';
 
   TabController _tabController;
   final List<String> _tabs = <String>['PROFIL', 'THEME' , 'HISTORIQUE' , 'EXAMEN'];
+  final TextEditingController _controller_texte_saisi = TextEditingController();
 
 
 
@@ -138,11 +137,47 @@ class EcranProfilState extends State<EcranProfil>  with ChangeNotifier , Diagnos
         extendBodyBehindAppBar: true,
         backgroundColor: kCouleurBody ,
 
-        appBar: new AppBar(
-          toolbarHeight : 40 ,
-           backgroundColor: Colors.blue,
-            automaticallyImplyLeading: false ,
+
+        appBar: AppBar(
+          centerTitle: true,
+           automaticallyImplyLeading: false ,
+         // toolbarHeight : 40 ,
+       backgroundColor: Colors.lightBlue,
+shadowColor:Colors.transparent ,
+
+          actions: [
+            Theme(
+              data: Theme.of(context).copyWith(
+                  textTheme: TextTheme().apply(bodyColor: Colors.red),
+                  dividerColor: Colors.black,
+                  iconTheme: IconThemeData(color: Colors.white)),
+              child: PopupMenuButton<int>(
+                color: Colors.white,
+                itemBuilder: (context) => [
+                  PopupMenuItem<int>(value: 0, child: Text(
+                      "Modifier ma photo" ,
+                  style: TextStyle(fontWeight: FontWeight.bold , color: Colors.black),
+
+              )),
+                  PopupMenuDivider(),
+                  PopupMenuItem<int>(
+                      value: 1, child: Text(
+                      "Modifier mes informations" ,
+                    style: TextStyle(fontWeight: FontWeight.bold , color: Colors.black),
+
+
+                  )),
+
+                ],
+                offset: Offset(0, 50),
+
+                onSelected: (item) => SelectedItem(context, item),
+              ),
+            ),
+          ],
         ),
+
+
 
 
 
@@ -170,8 +205,8 @@ class EcranProfilState extends State<EcranProfil>  with ChangeNotifier , Diagnos
                       sliver: SliverAppBar(
                       automaticallyImplyLeading: false ,
                          pinned: true,
-                        expandedHeight: 300,
-                        collapsedHeight: 100,
+                        expandedHeight: 250,
+                        collapsedHeight: 120,
                         flexibleSpace:   Stack(
                           children: <Widget>[
 
@@ -180,22 +215,30 @@ class EcranProfilState extends State<EcranProfil>  with ChangeNotifier , Diagnos
                               crossAxisAlignment: CrossAxisAlignment.center,                         children:<Widget> [
 
 
-                              Center(
+                             /* Center(
                                   child: IconCaptureImage(context),
-                              ),
+                              ),*/
+                                KmnAvatar2() ,
 
-                              KmnAvatar2() ,
 
                               Center(
-                                child: IconButton(
-                                  icon: Icon(Icons.delete_forever),
-                                  onPressed: () {
-                                    Utility.emptyPrefs();
-                                    setState(() {
-                                      image = null;
-                                    });
-                                  },
-                                ),
+
+                                  child: Container(
+                                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+
+                                      child: Text(
+                                      '$newTaskTitle',
+
+                                      style: TextStyle(
+                                        fontFamily: 'Spectral',
+                                        color: Colors.white,
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+
+                                    ),
+                                  ),
+
                               ),
                             ],
                             ),
@@ -230,9 +273,9 @@ class EcranProfilState extends State<EcranProfil>  with ChangeNotifier , Diagnos
                           labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
 
                           indicatorColor: Colors.white,
-                          unselectedLabelColor: Colors.grey,
-                          labelColor: Colors.white60,
-                        ),
+                          unselectedLabelColor: Colors.white60,
+                          labelColor: Colors.white,
+                         ),
                       ),
                     ),
                   ];
@@ -305,42 +348,6 @@ class EcranProfilState extends State<EcranProfil>  with ChangeNotifier , Diagnos
 
 
 
-    Widget  IconCaptureImage(BuildContext context) {
-      return FloatingActionButton(
-        child: Icon(Icons.add_a_photo),
-        onPressed: () {
-          showModalBottomSheet<void>(
-              context: context,
-              builder: (BuildContext context) {
-                return SafeArea(
-                  child: new Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      new ListTile(
-                        leading: new Icon(Icons.camera),
-                        title: new Text('Camera'),
-                        onTap: () {
-                          prendreUneImage(ImageSource.camera);
-                          // this is how you dismiss the modal bottom sheet after making a choice
-                          Navigator.pop(context);
-                        },
-                      ),
-                      new ListTile(
-                        leading: new Icon(Icons.image),
-                        title: new Text('Gallery'),
-                        onTap: () {
-                          prendreUneImage(ImageSource.gallery);
-                          // dismiss the modal sheet
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              });
-        },
-      );
-    }
 
 
 
@@ -462,71 +469,101 @@ class EcranProfilState extends State<EcranProfil>  with ChangeNotifier , Diagnos
 
 
 
-  Widget _constructeurNom(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(4.0),
 
-      child: Row(
-        children: <Widget>[
-          Center(
-            child: Container(
-              padding: EdgeInsets.fromLTRB(90, 0, 0, 0),
-              decoration: BoxDecoration(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                borderRadius: BorderRadius.circular(6.0),
-              ),
-              child: Text(
-                '$newTaskTitle',
+  void SelectedItem(BuildContext context, item) {
+    switch (item) {
+      case 0:
+        ChoixPhotoCamera();
+        break;
+      case 1:
+        Editionprofil();
+        break;
 
-                style: TextStyle(
-                  fontFamily: 'Spectral',
-                  color: Colors.black,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w300,
-                ),
+    }
+  }
 
-              ),
-            ),
+  void Effacertextesaisi(){
+
+      _controller_texte_saisi.clear();
+      setState(() {
+        newTaskTitle =  'Entrez Votre Nom' ;
+      });
+
+
+  }
+void Editionprofil(){
+  showModalBottomSheet(
+
+    context: context,
+    isScrollControlled: true,
+    builder: (context) => SingleChildScrollView(
+      child:Container(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: EcranModifierNomProfil(context ),
+      ),
+    ) ,
+  );
+}
+  void  ChoixPhotoCamera () {
+    showModalBottomSheet (
+        enableDrag: true,
+        isScrollControlled: true,
+
+        context: context,
+        elevation: 10,
+        shape: RoundedRectangleBorder(
+
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15.0),
+            topRight: Radius.circular(15.0),
+            bottomLeft: Radius.circular(15.0),
+            bottomRight: Radius.circular(15.0),
+
           ),
+        ),
+        builder: (BuildContext context) {
+          return Container(
+            margin: EdgeInsets.symmetric(horizontal: 3),
+           // height: MediaQuery.of(context).size.height * 0.50,
 
-
-          Container(
-
-            padding: EdgeInsets.fromLTRB(10, 0, 30, 0),
-            child: ClipOval(
-              child: Material(
-                color: Colors.white, // button color
-                child: InkWell(
-                  splashColor: Colors.blue, // inkwell color
-                  child: SizedBox(width: 30, height: 30, child: Icon(Icons.edit)),
-                  onTap: (){
-                    showModalBottomSheet(
-
-                      context: context,
-                      isScrollControlled: true,
-                      builder: (context) => SingleChildScrollView(
-                        child:Container(
-                          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                          child: EcranModifierNomProfil(context ),
-                        ),
-                      ) ,
-                    );
-
+            child: new Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                new ListTile(
+                  leading: new Icon(Icons.camera),
+                  title: new Text('Camera'),
+                  onTap: () {
+                    prendreUneImage(ImageSource.camera);
+                    // this is how you dismiss the modal bottom sheet after making a choice
+                    Navigator.pop(context);
+                  },
+                ),
+                new ListTile(
+                  leading: new Icon(Icons.image),
+                  title: new Text('Gallery'),
+                  onTap: () {
+                    prendreUneImage(ImageSource.gallery);
+                    // dismiss the modal sheet
+                    Navigator.pop(context);
+                  },
+                ),
+                new ListTile(
+                  leading: new Icon(Icons.delete_forever),
+                  title: new Text('Effacer la photo'),
+                  onTap: () {
+                    Utility.emptyPrefs();
+                    setState(() {
+                      image = null;
+                    });
+                    Navigator.pop(context);
 
                   },
                 ),
-              ),
+              ],
             ),
-
-          ),
-        ],
-      ),
-    );
+          );
+        });
   }
-
-
-
-
   Widget EcranModifierNomProfil(BuildContext context) {
 
     return Container(
@@ -552,15 +589,33 @@ class EcranProfilState extends State<EcranProfil>  with ChangeNotifier , Diagnos
               ),
             ),
             TextField(
+
+              controller: _controller_texte_saisi,
               autofocus: true,
               textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.person),
+                suffixIcon: _controller_texte_saisi.text.length == 0
+                    ? null // Show nothing if the text field is empty
+                    : IconButton(
+                  icon: Icon(Icons.clear ,
+                  color: Colors.black,
+                  size: 10,),
+                  onPressed: (){
+                    Effacertextesaisi();
+                  }
+                ), // Show the clear button if the text field has something
+              ),
+
+
               onChanged: (newText) {
                 newTaskTitle = newText;
               },
             ),
             FlatButton(
               child: Text(
-                'Add',
+                'Valider',
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -590,38 +645,7 @@ class EcranProfilState extends State<EcranProfil>  with ChangeNotifier , Diagnos
 
 
 
-/*
-Widget Avatar2 () {
 
-  return Container(
-
-    child: AvatarGlow(
-      startDelay: Duration(milliseconds: 1000),
-      glowColor: Colors.white,
-      endRadius: 120.0,
-      duration: Duration(milliseconds: 2000),
-      repeat: true,
-      showTwoGlows: true,
-      repeatPauseDuration: Duration(milliseconds: 100),
-      child: Material(
-        elevation: 5.0,
-        shape: CircleBorder(),
-        color: Colors.transparent,
-        child: CircleAvatar(
-          backgroundImage: AssetImage("assets/c.jpg"),
-          radius: 50.0,
-        ),
-      ),
-      shape: BoxShape.circle,
-      animate: true,
-      curve: Curves.fastOutSlowIn,
-    ),
-  );
-
-
-}
-
-*/
 
 
 
